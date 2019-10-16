@@ -1,1 +1,31 @@
-<p>auth-form works!</p>
+<div class="uk-width-1-6 uk-align-center">
+  <form [formGroup]="authForm" class="uk-margin-top" (submit)="onSubmit()">
+    <h2 class="uk-heading-bullet">{{ title }}</h2>
+    <input
+      class="uk-input uk-margin-bottom"
+      type="text"
+      formControlName="login"
+      placeholder="login"
+      *ngIf="mode === 'signup'"
+    />
+    <input
+      class="uk-input uk-margin-bottom"
+      type="email"
+      formControlName="email"
+      placeholder="email"
+    />
+    <input
+      class="uk-input uk-margin-bottom"
+      type="password"
+      formControlName="password"
+      placeholder="password"
+    />
+    <button
+      class="uk-button uk-button-secondary"
+      type="submit"
+      [disabled]="authForm.invalid"
+    >
+      {{ title }}
+    </button>
+  </form>
+</div>

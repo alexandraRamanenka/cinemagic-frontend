@@ -13,8 +13,8 @@
 
       <!-- Show for unauthorized users -->
       <ng-container>
-        <li><a href="">login</a></li>
-        <li><a href="">signup</a></li>
+        <li><a [routerLink]="['/login']">login</a></li>
+        <li><a [routerLink]="['/signup']">signup</a></li>
       </ng-container>
 
       <!-- Show for logged in users -->
