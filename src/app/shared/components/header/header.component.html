@@ -1,0 +1,27 @@
+<nav class="uk-navbar-container" uk-navbar>
+  <span
+    class="uk-text-uppercase uk-text-bold uk-margin-large-left uk-flex uk-flex-middle"
+  >
+    Cinemagic
+  </span>
+  <div class="uk-navbar-right uk-margin-large-right">
+    <ul class="uk-navbar-nav">
+      <li><a href="">home</a></li>
+      <li><a href="">cinema</a></li>
+      <li><a href="">afisha</a></li>
+      <li><a href="">films</a></li>
+
+      <!-- Show for unauthorized users -->
+      <ng-container>
+        <li><a href="">login</a></li>
+        <li><a href="">signup</a></li>
+      </ng-container>
+
+      <!-- Show for logged in users -->
+      <!-- <ng-container>
+        <li><a href="">profile</a></li>
+        <li><a href="">logout</a></li>
+      </ng-container> -->
+    </ul>
+  </div>
+</nav>
