@@ -1,3 +1,4 @@
+import { ApiService } from './../../../../shared/services/api.service';
 import { Component, OnInit } from '@angular/core';
 import {
   FormGroup,
@@ -17,9 +18,13 @@ export class AuthFormComponent implements OnInit {
   mode = '';
   title = '';
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute) {
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private apiService: ApiService
+  ) {
     this.authForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      login: ['', [Validators.required, Validators.minLength(6)]],
       password: ['', Validators.required]
     });
   }
@@ -32,14 +37,25 @@ export class AuthFormComponent implements OnInit {
 
     if (this.mode === 'signup') {
       this.authForm.addControl(
-        'login',
-        new FormControl('', [Validators.required, Validators.minLength(6)])
+        'email',
+        new FormControl('', [Validators.required, Validators.email])
+      );
+      this.authForm.addControl(
+        'passwordConfirmation',
+        new FormControl('', [Validators.required])
       );
     }
   }
 
   onSubmit() {
     const credentials = this.authForm.value;
+    this.apiService.post(`auth/${this.mode}`, credentials).subscribe(
+      data => {
+        console.log(data);
+      },
+      err => console.log(err)
+    );
+
     console.log(credentials);
   }
 }

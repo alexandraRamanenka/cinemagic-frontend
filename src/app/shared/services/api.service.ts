@@ -1,6 +1,6 @@
 import { environment } from './../../../environments/environment';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -8,6 +8,11 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ApiService {
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  };
   constructor(private http: HttpClient) {}
 
   get(path: string, params = new HttpParams()): Observable<any> {
@@ -17,14 +22,19 @@ export class ApiService {
   }
 
   post(path: string, body = {}): Observable<any> {
+    body = JSON.stringify(body);
     return this.http
-      .post(`${environment.url}${path}`, JSON.stringify(body))
+      .post(`${environment.url}${path}`, body, this.httpOptions)
       .pipe(catchError((err: any) => throwError(err)));
   }
 
   patch(path: string, body = {}): Observable<any> {
     return this.http
-      .patch(`${environment.url}${path}`, JSON.stringify(body))
+      .patch(
+        `${environment.url}${path}`,
+        JSON.stringify(body),
+        this.httpOptions
+      )
       .pipe(catchError((err: any) => throwError(err)));
   }
 

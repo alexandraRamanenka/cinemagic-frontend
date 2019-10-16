@@ -4,21 +4,28 @@
     <input
       class="uk-input uk-margin-bottom"
       type="text"
-      formControlName="login"
-      placeholder="login"
+      formControlName="email"
+      placeholder="email"
       *ngIf="mode === 'signup'"
     />
     <input
       class="uk-input uk-margin-bottom"
       type="email"
-      formControlName="email"
-      placeholder="email"
+      formControlName="login"
+      placeholder="login"
     />
     <input
       class="uk-input uk-margin-bottom"
       type="password"
       formControlName="password"
       placeholder="password"
+    />
+    <input
+      class="uk-input uk-margin-bottom"
+      type="password"
+      formControlName="passwordConfirmation"
+      placeholder="Confirm your password"
+      *ngIf="mode === 'signup'"
     />
     <button
       class="uk-button uk-button-secondary"
