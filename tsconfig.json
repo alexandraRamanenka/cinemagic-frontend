@@ -1,7 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": "src",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
@@ -12,14 +12,14 @@
     "importHelpers": true,
     "target": "es2015",
     "typeRoots": ["node_modules/@types"],
-    "lib": ["es2018", "dom"]
+    "lib": ["es2018", "dom"],
+    "paths": {
+      "@env/*": ["environments/*"],
+      "@shared/*": ["app/shared/*"]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true
-  },
-  "paths": {
-    "@authModule/*": ["app/modules/auth/*"],
-    "@shared/*": ["app/shared/*"]
   }
 }
