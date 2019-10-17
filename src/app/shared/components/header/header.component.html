@@ -12,16 +12,16 @@
       <li><a href="">films</a></li>
 
       <!-- Show for unauthorized users -->
-      <ng-container>
+      <ng-container *ngIf="!currentUser">
         <li><a [routerLink]="['/login']">login</a></li>
         <li><a [routerLink]="['/signup']">signup</a></li>
       </ng-container>
 
       <!-- Show for logged in users -->
-      <!-- <ng-container>
+      <ng-container *ngIf="currentUser">
         <li><a href="">profile</a></li>
-        <li><a href="">logout</a></li>
-      </ng-container> -->
+        <li><a href="" (click)="onLogout()">logout</a></li>
+      </ng-container>
     </ul>
   </div>
 </nav>
