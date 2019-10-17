@@ -15,7 +15,8 @@
     "lib": ["es2018", "dom"],
     "paths": {
       "@env/*": ["environments/*"],
-      "@shared/*": ["app/shared/*"]
+      "@shared/*": ["app/shared/*"],
+      "@authModule/*": ["app/modules/auth/*"]
     }
   },
   "angularCompilerOptions": {

@@ -1,6 +1,7 @@
+import { logging } from 'protractor';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ApiService } from 'app/shared/services/api.service';
+import { AuthService } from '@authModule/services/auth.service';
 
 @Component({
   selector: 'app-login-form',
@@ -10,7 +11,7 @@ import { ApiService } from 'app/shared/services/api.service';
 export class LoginFormComponent implements OnInit {
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private apiService: ApiService) {
+  constructor(private fb: FormBuilder, private authService: AuthService) {
     this.loginForm = this.fb.group({
       login: ['', [Validators.required, Validators.minLength(6)]],
       password: ['', Validators.required]
@@ -21,11 +22,6 @@ export class LoginFormComponent implements OnInit {
 
   onSubmit() {
     const credentials = this.loginForm.value;
-    this.apiService.post(`auth/login`, credentials).subscribe(
-      data => {
-        console.log(data);
-      },
-      err => console.log(err)
-    );
+    this.authService.login(credentials);
   }
 }

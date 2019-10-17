@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ApiService } from 'app/shared/services/api.service';
+import { AuthService } from '@authModule/services/auth.service';
 
 @Component({
   selector: 'app-signup-form',
@@ -10,7 +10,7 @@ import { ApiService } from 'app/shared/services/api.service';
 export class SignupFormComponent implements OnInit {
   signupForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private apiService: ApiService) {
+  constructor(private fb: FormBuilder, private authService: AuthService) {
     this.signupForm = this.fb.group({
       login: ['', [Validators.required, Validators.minLength(6)]],
       password: ['', Validators.required],
@@ -23,11 +23,6 @@ export class SignupFormComponent implements OnInit {
 
   onSubmit() {
     const credentials = this.signupForm.value;
-    this.apiService.post(`auth/signup`, credentials).subscribe(
-      data => {
-        console.log(data);
-      },
-      err => console.log(err)
-    );
+    this.authService.signup(credentials);
   }
 }
