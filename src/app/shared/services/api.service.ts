@@ -12,25 +12,25 @@ export class ApiService {
 
   get(path: string, params = new HttpParams()): Observable<any> {
     return this.http
-      .get(`${environment.url}${path}`, { params })
+      .get(path, { params })
       .pipe(catchError((err: any) => throwError(err)));
   }
 
   post(path: string, body = {}): Observable<any> {
     return this.http
-      .post(`${environment.url}${path}`, body)
+      .post(path, body)
       .pipe(catchError((err: any) => throwError(err)));
   }
 
   patch(path: string, body = {}): Observable<any> {
     return this.http
-      .patch(`${environment.url}${path}`, body)
+      .patch(path, body)
       .pipe(catchError((err: any) => throwError(err)));
   }
 
   delete(path: string): Observable<any> {
     return this.http
-      .delete(`${environment.url}${path}`)
+      .delete(path)
       .pipe(catchError((err: any) => throwError(err)));
   }
 }
