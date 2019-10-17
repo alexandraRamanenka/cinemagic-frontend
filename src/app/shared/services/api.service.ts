@@ -8,11 +8,6 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ApiService {
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json'
-    })
-  };
   constructor(private http: HttpClient) {}
 
   get(path: string, params = new HttpParams()): Observable<any> {
@@ -22,19 +17,14 @@ export class ApiService {
   }
 
   post(path: string, body = {}): Observable<any> {
-    body = JSON.stringify(body);
     return this.http
-      .post(`${environment.url}${path}`, body, this.httpOptions)
+      .post(`${environment.url}${path}`, body)
       .pipe(catchError((err: any) => throwError(err)));
   }
 
   patch(path: string, body = {}): Observable<any> {
     return this.http
-      .patch(
-        `${environment.url}${path}`,
-        JSON.stringify(body),
-        this.httpOptions
-      )
+      .patch(`${environment.url}${path}`, body)
       .pipe(catchError((err: any) => throwError(err)));
   }
 

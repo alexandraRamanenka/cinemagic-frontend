@@ -1,16 +1,17 @@
+import { SignupFormComponent } from './components/signup-form/signup-form.component';
+import { LoginFormComponent } from './components/login-form/login-form.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthFormComponent } from './components/auth-form/auth-form.component';
 
 const routes: Routes = [
   {
     path: 'login',
-    component: AuthFormComponent
+    component: LoginFormComponent
   },
   {
     path: 'signup',
-    component: AuthFormComponent
+    component: SignupFormComponent
   }
 ];
 
