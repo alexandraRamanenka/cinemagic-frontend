@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '@authModule/services/auth.service';
 
@@ -7,7 +7,7 @@ import { AuthService } from '@authModule/services/auth.service';
   templateUrl: './signup-form.component.html',
   styleUrls: ['./signup-form.component.css']
 })
-export class SignupFormComponent implements OnInit {
+export class SignupFormComponent {
   signupForm: FormGroup;
 
   constructor(private fb: FormBuilder, private authService: AuthService) {
@@ -18,8 +18,6 @@ export class SignupFormComponent implements OnInit {
       passwordConfirmation: ['', [Validators.required]]
     });
   }
-
-  ngOnInit() {}
 
   onSubmit() {
     const credentials = this.signupForm.value;
