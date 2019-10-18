@@ -1,0 +1,24 @@
+<div class="uk-width-1-6 uk-align-center">
+  <form [formGroup]="loginForm" class="uk-margin-top" (submit)="onSubmit()">
+    <h2 class="uk-heading-bullet">Log In</h2>
+    <input
+      class="uk-input uk-margin-bottom"
+      type="text"
+      formControlName="login"
+      placeholder="login"
+    />
+    <input
+      class="uk-input uk-margin-bottom"
+      type="password"
+      formControlName="password"
+      placeholder="password"
+    />
+    <button
+      class="uk-button uk-button-secondary"
+      type="submit"
+      [disabled]="loginForm.invalid"
+    >
+      Log In
+    </button>
+  </form>
+</div>
