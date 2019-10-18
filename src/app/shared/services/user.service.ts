@@ -7,13 +7,15 @@ import { User } from '../models/user';
 })
 export class UserService {
   private currentUserSubject: BehaviorSubject<User>;
-  public currentUser: Observable<User>;
+
+  public get currentUser(): Observable<User> {
+    return this.currentUserSubject.asObservable();
+  }
 
   constructor() {
     this.currentUserSubject = new BehaviorSubject(
       JSON.parse(localStorage.getItem('currentUser'))
     );
-    this.currentUser = this.currentUserSubject.asObservable();
   }
 
   setCurrentUser(user: User) {

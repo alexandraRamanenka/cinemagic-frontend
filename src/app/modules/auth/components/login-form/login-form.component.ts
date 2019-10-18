@@ -1,5 +1,4 @@
-import { logging } from 'protractor';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '@authModule/services/auth.service';
 
@@ -8,7 +7,7 @@ import { AuthService } from '@authModule/services/auth.service';
   templateUrl: './login-form.component.html',
   styleUrls: ['./login-form.component.css']
 })
-export class LoginFormComponent implements OnInit {
+export class LoginFormComponent {
   loginForm: FormGroup;
 
   constructor(private fb: FormBuilder, private authService: AuthService) {
@@ -17,8 +16,6 @@ export class LoginFormComponent implements OnInit {
       password: ['', Validators.required]
     });
   }
-
-  ngOnInit() {}
 
   onSubmit() {
     const credentials = this.loginForm.value;
