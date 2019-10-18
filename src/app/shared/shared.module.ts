@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { UserService } from './services/user.service';
+import { AuthGuard } from './guards/auth.guard';
 
 @NgModule({
   declarations: [],
@@ -14,7 +15,7 @@ import { UserService } from './services/user.service';
     RouterModule,
     HttpClientModule
   ],
-  providers: [UserService],
+  providers: [UserService, AuthGuard],
   exports: [FormsModule, ReactiveFormsModule, RouterModule, HttpClientModule]
 })
 export class SharedModule {}

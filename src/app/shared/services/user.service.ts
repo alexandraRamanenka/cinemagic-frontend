@@ -25,4 +25,8 @@ export class UserService {
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
   }
+
+  isAuthenticated(): boolean {
+    return this.currentUserSubject.value ? true : false;
+  }
 }
