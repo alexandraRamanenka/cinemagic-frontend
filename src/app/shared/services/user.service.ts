@@ -26,7 +26,7 @@ export class UserService {
     this.currentUserSubject.next(null);
   }
 
-  isAuthenticated(): boolean {
-    return this.currentUserSubject.value ? true : false;
+  get isAuthenticated(): boolean {
+    return !!this.currentUserSubject.value;
   }
 }

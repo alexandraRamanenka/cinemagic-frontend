@@ -1,4 +1,6 @@
+import { AlertTypes } from '../enums/alertTypes';
+
 export interface Alert {
-  type: string;
+  type: AlertTypes;
   message: string;
 }

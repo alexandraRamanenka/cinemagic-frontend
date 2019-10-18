@@ -1,9 +1,9 @@
-.success {
+.alert.success {
   background-color: mediumseagreen;
   color: white;
 }
 
-.error {
+.alert.error {
   background-color: tomato;
   color: white;
 }

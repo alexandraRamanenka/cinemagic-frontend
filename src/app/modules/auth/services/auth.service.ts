@@ -15,12 +15,12 @@ export class AuthService {
   ) {}
 
   login(credentials) {
-    this.http.post('auth/login', credentials).subscribe(
-      (res: Response) => this.userService.setCurrentUser(res.data.user),
-      err => {
-        this.alertService.sendAlert(err.error.message, err.error.status);
-      }
-    );
+    this.http
+      .post('auth/login', credentials)
+      .subscribe(
+        (res: Response) => this.userService.setCurrentUser(res.data.user),
+        err => this.alertService.sendAlert(err.error.message, err.error.status)
+      );
   }
 
   signup(credentials) {
