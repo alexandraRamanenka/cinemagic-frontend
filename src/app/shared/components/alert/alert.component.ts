@@ -22,4 +22,12 @@ export class AlertComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
+
+  onClose(index) {
+    const updatedAlerts = [
+      ...this.alerts.slice(0, index),
+      ...this.alerts.slice(index + 1)
+    ];
+    this.alerts = updatedAlerts;
+  }
 }

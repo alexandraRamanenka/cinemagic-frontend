@@ -19,7 +19,6 @@ export class AuthService {
     this.http.post('auth/login', credentials).subscribe(
       (res: Response) => this.userService.setCurrentUser(res.data.user),
       err => {
-        console.log(err.error);
         this.alertService.sendAlert(err.error.message, err.error.status);
       }
     );

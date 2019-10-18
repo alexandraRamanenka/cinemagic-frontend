@@ -14,11 +14,15 @@ export class AlertService {
     this.alert = this.alertSubject.asObservable();
   }
 
-  sendAlert(message: string, type: string) {
+  private assignAlert(message: string, type: string) {
     const alert = {
       message,
-      type: type === 'fail' ? 'error' : 'success'
+      type: type === 'fail' || 'error' ? 'error' : 'success'
     };
-    this.alertSubject.next(alert);
+    return alert;
+  }
+
+  sendAlert(message: string, type: string) {
+    this.alertSubject.next(this.assignAlert(message, type));
   }
 }
