@@ -1,4 +1,3 @@
-import { logging } from 'protractor';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '@authModule/services/auth.service';

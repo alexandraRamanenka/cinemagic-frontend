@@ -6,10 +6,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared';
 import { HeaderComponent } from './shared/components/header/header.component';
+import { AlertComponent } from './shared/components/alert/alert.component';
 import { httpInterceptorProviders } from '@shared/interceptors';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent],
+  declarations: [AppComponent, HeaderComponent, AlertComponent],
   imports: [BrowserModule, AppRoutingModule, SharedModule, AuthModule],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

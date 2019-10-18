@@ -1,0 +1,10 @@
+<div
+  class="uk-width-medium uk-margin-bottom"
+  *ngFor="let alert of alerts"
+  [ngClass]="{
+    success: alert.type === 'success',
+    error: alert.type === 'error'
+  }"
+>
+  {{ alert.message }}
+</div>
