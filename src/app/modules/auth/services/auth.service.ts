@@ -3,7 +3,6 @@ import { Response } from '@shared/models/response';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserService } from '@shared/services/user.service';
-import { User } from '@shared/models/user';
 
 @Injectable({
   providedIn: 'root'

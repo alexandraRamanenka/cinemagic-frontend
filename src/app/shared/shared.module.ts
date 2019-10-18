@@ -17,11 +17,6 @@ import { AlertService } from './services/alert.service';
     HttpClientModule
   ],
   providers: [UserService, AuthGuard, AlertService],
-  exports: [
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule,
-    HttpClientModule
-  ]
+  exports: [FormsModule, ReactiveFormsModule, RouterModule, HttpClientModule]
 })
 export class SharedModule {}

@@ -15,7 +15,9 @@ export class AlertComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = this.alertService.alert.subscribe(alert => {
-      this.alerts.push(alert);
+      const alerts = [...this.alerts, alert];
+      setTimeout(() => this.destroyAlert(alerts.length - 1), 5000);
+      this.alerts = alerts;
     });
   }
 
@@ -23,11 +25,15 @@ export class AlertComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  onClose(index) {
+  private destroyAlert(index) {
     const updatedAlerts = [
       ...this.alerts.slice(0, index),
       ...this.alerts.slice(index + 1)
     ];
     this.alerts = updatedAlerts;
+  }
+
+  onClose(index) {
+    this.destroyAlert(index);
   }
 }
