@@ -4,9 +4,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { UserService } from './services/user.service';
+import { MovieCardComponent } from './components/movie-card/movie-card.component';
+import { ReserveTicketButtonComponent } from './components/reserve-ticket-button/reserve-ticket-button.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [MovieCardComponent, ReserveTicketButtonComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -15,6 +17,13 @@ import { UserService } from './services/user.service';
     HttpClientModule
   ],
   providers: [UserService],
-  exports: [FormsModule, ReactiveFormsModule, RouterModule, HttpClientModule]
+  exports: [
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
+    HttpClientModule,
+    MovieCardComponent,
+    ReserveTicketButtonComponent
+  ]
 })
 export class SharedModule {}
