@@ -4,9 +4,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { UserService } from './services/user.service';
+import { SliderComponent } from './components/slider/slider.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [SliderComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -15,6 +16,12 @@ import { UserService } from './services/user.service';
     HttpClientModule
   ],
   providers: [UserService],
-  exports: [FormsModule, ReactiveFormsModule, RouterModule, HttpClientModule]
+  exports: [
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
+    HttpClientModule,
+    SliderComponent
+  ]
 })
 export class SharedModule {}
