@@ -1,7 +1,19 @@
 <app-header></app-header>
-<app-slider>
+<app-slider [animationTiming]="'250ms ease-out'">
   <ng-container *ngFor="let item of items">
-    <ng-container *appSlide> <img src="{{ item }}" alt=""/></ng-container>
+    <div *appSlide class="slider-item">
+      <img src="{{ item }}" alt="" />
+    </div>
   </ng-container>
+  <button
+    #sliderPrev
+    class="uk-button uk-button-secondary"
+    uk-icon="icon: chevron-left"
+  ></button>
+  <button
+    #sliderNext
+    class="uk-button uk-button-secondary"
+    uk-icon="icon: chevron-right"
+  ></button>
 </app-slider>
 <router-outlet></router-outlet>

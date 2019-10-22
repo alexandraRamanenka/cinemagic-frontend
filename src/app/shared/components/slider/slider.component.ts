@@ -8,7 +8,8 @@ import {
   OnDestroy,
   Input,
   ContentChildren,
-  QueryList
+  QueryList,
+  ContentChild
 } from '@angular/core';
 import { SlideDirective } from './slide.directive';
 import {
@@ -30,8 +31,8 @@ export class SliderComponent implements AfterViewInit, OnDestroy {
   @ContentChildren(SlideDirective) slidesItems: QueryList<SlideDirective>;
   @ViewChildren(SlideContentDirective, { read: ElementRef })
   private slides: QueryList<ElementRef>;
-  @ViewChild('sliderNext', { static: true }) nextControl;
-  @ViewChild('sliderPrev', { static: true }) prevControl;
+  @ContentChild('sliderNext', { static: true }) nextControl;
+  @ContentChild('sliderPrev', { static: true }) prevControl;
 
   @Input() animationTiming = '200ms ease-in';
 
@@ -45,8 +46,6 @@ export class SliderComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this.itemWidth = this.slides.first.nativeElement.clientWidth;
-    console.log(this.itemWidth);
-    console.log(this.slidesItems);
     this.nextClicked$ = this.nextControl
       ? fromEvent(this.nextControl.nativeElement, 'click').subscribe(e =>
           this.onNextClicked()
