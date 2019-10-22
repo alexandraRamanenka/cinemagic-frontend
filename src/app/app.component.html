@@ -1,3 +1,7 @@
 <app-header></app-header>
-<app-slider></app-slider>
+<app-slider>
+  <ng-container *ngFor="let item of items">
+    <ng-container *appSlide> <img src="{{ item }}" alt=""/></ng-container>
+  </ng-container>
+</app-slider>
 <router-outlet></router-outlet>

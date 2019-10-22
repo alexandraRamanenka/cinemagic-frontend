@@ -1,25 +1,19 @@
 <div class="slider">
-  <div class="content">
-    <ul class="slides" #sliderContent>
-      <ng-content></ng-content>
-      <li class="slide">
-        <img
-          src="https://images.unsplash.com/photo-1569834381156-7b735e41e57d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1489&q=80"
-          alt=""
-        />
-      </li>
-      <li class="slide">
-        <img
-          src="https://images.unsplash.com/photo-1571388826617-5a9094f5f9ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=1351&q=80"
-          alt=""
-        />
-      </li>
-      <li class="slide">
-        <img
-          src="https://images.unsplash.com/photo-1569277401324-53bde2e6708e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjQwMzA0fQ&auto=format&fit=crop&w=1311&q=80"
-          alt=""
-        />
+  <div class="content" #sliderContent>
+    <ul class="slides" #slider>
+      <li *ngFor="let slideItem of slidesItems" class="slide">
+        <ng-container [ngTemplateOutlet]="slideItem.template"></ng-container>
       </li>
     </ul>
   </div>
+  <button
+    #sliderPrev
+    class="uk-button uk-button-secondary"
+    uk-icon="icon: chevron-left"
+  ></button>
+  <button
+    #sliderNext
+    class="uk-button uk-button-secondary"
+    uk-icon="icon: chevron-right"
+  ></button>
 </div>
