@@ -1,0 +1,26 @@
+.alert.success {
+  background-color: mediumseagreen;
+  color: white;
+}
+
+.alert.error {
+  background-color: tomato;
+  color: white;
+}
+
+.alert {
+  height: fit-content;
+  border-radius: 5px;
+  padding-left: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-close {
+  background: none;
+  border: none;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+  margin-top: 0.25rem;
+}

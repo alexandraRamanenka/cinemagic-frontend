@@ -10,6 +10,7 @@ import { MovieCardComponent } from './components/movie-card/movie-card.component
 import { ReserveTicketButtonComponent } from './components/reserve-ticket-button/reserve-ticket-button.component';
 import { SliderComponent } from './components/slider/slider.component';
 import { SlideDirective } from './components/slider/slide.directive';
+import { AlertService } from './services/alert.service';
 
 @NgModule({
   declarations: [
@@ -27,9 +28,8 @@ import { SlideDirective } from './components/slider/slide.directive';
     BrowserModule,
     BrowserAnimationsModule
   ],
-  providers: [UserService],
+  providers: [UserService, AlertService],
   exports: [
-    FormsModule,
     ReactiveFormsModule,
     RouterModule,
     HttpClientModule,

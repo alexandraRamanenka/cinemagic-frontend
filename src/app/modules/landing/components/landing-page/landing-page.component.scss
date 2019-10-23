@@ -4,20 +4,6 @@
   display: flex;
   justify-content: space-around;
   margin-top: 80px;
-  margin-left: 200px;
-
-  .movie-description {
-    display: flex;
-    flex-direction: column;
-    margin-top: auto;
-    margin-bottom: auto;
-    width: 30%;
-  }
-  img {
-    height: 400px;
-    display: block;
-    max-width: none;
-  }
 }
 
 .btn-prev,
@@ -25,7 +11,7 @@
   width: 60px;
   position: absolute;
   height: fit-content;
-  top: calc(70vh / 2 + 80px - 30px);
+  top: calc(70vh / 2 + 20px);
   cursor: default;
   z-index: 10;
   opacity: 0.6;

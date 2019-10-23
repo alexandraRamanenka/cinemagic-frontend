@@ -1,8 +1,6 @@
-import { fromEvent, Subscription } from 'rxjs';
+import { fromEvent, Subscription, Subject, Observable } from 'rxjs';
 import {
   Component,
-  ViewChildren,
-  ElementRef,
   ViewChild,
   AfterViewInit,
   OnDestroy,
@@ -38,8 +36,9 @@ export class SliderComponent implements AfterViewInit, OnDestroy, OnInit {
   private currentSlide = 0;
   private itemWidth: number;
   private player: AnimationPlayer;
-  private nextClicked$: Subscription;
-  private prevClicked$: Subscription;
+  private unsubscribe$: Subject<void> = new Subject();
+  private nextClicked$: Observable<any>;
+  private prevClicked$: Observable<any>;
   slideStyle = {};
 
   constructor(private builder: AnimationBuilder) {}
@@ -54,20 +53,23 @@ export class SliderComponent implements AfterViewInit, OnDestroy, OnInit {
 
   ngAfterViewInit() {
     this.nextClicked$ = this.nextControl
-      ? fromEvent(this.nextControl.nativeElement, 'click').subscribe(e =>
-          this.onNextClicked()
-        )
+      ? fromEvent(this.nextControl.nativeElement, 'click')
       : null;
+    if (this.nextClicked$) {
+      this.nextClicked$.subscribe(e => this.onNextClicked());
+    }
+
     this.prevClicked$ = this.prevControl
-      ? fromEvent(this.prevControl.nativeElement, 'click').subscribe(e =>
-          this.onPrevClicked()
-        )
+      ? fromEvent(this.prevControl.nativeElement, 'click')
       : null;
+    if (this.prevClicked$) {
+      this.prevClicked$.subscribe(e => this.onPrevClicked());
+    }
   }
 
   ngOnDestroy(): void {
-    this.nextClicked$.unsubscribe();
-    this.prevClicked$.unsubscribe();
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   private onNextClicked() {
@@ -80,13 +82,7 @@ export class SliderComponent implements AfterViewInit, OnDestroy, OnInit {
       this.currentSlide++;
     }
     const offset = this.currentSlide * this.offset;
-
-    const animation: AnimationFactory = this.builder.build([
-      animate(timing, style({ transform: `translateX(-${offset}px)` }))
-    ]);
-
-    this.player = animation.create(this.slider.nativeElement);
-    this.player.play();
+    this.createAnimation(timing, offset);
   }
 
   private onPrevClicked() {
@@ -100,7 +96,10 @@ export class SliderComponent implements AfterViewInit, OnDestroy, OnInit {
     }
 
     const offset = this.currentSlide * this.offset;
+    this.createAnimation(timing, offset);
+  }
 
+  private createAnimation(timing, offset) {
     const animation: AnimationFactory = this.builder.build([
       animate(timing, style({ transform: `translateX(-${offset}px)` }))
     ]);
