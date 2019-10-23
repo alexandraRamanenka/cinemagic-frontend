@@ -33,6 +33,7 @@ export class SliderComponent implements AfterViewInit, OnDestroy, OnInit {
   @ContentChild('sliderPrev', { static: true }) prevControl;
 
   @Input() animationTiming = '200ms ease-in';
+  @Input() offset = 0;
 
   private currentSlide = 0;
   private itemWidth: number;
@@ -45,6 +46,7 @@ export class SliderComponent implements AfterViewInit, OnDestroy, OnInit {
 
   ngOnInit() {
     this.itemWidth = this.slider.nativeElement.clientWidth;
+    this.offset = this.offset || this.itemWidth;
     this.slideStyle = {
       width: `${this.itemWidth}px`
     };
@@ -77,7 +79,7 @@ export class SliderComponent implements AfterViewInit, OnDestroy, OnInit {
     } else {
       this.currentSlide++;
     }
-    const offset = this.currentSlide * this.itemWidth;
+    const offset = this.currentSlide * this.offset;
 
     const animation: AnimationFactory = this.builder.build([
       animate(timing, style({ transform: `translateX(-${offset}px)` }))
@@ -97,7 +99,7 @@ export class SliderComponent implements AfterViewInit, OnDestroy, OnInit {
       this.currentSlide--;
     }
 
-    const offset = this.currentSlide * this.itemWidth;
+    const offset = this.currentSlide * this.offset;
 
     const animation: AnimationFactory = this.builder.build([
       animate(timing, style({ transform: `translateX(-${offset}px)` }))
