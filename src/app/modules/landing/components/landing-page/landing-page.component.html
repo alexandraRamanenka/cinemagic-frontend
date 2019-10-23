@@ -1,17 +1,12 @@
 <app-slider [animationTiming]="'250ms ease-out'" class="slider">
   <ng-container *ngFor="let item of items">
     <div *appSlide class="slider-item">
-      <div class="movie-description">
-        <h2>Film Title</h2>
-
-        <p>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. In, id odit
-          molestiae blanditiis aliquid non ipsa ea, vero totam soluta similique
-          maiores vel aut reiciendis illum consequatur quasi dolor! Sit?
-        </p>
-      </div>
-
-      <img src="{{ item }}" alt="" />
+      <app-movie-card
+        [title]="item.title"
+        [genres]="item.genres"
+        [restriction]="item.restriction"
+        [poster]="item.poster"
+      ></app-movie-card>
     </div>
   </ng-container>
 
@@ -26,4 +21,3 @@
     uk-icon="icon: chevron-right; ratio: 3"
   ></button>
 </app-slider>
-<app-movie-card></app-movie-card>

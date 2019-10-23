@@ -1,11 +1,11 @@
 .movie-card {
   width: 240px;
-  height: 380px;
+  height: fit-content;
 }
 .movie-card .image {
   width: 240px;
   height: 320px;
-  background: url('/assets/movie-card.jpg') center / cover;
+  background: center / cover;
   border-radius: 10px;
 }
 
