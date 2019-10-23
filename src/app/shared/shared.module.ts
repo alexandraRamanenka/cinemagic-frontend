@@ -1,3 +1,4 @@
+import { MovieService } from './services/movie.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
@@ -28,7 +29,7 @@ import { AlertService } from './services/alert.service';
     BrowserModule,
     BrowserAnimationsModule
   ],
-  providers: [UserService, AlertService],
+  providers: [UserService, AlertService, MovieService],
   exports: [
     ReactiveFormsModule,
     RouterModule,

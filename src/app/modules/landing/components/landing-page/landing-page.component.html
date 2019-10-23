@@ -2,19 +2,19 @@
   <ng-container *ngFor="let item of items; let i = index">
     <div *appSlide class="slider-item">
       <app-movie-card
-        [title]="item[0].title"
+        [title]="item[0].name"
         [genres]="item[0].genres"
         [restriction]="item[0].restriction"
         [poster]="item[0].poster"
       ></app-movie-card>
       <app-movie-card
-        [title]="item[1].title"
+        [title]="item[1].name"
         [genres]="item[1].genres"
         [restriction]="item[1].restriction"
         [poster]="item[1].poster"
       ></app-movie-card>
       <app-movie-card
-        [title]="item[2].title"
+        [title]="item[2].name"
         [genres]="item[2].genres"
         [restriction]="item[2].restriction"
         [poster]="item[2].poster"
