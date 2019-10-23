@@ -1,8 +1,19 @@
 .slider-item {
   width: inherit;
   height: 100%;
+  display: flex;
+  justify-content: space-around;
+
+  .movie-description {
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 30%;
+  }
   img {
-    width: inherit;
+    height: 400px;
+    display: block;
     max-width: none;
   }
 }
@@ -26,6 +37,7 @@
     cursor: pointer;
   }
 }
+
 .btn-prev {
   left: 60px;
 }

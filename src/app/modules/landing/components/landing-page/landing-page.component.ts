@@ -7,9 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LandingPageComponent implements OnInit {
   items = [
-    'https://images.unsplash.com/photo-1569834381156-7b735e41e57d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1489&q=80',
-    'https://images.unsplash.com/photo-1571388826617-5a9094f5f9ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=1351&q=80',
-    'https://images.unsplash.com/photo-1569277401324-53bde2e6708e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjQwMzA0fQ&auto=format&fit=crop&w=1311&q=80'
+    'https://uproxx.com/wp-content/uploads/2018/01/honest-movie-posters-2018-blade-runner-2049_college-humor.jpg?quality=100',
+    'https://i.pinimg.com/originals/a0/86/b7/a086b774291cf85b5810372bd83815b3.jpg',
+    'https://www.bestmovieposters.co.uk/wp-content/uploads/2019/01/bPhD22m-.jpeg'
   ];
   constructor() {}
 
