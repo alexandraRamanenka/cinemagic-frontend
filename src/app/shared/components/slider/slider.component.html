@@ -1,7 +1,11 @@
 <div class="slider">
   <div class="content" #sliderContent>
     <ul class="slides" #slider>
-      <li *ngFor="let slideItem of slidesItems" class="slide">
+      <li
+        *ngFor="let slideItem of slidesItems"
+        class="slide"
+        [ngStyle]="slideStyle"
+      >
         <ng-container [ngTemplateOutlet]="slideItem.template"></ng-container>
       </li>
     </ul>

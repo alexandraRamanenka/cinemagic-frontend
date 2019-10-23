@@ -1,0 +1,18 @@
+<app-slider [animationTiming]="'250ms ease-out'">
+  <ng-container *ngFor="let item of items">
+    <div *appSlide class="slider-item">
+      <img src="{{ item }}" alt="" />
+    </div>
+  </ng-container>
+
+  <button
+    #sliderPrev
+    class="btn-prev uk-hidden-hover"
+    uk-icon="icon: chevron-left; ratio: 3"
+  ></button>
+  <button
+    #sliderNext
+    class="btn-next uk-hidden-hover"
+    uk-icon="icon: chevron-right; ratio: 3"
+  ></button>
+</app-slider>

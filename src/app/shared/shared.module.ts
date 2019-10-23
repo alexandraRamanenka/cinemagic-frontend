@@ -8,10 +8,9 @@ import { RouterModule } from '@angular/router';
 import { UserService } from './services/user.service';
 import { SliderComponent } from './components/slider/slider.component';
 import { SlideDirective } from './components/slider/slide.directive';
-import { SlideContentDirective } from './components/slider/slide-content.directive';
 
 @NgModule({
-  declarations: [SliderComponent, SlideDirective, SlideContentDirective],
+  declarations: [SliderComponent, SlideDirective],
   imports: [
     CommonModule,
     FormsModule,

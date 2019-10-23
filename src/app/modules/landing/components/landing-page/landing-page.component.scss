@@ -1,0 +1,34 @@
+.slider-item {
+  width: inherit;
+  height: 100%;
+  img {
+    width: inherit;
+    max-width: none;
+  }
+}
+
+.btn-prev,
+.btn-next {
+  width: 60px;
+  position: absolute;
+  height: fit-content;
+  top: calc(50vh / 2 + 80px - 30px);
+  cursor: default;
+  z-index: 10;
+  opacity: 0.6;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  svg {
+    z-index: 11;
+    cursor: pointer;
+  }
+}
+.btn-prev {
+  left: 60px;
+}
+.btn-next {
+  left: calc(100% - 130px);
+}

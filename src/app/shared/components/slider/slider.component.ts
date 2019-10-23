@@ -7,6 +7,7 @@ import {
   AfterViewInit,
   OnDestroy,
   Input,
+  OnInit,
   ContentChildren,
   QueryList,
   ContentChild
@@ -19,18 +20,15 @@ import {
   style,
   AnimationPlayer
 } from '@angular/animations';
-import { SlideContentDirective } from './slide-content.directive';
 
 @Component({
   selector: 'app-slider',
   templateUrl: './slider.component.html',
   styleUrls: ['./slider.component.scss']
 })
-export class SliderComponent implements AfterViewInit, OnDestroy {
+export class SliderComponent implements AfterViewInit, OnDestroy, OnInit {
   @ViewChild('slider', { static: true }) slider;
   @ContentChildren(SlideDirective) slidesItems: QueryList<SlideDirective>;
-  @ViewChildren(SlideContentDirective, { read: ElementRef })
-  private slides: QueryList<ElementRef>;
   @ContentChild('sliderNext', { static: true }) nextControl;
   @ContentChild('sliderPrev', { static: true }) prevControl;
 
@@ -41,11 +39,18 @@ export class SliderComponent implements AfterViewInit, OnDestroy {
   private player: AnimationPlayer;
   private nextClicked$: Subscription;
   private prevClicked$: Subscription;
+  slideStyle = {};
 
   constructor(private builder: AnimationBuilder) {}
 
+  ngOnInit() {
+    this.itemWidth = this.slider.nativeElement.clientWidth;
+    this.slideStyle = {
+      width: `${this.itemWidth}px`
+    };
+  }
+
   ngAfterViewInit() {
-    this.itemWidth = this.slides.first.nativeElement.clientWidth;
     this.nextClicked$ = this.nextControl
       ? fromEvent(this.nextControl.nativeElement, 'click').subscribe(e =>
           this.onNextClicked()
