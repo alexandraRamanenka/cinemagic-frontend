@@ -6,11 +6,18 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { UserService } from './services/user.service';
+import { MovieCardComponent } from './components/movie-card/movie-card.component';
+import { ReserveTicketButtonComponent } from './components/reserve-ticket-button/reserve-ticket-button.component';
 import { SliderComponent } from './components/slider/slider.component';
 import { SlideDirective } from './components/slider/slide.directive';
 
 @NgModule({
-  declarations: [SliderComponent, SlideDirective],
+  declarations: [
+    SliderComponent,
+    SlideDirective,
+    MovieCardComponent,
+    ReserveTicketButtonComponent
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -26,6 +33,8 @@ import { SlideDirective } from './components/slider/slide.directive';
     ReactiveFormsModule,
     RouterModule,
     HttpClientModule,
+    MovieCardComponent,
+    ReserveTicketButtonComponent,
     SliderComponent,
     SlideDirective
   ]
