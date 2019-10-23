@@ -10,11 +10,11 @@ import { ResponseStatusTypes } from '../enums/responseStatusTypes';
 })
 export class AlertService {
   private alertSubject = new Subject<Alert>();
-  public alert: Observable<Alert>;
-
-  constructor() {
-    this.alert = this.alertSubject.asObservable();
+  public get alert(): Observable<Alert> {
+    return this.alertSubject.asObservable();
   }
+
+  constructor() {}
 
   private assignAlert(message: string, type: string) {
     const alert = {

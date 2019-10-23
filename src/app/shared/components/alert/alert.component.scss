@@ -1,10 +1,12 @@
+@import 'variables.scss';
+
 .alert.success {
-  background-color: mediumseagreen;
+  background-color: $color-success;
   color: white;
 }
 
 .alert.error {
-  background-color: tomato;
+  background-color: $color-danger;
   color: white;
 }
 
