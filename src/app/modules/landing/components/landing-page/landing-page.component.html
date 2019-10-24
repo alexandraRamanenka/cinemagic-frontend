@@ -4,10 +4,7 @@
       <div class="slide-wrapper">
         <app-movie-card
           *ngFor="let movie of movieSlide; let i = index"
-          [title]="movie.name"
-          [genre]="movie.genre"
-          [restriction]="movie.restriction"
-          [poster]="movie.poster"
+          [movie]="movie"
         ></app-movie-card>
       </div>
     </div>

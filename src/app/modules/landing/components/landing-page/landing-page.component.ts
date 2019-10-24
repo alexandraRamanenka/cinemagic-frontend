@@ -16,14 +16,17 @@ export class LandingPageComponent implements OnInit {
     this.movieService.getAll().subscribe((res: Response) => {
       const movies = res.data as [];
       this.movieSlides = this.splitData(movies, 4);
+      console.log(this.movieSlides);
     });
   }
 
   private splitData(results: [], limit: number) {
     const result = [];
+    const wholeParts = results.length / limit;
 
-    for (let i = 0; i < results.length / limit; i += limit) {
-      result.push(results.slice(i, i + limit));
+    for (let i = 0; i < wholeParts; i++) {
+      console.log(i);
+      result.push(results.slice(i * limit, i * limit + limit));
     }
 
     const rest = results.length % limit;

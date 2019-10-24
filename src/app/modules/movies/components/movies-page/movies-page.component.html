@@ -1,0 +1,8 @@
+<div class="container">
+  <h1 class="page-title">Movies</h1>
+  <app-movie-card
+    *ngFor="let movie of movies"
+    [movie]="movie"
+    class="movie-card"
+  ></app-movie-card>
+</div>

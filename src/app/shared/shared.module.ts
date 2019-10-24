@@ -1,10 +1,8 @@
 import { MovieService } from './services/movie.service';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { UserService } from './services/user.service';
 import { MovieCardComponent } from './components/movie-card/movie-card.component';
@@ -22,15 +20,7 @@ import { MovieGeneresPipe } from './pipes/movie-generes.pipe';
     ReserveTicketButtonComponent,
     MovieGeneresPipe
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule,
-    HttpClientModule,
-    BrowserModule,
-    BrowserAnimationsModule
-  ],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, HttpClientModule],
   providers: [UserService, AlertService, MovieService],
   exports: [
     ReactiveFormsModule,
@@ -39,7 +29,8 @@ import { MovieGeneresPipe } from './pipes/movie-generes.pipe';
     MovieCardComponent,
     ReserveTicketButtonComponent,
     SliderComponent,
-    SlideDirective
+    SlideDirective,
+    CommonModule
   ]
 })
 export class SharedModule {}

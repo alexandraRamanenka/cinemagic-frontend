@@ -9,7 +9,7 @@
       <li><a [routerLink]="['/']">home</a></li>
       <li><a href="">cinema</a></li>
       <li><a href="">afisha</a></li>
-      <li><a href="">movies</a></li>
+      <li><a [routerLink]="['/movies']">movies</a></li>
 
       <!-- Show for unauthorized users -->
       <ng-container *ngIf="!currentUser">
