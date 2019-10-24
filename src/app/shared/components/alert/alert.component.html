@@ -1,12 +1,12 @@
 <div
-  class="uk-width-medium uk-margin-bottom uk-margin-left alert"
+  class="alert"
   *ngFor="let alert of alerts; let i = index"
   [ngClass]="{
     success: alert.type === 'success',
     error: alert.type === 'error'
   }"
 >
-  {{ alert.message }}
+  <span class="message">{{ alert.message }}</span>
   <button
     class="btn-close"
     uk-icon="icon: close; ratio: 2"

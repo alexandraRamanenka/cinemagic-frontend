@@ -1,14 +1,13 @@
 <app-slider [animationTiming]="'250ms ease-out'" class="slider">
   <ng-container *ngFor="let item of items">
     <div *appSlide class="slider-item">
-      <ng-container *ngFor="let it of item; let i = index">
-        <app-movie-card
-          [title]="it.name"
-          [genres]="it.genres"
-          [restriction]="it.restriction"
-          [poster]="it.poster"
-        ></app-movie-card>
-      </ng-container>
+      <app-movie-card
+        *ngFor="let it of item; let i = index"
+        [title]="it.name"
+        [genres]="it.genres"
+        [restriction]="it.restriction"
+        [poster]="it.poster"
+      ></app-movie-card>
     </div>
   </ng-container>
 
