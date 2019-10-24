@@ -1,6 +1,6 @@
 .movie-card {
   width: 240px;
-  height: fit-content;
+  height: 400px;
 }
 .movie-card .image {
   width: 240px;
@@ -22,6 +22,7 @@
 .movie-card .reserve-btn {
   margin-left: auto;
   margin-right: auto;
-  display: block;
-  width: fit-content;
+  display: flex;
+  justify-content: center;
+  width: 240px;
 }

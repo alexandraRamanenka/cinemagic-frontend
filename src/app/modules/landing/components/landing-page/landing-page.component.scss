@@ -10,7 +10,7 @@
 .btn-next {
   width: 60px;
   position: absolute;
-  height: fit-content;
+  height: 60px;
   top: calc(70vh / 2 + 20px);
   cursor: default;
   z-index: 10;
@@ -29,6 +29,7 @@
 .btn-prev {
   left: 60px;
 }
+
 .btn-next {
   left: calc(100% - 130px);
 }
