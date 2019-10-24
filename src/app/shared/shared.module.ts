@@ -12,13 +12,15 @@ import { ReserveTicketButtonComponent } from './components/reserve-ticket-button
 import { SliderComponent } from './components/slider/slider.component';
 import { SlideDirective } from './components/slider/slide.directive';
 import { AlertService } from './services/alert.service';
+import { MovieGeneresPipe } from './pipes/movie-generes.pipe';
 
 @NgModule({
   declarations: [
     SliderComponent,
     SlideDirective,
     MovieCardComponent,
-    ReserveTicketButtonComponent
+    ReserveTicketButtonComponent,
+    MovieGeneresPipe
   ],
   imports: [
     CommonModule,

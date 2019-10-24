@@ -7,7 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class MovieCardComponent implements OnInit {
   @Input() title;
-  @Input() genres;
+  @Input() genre;
   @Input() restriction;
   @Input() poster;
 

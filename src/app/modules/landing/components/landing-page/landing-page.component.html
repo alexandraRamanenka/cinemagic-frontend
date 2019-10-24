@@ -5,7 +5,7 @@
         <app-movie-card
           *ngFor="let movie of movieSlide; let i = index"
           [title]="movie.name"
-          [genres]="movie.genres"
+          [genre]="movie.genre"
           [restriction]="movie.restriction"
           [poster]="movie.poster"
         ></app-movie-card>

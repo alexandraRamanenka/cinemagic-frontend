@@ -1,13 +1,13 @@
 export interface Movie {
-  name: String;
-  country: String;
-  genre: String[];
-  year: String;
-  language: String;
+  name: string;
+  country: string;
+  genre: string[];
+  year: string;
+  language: string;
   restriction: number;
-  description: String;
-  trailer: String;
-  poster: String;
+  description: string;
+  trailer: string;
+  poster: string;
   rate: number;
   duration: number;
   hireStartDate: Date;

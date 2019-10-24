@@ -13,10 +13,28 @@
   text-align: center;
 }
 
-.movie-card .info .title,
-.genres,
-.restriction {
-  margin: 0.5rem auto;
+.movie-card {
+  .info {
+    .title,
+    .genres,
+    .restriction {
+      margin: 0.5rem auto;
+      overflow: hidden;
+    }
+
+    .title {
+      height: 2rem;
+    }
+
+    .genres {
+      height: 1.5rem;
+    }
+
+    .restriction {
+      height: 1.5rem;
+      margin-bottom: 1rem;
+    }
+  }
 }
 
 .movie-card .reserve-btn {

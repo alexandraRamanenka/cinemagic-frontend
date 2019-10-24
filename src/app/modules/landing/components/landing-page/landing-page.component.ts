@@ -14,15 +14,24 @@ export class LandingPageComponent implements OnInit {
 
   ngOnInit() {
     this.movieService.getAll().subscribe((res: Response) => {
-      let movies = res.data as [];
-      for (let i = 0; i < movies.length; i += 4) {
-        this.movieSlides.push([
-          movies[i],
-          movies[i + 1],
-          movies[i + 2],
-          movies[i + 3]
-        ]);
-      }
+      const movies = res.data as [];
+      this.movieSlides = this.splitData(movies, 4);
     });
+  }
+
+  private splitData(results: [], limit: number) {
+    const result = [];
+
+    for (let i = 0; i < results.length / limit; i += limit) {
+      result.push(results.slice(i, i + limit));
+    }
+
+    const rest = results.length % limit;
+
+    if (rest !== 0) {
+      result.push(results.slice(results.length - rest));
+    }
+
+    return result;
   }
 }
