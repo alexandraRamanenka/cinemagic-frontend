@@ -9,21 +9,20 @@ import { Response } from '@shared/models/response';
   styleUrls: ['./landing-page.component.scss']
 })
 export class LandingPageComponent implements OnInit {
-  items = [];
+  movieSlides = [];
   constructor(private movieService: MovieService) {}
 
   ngOnInit() {
     this.movieService.getAll().subscribe((res: Response) => {
       let movies = res.data as [];
       for (let i = 0; i < movies.length; i += 4) {
-        this.items.push([
+        this.movieSlides.push([
           movies[i],
           movies[i + 1],
           movies[i + 2],
           movies[i + 3]
         ]);
       }
-      console.log(this.items);
     });
   }
 }
