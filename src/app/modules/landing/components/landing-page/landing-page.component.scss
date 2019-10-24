@@ -33,3 +33,9 @@
 .btn-next {
   left: calc(100% - 100px);
 }
+
+.slide-wrapper {
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+}
