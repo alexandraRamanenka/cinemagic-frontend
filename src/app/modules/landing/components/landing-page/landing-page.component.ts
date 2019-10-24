@@ -2,7 +2,6 @@ import { MovieService } from './../../../../shared/services/movie.service';
 import { Component, OnInit } from '@angular/core';
 import { Movie } from '@shared/models/movie';
 import { Response } from '@shared/models/response';
-import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 
 @Component({
   selector: 'app-landing-page',
@@ -16,8 +15,13 @@ export class LandingPageComponent implements OnInit {
   ngOnInit() {
     this.movieService.getAll().subscribe((res: Response) => {
       let movies = res.data as [];
-      for (let i = 0; i < movies.length; i += 3) {
-        this.items.push([movies[i], movies[i + 1], movies[i + 2]]);
+      for (let i = 0; i < movies.length; i += 4) {
+        this.items.push([
+          movies[i],
+          movies[i + 1],
+          movies[i + 2],
+          movies[i + 3]
+        ]);
       }
       console.log(this.items);
     });
