@@ -1,0 +1,12 @@
+<div class="movie-card">
+  <div
+    class="image"
+    [ngStyle]="{ 'background-image': 'url(' + poster + ')' }"
+  ></div>
+  <div class="info">
+    <h2 class="title uk-text-lead">{{ title }}</h2>
+    <p class="genres uk-text-meta uk-text-lowercase">{{ genres }}</p>
+    <p class="restriction uk-text-meta">{{ restriction }}+</p>
+  </div>
+  <app-reserve-ticket-button class="reserve-btn"></app-reserve-ticket-button>
+</div>

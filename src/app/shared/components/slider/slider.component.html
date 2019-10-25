@@ -1,0 +1,14 @@
+<div class="slider">
+  <div class="content">
+    <ul class="slides" #slider>
+      <li
+        *ngFor="let slideItem of slidesItems"
+        class="slide"
+        [ngStyle]="slideStyle"
+      >
+        <ng-container [ngTemplateOutlet]="slideItem.template"></ng-container>
+      </li>
+    </ul>
+  </div>
+  <ng-content></ng-content>
+</div>

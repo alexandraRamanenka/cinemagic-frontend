@@ -1,0 +1,15 @@
+<div
+  class="alert"
+  *ngFor="let alert of alerts; let i = index"
+  [ngClass]="{
+    success: alert.type === 'success',
+    error: alert.type === 'error'
+  }"
+>
+  <span class="message">{{ alert.message }}</span>
+  <button
+    class="btn-close"
+    uk-icon="icon: close; ratio: 2"
+    (click)="onClose(i)"
+  ></button>
+</div>

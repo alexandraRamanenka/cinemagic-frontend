@@ -1,9 +1,14 @@
-import { SignupFormComponent } from '@authModule/components/signup-form/signup-form.component';
-import { LoginFormComponent } from '@authModule/components/login-form/login-form.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { LandingPageComponent } from './modules/landing/components/landing-page/landing-page.component';
+import { AuthGuard } from '@shared/guards/auth.guard';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: '',
+    component: LandingPageComponent
+  }
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
