@@ -1,11 +1,13 @@
-<div class="container">
-  <h1 class="page-title">Movies</h1>
+<div class="container-outer">
+  <div class="container">
+    <h1 class="page-title">Movies</h1>
 
-  <app-movies-filters class="filters"></app-movies-filters>
+    <app-movies-filters class="filters"></app-movies-filters>
 
-  <app-movie-card
-    *ngFor="let movie of movies"
-    [movie]="movie"
-    class="movie-card"
-  ></app-movie-card>
+    <app-movie-card
+      *ngFor="let movie of movies"
+      [movie]="movie"
+      class="movie-card"
+    ></app-movie-card>
+  </div>
 </div>

@@ -12,7 +12,6 @@ import { SliderComponent } from './components/slider/slider.component';
 import { SlideDirective } from './components/slider/slide.directive';
 import { AlertService } from './services/alert.service';
 import { MovieGeneresPipe } from './pipes/movie-generes.pipe';
-import { FilterComponent } from './components/filter/filter.component';
 
 @NgModule({
   declarations: [
@@ -20,8 +19,7 @@ import { FilterComponent } from './components/filter/filter.component';
     SlideDirective,
     MovieCardComponent,
     ReserveTicketButtonComponent,
-    MovieGeneresPipe,
-    FilterComponent
+    MovieGeneresPipe
   ],
   imports: [CommonModule, ReactiveFormsModule, RouterModule, HttpClientModule],
   providers: [UserService, AlertService, MovieService],
