@@ -1,5 +1,5 @@
 import { MovieService } from './../../../../shared/services/movie.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Movie } from '@shared/models/movie';
 import { Response } from '@shared/models/response';
 
@@ -9,23 +9,22 @@ import { Response } from '@shared/models/response';
   styleUrls: ['./landing-page.component.scss']
 })
 export class LandingPageComponent implements OnInit {
+  private itemsPerSlide = 4;
   movieSlides = [];
   constructor(private movieService: MovieService) {}
 
   ngOnInit() {
     this.movieService.getAll().subscribe((res: Response) => {
       const movies = res.data as any[];
-      this.movieSlides = this.splitData(movies, 4);
-      console.log(this.movieSlides);
+      this.movieSlides = this.splitDataIntoSlides(movies, this.itemsPerSlide);
     });
   }
 
-  private splitData(results: any[], limit: number) {
+  private splitDataIntoSlides(results: any[], limit: number) {
     const result = [];
     const wholeParts = results.length / limit;
 
     for (let i = 0; i < wholeParts; i++) {
-      console.log(i);
       result.push(results.slice(i * limit, i * limit + limit));
     }
 

@@ -1,0 +1,38 @@
+<form
+  [formGroup]="filtersForm"
+  class="filters"
+  (ngSubmit)="filter()"
+  (input)="filter()"
+>
+  <input
+    formControlName="name"
+    class="uk-input uk-form-width-medium filter-field"
+    type="text"
+    placeholder="name"
+  />
+  <input
+    formControlName="genre"
+    class="uk-input uk-form-width-medium filter-field"
+    type="text"
+    placeholder="genre"
+  />
+  <input
+    formControlName="year"
+    class="uk-input uk-form-width-medium filter-field"
+    type="text"
+    placeholder="year"
+  />
+  <input
+    formControlName="restriction"
+    class="uk-input uk-form-width-medium filter-field"
+    type="text"
+    placeholder="restrition"
+  />
+  <input
+    formControlName="language"
+    class="uk-input uk-form-width-medium filter-field"
+    type="text"
+    placeholder="language"
+  />
+  <input type="submit" />
+</form>

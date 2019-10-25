@@ -1,4 +1,4 @@
-import { fromEvent, Subscription, Subject, Observable } from 'rxjs';
+import { fromEvent, Subject, Observable } from 'rxjs';
 import {
   Component,
   ViewChild,
@@ -18,6 +18,7 @@ import {
   style,
   AnimationPlayer
 } from '@angular/animations';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-slider',
@@ -56,14 +57,18 @@ export class SliderComponent implements AfterViewInit, OnDestroy, OnInit {
       ? fromEvent(this.nextControl.nativeElement, 'click')
       : null;
     if (this.nextClicked$) {
-      this.nextClicked$.subscribe(e => this.onNextClicked());
+      this.nextClicked$
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(e => this.onNextClicked());
     }
 
     this.prevClicked$ = this.prevControl
       ? fromEvent(this.prevControl.nativeElement, 'click')
       : null;
     if (this.prevClicked$) {
-      this.prevClicked$.subscribe(e => this.onPrevClicked());
+      this.prevClicked$
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(e => this.onPrevClicked());
     }
   }
 
