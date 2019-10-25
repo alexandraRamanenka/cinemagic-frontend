@@ -1,0 +1,13 @@
+.pagination {
+  width: 100%;
+
+  ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+
+    li {
+      margin-right: 0.5rem;
+    }
+  }
+}

@@ -1,8 +1,9 @@
 .filters {
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
 
   .filter-field {
-    margin-right: 2rem;
+    margin-right: 0.5rem;
   }
 }
