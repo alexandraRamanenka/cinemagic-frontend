@@ -1,3 +1,4 @@
+import { FilteringService } from '@shared/services/filtering.service';
 import { Response } from '@shared/models/response';
 import { MovieService } from './../../../../shared/services/movie.service';
 import { Movie } from '@shared/models/movie';
@@ -10,11 +11,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MoviesPageComponent implements OnInit {
   movies: Movie[];
-  constructor(private movieService: MovieService) {}
+  constructor(
+    private movieService: MovieService,
+    private filteringService: FilteringService
+  ) {}
 
   ngOnInit() {
     this.movieService.getAll().subscribe((res: Response) => {
       this.movies = res.data as Movie[];
     });
+
+    this.filteringService = new FilteringService(this.movies);
+    console.log(
+      this.filteringService.includesString('name', 'Deadpool').filteredData
+    );
   }
 }

@@ -1,3 +1,4 @@
+import { FilteringService } from '@shared/services/filtering.service';
 import { httpInterceptorProviders } from '@shared/interceptors';
 import { SharedModule } from '@shared/shared.module';
 import { NgModule } from '@angular/core';
@@ -7,6 +8,6 @@ import { MoviesRoutingModule } from './movies-routing.module';
 @NgModule({
   declarations: [MoviesPageComponent],
   imports: [MoviesRoutingModule, SharedModule],
-  providers: [httpInterceptorProviders]
+  providers: [httpInterceptorProviders, FilteringService]
 })
 export class MoviesModule {}
