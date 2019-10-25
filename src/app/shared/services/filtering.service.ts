@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class FilteringService {
   private items: any[];
   private filteredItems: any[];
@@ -11,7 +9,9 @@ export class FilteringService {
     return this.filteredItems;
   }
 
-  constructor(items: any[]) {
+  constructor() {}
+
+  init(items: any[]) {
     this.items = items;
   }
 

@@ -14,13 +14,13 @@ export class LandingPageComponent implements OnInit {
 
   ngOnInit() {
     this.movieService.getAll().subscribe((res: Response) => {
-      const movies = res.data as [];
+      const movies = res.data as any[];
       this.movieSlides = this.splitData(movies, 4);
       console.log(this.movieSlides);
     });
   }
 
-  private splitData(results: [], limit: number) {
+  private splitData(results: any[], limit: number) {
     const result = [];
     const wholeParts = results.length / limit;
 

@@ -7,7 +7,8 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-movies-page',
   templateUrl: './movies-page.component.html',
-  styleUrls: ['./movies-page.component.scss']
+  styleUrls: ['./movies-page.component.scss'],
+  providers: [FilteringService]
 })
 export class MoviesPageComponent implements OnInit {
   movies: Movie[];
@@ -19,11 +20,8 @@ export class MoviesPageComponent implements OnInit {
   ngOnInit() {
     this.movieService.getAll().subscribe((res: Response) => {
       this.movies = res.data as Movie[];
-    });
 
-    this.filteringService = new FilteringService(this.movies);
-    console.log(
-      this.filteringService.includesString('name', 'Deadpool').filteredData
-    );
+      this.filteringService.init(this.movies);
+    });
   }
 }
