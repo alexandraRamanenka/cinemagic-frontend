@@ -3,6 +3,6 @@ import { Hall } from './hall';
 export interface Cinema {
   city: string;
   name: string;
-  adress: string;
+  address: string;
   halls: Hall[];
 }
