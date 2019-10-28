@@ -13,8 +13,27 @@ import { takeUntil } from 'rxjs/operators';
   providers: [FilteringService]
 })
 export class MoviesPageComponent implements OnInit, OnDestroy {
-  movies: Movie[];
+  currentPage = 1;
+  limitPerPage = 8;
+  loading = true;
+  private movies: Movie[];
   private unsubscribe$: Subject<void> = new Subject();
+
+  get moviesAmount(): number {
+    if (!this.loading) {
+      return this.movies.length;
+    }
+    return 0;
+  }
+
+  get moviesSet(): Movie[] {
+    const startMovieIndex = (this.currentPage - 1) * this.limitPerPage;
+    const movieSet = this.movies.slice(
+      startMovieIndex,
+      startMovieIndex + this.limitPerPage
+    );
+    return movieSet;
+  }
 
   constructor(
     private movieService: MovieService,
@@ -29,7 +48,10 @@ export class MoviesPageComponent implements OnInit, OnDestroy {
       this.filteringService.filteredData
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
-          next: movies => (this.movies = movies)
+          next: movies => {
+            this.movies = movies;
+            this.loading = false;
+          }
         });
     });
   }

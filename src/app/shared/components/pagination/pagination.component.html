@@ -1,5 +1,5 @@
 <div class="pagination">
-  <ul>
+  <ul class="pages">
     <li *ngFor="let page of pagesSet" (click)="setPage(page)">{{ page }}</li>
     <li *ngIf="pagesSet[pagesSet.length - 1] !== totalPages">...</li>
   </ul>
