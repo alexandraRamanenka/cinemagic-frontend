@@ -1,3 +1,4 @@
+import { PaginationService } from '@shared/services/pagination.service';
 import { FilteringService } from '@shared/services/filtering.service';
 import { Response } from '@shared/models/response';
 import { MovieService } from '@shared/services/movie.service';
@@ -13,32 +14,22 @@ import { takeUntil } from 'rxjs/operators';
   providers: [FilteringService]
 })
 export class MoviesPageComponent implements OnInit, OnDestroy {
-  currentPage = 1;
   limitPerPage = 8;
   loading = true;
   private movies: Movie[];
   private unsubscribe$: Subject<void> = new Subject();
 
-  get moviesAmount(): number {
-    if (!this.loading) {
-      return this.movies.length;
-    }
-    return 0;
-  }
-
   get moviesSet(): Movie[] {
-    const startMovieIndex = (this.currentPage - 1) * this.limitPerPage;
-    const movieSet = this.movies.slice(
-      startMovieIndex,
-      startMovieIndex + this.limitPerPage
-    );
-    return movieSet;
+    return this.paginationService.currentItemsSet;
   }
 
   constructor(
     private movieService: MovieService,
-    private filteringService: FilteringService
-  ) {}
+    private filteringService: FilteringService,
+    private paginationService: PaginationService
+  ) {
+    this.paginationService.limitPerPage = this.limitPerPage;
+  }
 
   ngOnInit() {
     this.movieService.getAll().subscribe((res: Response) => {
@@ -51,6 +42,9 @@ export class MoviesPageComponent implements OnInit, OnDestroy {
           next: movies => {
             this.movies = movies;
             this.loading = false;
+
+            this.paginationService.totalItems = this.movies.length;
+            this.paginationService.items = this.movies;
           }
         });
     });

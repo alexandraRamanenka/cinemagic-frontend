@@ -1,5 +1,3 @@
-import { FilteringService } from './services/filtering.service';
-import { MovieService } from './services/movie.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -24,7 +22,7 @@ import { PaginationComponent } from './components/pagination/pagination.componen
     PaginationComponent
   ],
   imports: [CommonModule, ReactiveFormsModule, RouterModule, HttpClientModule],
-  providers: [UserService, AlertService, MovieService],
+  providers: [UserService, AlertService],
   exports: [
     ReactiveFormsModule,
     RouterModule,

@@ -1,4 +1,5 @@
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { PaginationService } from '@shared/services/pagination.service';
+import { FormsModule } from '@angular/forms';
 import { FilteringService } from '@shared/services/filtering.service';
 import { httpInterceptorProviders } from '@shared/interceptors';
 import { SharedModule } from '@shared/shared.module';
@@ -10,6 +11,6 @@ import { MoviesFiltersComponent } from './components/movies-filters/movies-filte
 @NgModule({
   declarations: [MoviesPageComponent, MoviesFiltersComponent],
   imports: [MoviesRoutingModule, SharedModule, FormsModule],
-  providers: [httpInterceptorProviders, FilteringService]
+  providers: [httpInterceptorProviders, FilteringService, PaginationService]
 })
 export class MoviesModule {}
