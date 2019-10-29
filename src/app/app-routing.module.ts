@@ -21,6 +21,13 @@ const routes: Routes = [
       import('./modules/cinema/cinema.module').then(
         module => module.CinemaModule
       )
+  },
+  {
+    path: 'afisha',
+    loadChildren: () =>
+      import('./modules/afisha/afisha.module').then(
+        module => module.AfishaModule
+      )
   }
 ];
 
