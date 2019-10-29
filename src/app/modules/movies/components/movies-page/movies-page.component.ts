@@ -10,8 +10,7 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-movies-page',
   templateUrl: './movies-page.component.html',
-  styleUrls: ['./movies-page.component.scss'],
-  providers: [FilteringService]
+  styleUrls: ['./movies-page.component.scss']
 })
 export class MoviesPageComponent implements OnInit, OnDestroy {
   limitPerPage = 8;
@@ -33,7 +32,7 @@ export class MoviesPageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.movieService.getAll().subscribe((res: Response) => {
-      this.movies = res.data as Movie[];
+      this.movies = res.data;
 
       this.filteringService.init(this.movies);
       this.filteringService.filteredData

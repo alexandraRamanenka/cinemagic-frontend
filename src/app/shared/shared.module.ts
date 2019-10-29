@@ -9,7 +9,7 @@ import { ReserveTicketButtonComponent } from './components/reserve-ticket-button
 import { SliderComponent } from './components/slider/slider.component';
 import { SlideDirective } from './components/slider/slide.directive';
 import { AlertService } from './services/alert.service';
-import { MovieGeneresPipe } from './pipes/movie-generes.pipe';
+import { MovieGenresPipe } from './pipes/movie-genres.pipe';
 import { PaginationComponent } from './components/pagination/pagination.component';
 
 @NgModule({
@@ -18,7 +18,7 @@ import { PaginationComponent } from './components/pagination/pagination.componen
     SlideDirective,
     MovieCardComponent,
     ReserveTicketButtonComponent,
-    MovieGeneresPipe,
+    MovieGenresPipe,
     PaginationComponent
   ],
   imports: [CommonModule, ReactiveFormsModule, RouterModule, HttpClientModule],
