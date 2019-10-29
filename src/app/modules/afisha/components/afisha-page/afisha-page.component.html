@@ -1,1 +1,24 @@
-<p>afisha-page works!</p>
+<div class="container-outer">
+  <div class="container">
+    <p *ngIf="loading">Loading...</p>
+    <ng-container *ngIf="!loading">
+      <h1 class="page-title">Afisha</h1>
+
+      <!-- <app-movies-filters class="filters"></app-movies-filters>
+
+      <app-movie-card
+        *ngFor="let movie of moviesSet"
+        [movie]="movie"
+        class="movie-card"
+      ></app-movie-card> -->
+
+      <app-session-preview
+        *ngFor="let session of sessions"
+        [session]="session"
+        class="session-preview"
+      ></app-session-preview>
+
+      <!-- <app-pagination class="pagination"></app-pagination> -->
+    </ng-container>
+  </div>
+</div>

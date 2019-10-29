@@ -27,8 +27,4 @@ export class CinemaService {
       }
     });
   }
-
-  getSessions(cinemaId) {
-    return this.http.get(`cinema/${cinemaId}/schedule`);
-  }
 }

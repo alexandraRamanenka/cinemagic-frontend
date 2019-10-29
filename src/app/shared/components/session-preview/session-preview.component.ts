@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Session } from '@shared/models/session';
 
 @Component({
   selector: 'app-session-preview',
@@ -6,10 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./session-preview.component.scss']
 })
 export class SessionPreviewComponent implements OnInit {
+  @Input() session: Session;
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }
