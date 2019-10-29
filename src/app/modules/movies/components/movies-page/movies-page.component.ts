@@ -16,7 +16,7 @@ import { takeUntil } from 'rxjs/operators';
 export class MoviesPageComponent implements OnInit, OnDestroy {
   limitPerPage = 8;
   loading = true;
-  private movies: Movie[];
+  private movies: Movie[] = [];
   private unsubscribe$: Subject<void> = new Subject();
 
   get moviesSet(): Movie[] {

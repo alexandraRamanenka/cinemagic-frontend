@@ -1,13 +1,34 @@
+import { Sessions } from '../models/Sessions';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Session } from '@shared/models/session';
+import { Response } from '@shared/models/response';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { Cinema } from '@shared/models/cinema';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CinemaService {
-  constructor(private http: HttpClient) {}
+  private cinemaSubject: BehaviorSubject<Cinema[]>;
+
+  public get cinema(): Observable<Cinema[]> {
+    return this.cinemaSubject.asObservable();
+  }
+
+  constructor(private http: HttpClient) {
+    this.cinemaSubject = new BehaviorSubject([]);
+  }
 
   getAllCinema() {
-    return this.http.get('cinema');
+    this.http.get('cinema').subscribe({
+      next: (res: Response) => {
+        this.cinemaSubject.next(res.data as Cinema[]);
+      }
+    });
+  }
+
+  getSessions(cinemaId) {
+    return this.http.get(`cinema/${cinemaId}/schedule`);
   }
 }

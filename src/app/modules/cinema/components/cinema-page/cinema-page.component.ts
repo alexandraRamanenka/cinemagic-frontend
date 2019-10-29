@@ -1,9 +1,12 @@
+import { Sessions } from '../../../../shared/models/Sessions';
 import { Cinema } from './../../../../shared/models/cinema';
 import { Response } from '@shared/models/response';
 import { CinemaService } from '@shared/services/cinema.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, take } from 'rxjs/operators';
+import { Session } from '@shared/models/session';
+import { ReturnStatement } from '@angular/compiler';
 
 @Component({
   selector: 'app-cinema-page',
@@ -12,19 +15,18 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class CinemaPageComponent implements OnInit, OnDestroy {
   cinemaTheatres: Cinema[] = [];
+  sessions: Sessions = {};
   private unsubscribe$: Subject<void> = new Subject();
 
   constructor(private cinemaService: CinemaService) {}
 
   ngOnInit() {
-    this.cinemaService
-      .getAllCinema()
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe({
-        next: (res: Response) => {
-          this.cinemaTheatres = res.data as Cinema[];
-        }
-      });
+    this.cinemaService.getAllCinema();
+    this.cinemaService.cinema.pipe(takeUntil(this.unsubscribe$)).subscribe({
+      next: cinemaTheatres => {
+        this.cinemaTheatres = cinemaTheatres;
+      }
+    });
   }
 
   ngOnDestroy(): void {
