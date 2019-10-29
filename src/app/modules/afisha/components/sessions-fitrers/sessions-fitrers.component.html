@@ -1,0 +1,44 @@
+<form
+  [formGroup]="filtersForm"
+  class="filters"
+  (ngSubmit)="filter()"
+  (input)="filter()"
+>
+  <input
+    formControlName="city"
+    class="filter-field"
+    type="text"
+    placeholder="city"
+  />
+  <input
+    formControlName="cinema"
+    class="filter-field"
+    type="text"
+    placeholder="cinema"
+  />
+  <input
+    formControlName="name"
+    class="filter-field"
+    type="text"
+    placeholder="name"
+  />
+  <input
+    formControlName="genre"
+    class="filter-field"
+    type="text"
+    placeholder="genre"
+  />
+  <input
+    formControlName="restriction"
+    class="filter-field"
+    type="text"
+    placeholder="restrition"
+  />
+  <input
+    formControlName="date"
+    class="filter-field"
+    type="date"
+    placeholder="date"
+  />
+  <input class="uk-button uk-button-secondary" type="submit" value="find" />
+</form>

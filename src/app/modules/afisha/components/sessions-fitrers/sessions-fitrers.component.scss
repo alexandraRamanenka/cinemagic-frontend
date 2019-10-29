@@ -1,0 +1,21 @@
+@import 'variables.scss';
+
+.filters {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  .filter-field {
+    height: 32px;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    padding-left: 1rem;
+    border: none;
+    border-bottom: 1px solid $color-stroke;
+
+    &:focus {
+      border-bottom: 2px solid $color-active;
+    }
+  }
+}
