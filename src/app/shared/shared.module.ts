@@ -11,7 +11,7 @@ import { ReserveTicketButtonComponent } from './components/reserve-ticket-button
 import { SliderComponent } from './components/slider/slider.component';
 import { SlideDirective } from './components/slider/slide.directive';
 import { AlertService } from './services/alert.service';
-import { MovieGeneresPipe } from './pipes/movie-generes.pipe';
+import { MovieGenresPipe } from './pipes/movie-genres.pipe';
 
 @NgModule({
   declarations: [
@@ -19,7 +19,7 @@ import { MovieGeneresPipe } from './pipes/movie-generes.pipe';
     SlideDirective,
     MovieCardComponent,
     ReserveTicketButtonComponent,
-    MovieGeneresPipe
+    MovieGenresPipe
   ],
   imports: [CommonModule, ReactiveFormsModule, RouterModule, HttpClientModule],
   providers: [UserService, AlertService, MovieService],

@@ -1,16 +1,15 @@
-import { FilteringService } from '@shared/services/filtering.service';
 import { Response } from '@shared/models/response';
 import { MovieService } from '@shared/services/movie.service';
 import { Movie } from '@shared/models/movie';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { FilteringService } from '@shared/services/filtering.service';
 
 @Component({
   selector: 'app-movies-page',
   templateUrl: './movies-page.component.html',
-  styleUrls: ['./movies-page.component.scss'],
-  providers: [FilteringService]
+  styleUrls: ['./movies-page.component.scss']
 })
 export class MoviesPageComponent implements OnInit, OnDestroy {
   movies: Movie[];
@@ -23,7 +22,7 @@ export class MoviesPageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.movieService.getAll().subscribe((res: Response) => {
-      this.movies = res.data as Movie[];
+      this.movies = res.data;
 
       this.filteringService.init(this.movies);
       this.filteringService.filteredData
