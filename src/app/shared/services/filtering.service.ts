@@ -1,3 +1,4 @@
+import { Interval } from '@shared/models/interval';
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 
@@ -21,11 +22,11 @@ export class FilteringService {
     this.filteredItems.next(this.items);
   }
 
-  includesString(key: string, term: string, subkey?: string): FilteringService {
+  includesString(key: string | object, term: string): FilteringService {
     if (term) {
       this.filteredItems.next(
         this.filteredItems.value.filter(el => {
-          const item = subkey ? el[key][subkey] : el[key];
+          const item = this.getKeyValue(el, key);
           return item.toLowerCase().includes(term.toLowerCase());
         })
       );
@@ -34,11 +35,11 @@ export class FilteringService {
     return this;
   }
 
-  includesValue(key: string, term: string, subkey?: string): FilteringService {
+  includesValue(key: string | object, term: string): FilteringService {
     if (term) {
       this.filteredItems.next(
         this.filteredItems.value.filter(el => {
-          const arr = subkey ? el[key][subkey] : el[key];
+          const arr = this.getKeyValue(el, key);
           return arr.some(item =>
             item.toLowerCase().includes(term.toLowerCase())
           );
@@ -50,14 +51,13 @@ export class FilteringService {
   }
 
   greaterOrEqual(
-    key: string,
-    term: number | string | Date,
-    subkey?: string
+    key: string | object,
+    term: number | string
   ): FilteringService {
     if (term) {
       this.filteredItems.next(
         this.filteredItems.value.filter(el => {
-          const item = subkey ? el[key][subkey] : el[key];
+          const item = this.getKeyValue(el, key);
           return item >= term;
         })
       );
@@ -66,15 +66,11 @@ export class FilteringService {
     return this;
   }
 
-  lessOrEqual(
-    key: string,
-    term: number | string | Date,
-    subkey?: string
-  ): FilteringService {
+  lessOrEqual(key: string | object, term: number | string): FilteringService {
     if (term) {
       this.filteredItems.next(
         this.filteredItems.value.filter(el => {
-          const item = subkey ? el[key][subkey] : el[key];
+          const item = this.getKeyValue(el, key);
           return item <= term;
         })
       );
@@ -83,20 +79,60 @@ export class FilteringService {
     return this;
   }
 
-  equal(
-    key: string,
-    term: number | string | Date,
-    subkey?: string
-  ): FilteringService {
+  equal(key: string | object, term: number | string): FilteringService {
     if (term) {
       this.filteredItems.next(
         this.filteredItems.value.filter(el => {
-          const item = subkey ? el[key][subkey] : el[key];
+          const item = this.getKeyValue(el, key);
           return item === term;
         })
       );
     }
-
     return this;
+  }
+
+  onDate(key: string | object, term: Date): FilteringService {
+    if (term) {
+      this.filteredItems.next(
+        this.filteredItems.value.filter(el => {
+          const date = new Date(this.getKeyValue(el, key));
+          return (
+            date.getFullYear() === term.getFullYear() &&
+            date.getMonth() === term.getMonth() &&
+            date.getDate() === term.getDate()
+          );
+        })
+      );
+    }
+    return this;
+  }
+
+  inTimePeriod(key: string | object, term: Interval): FilteringService {
+    if (term) {
+      this.filteredItems.next(
+        this.filteredItems.value.filter(el => {
+          const time = new Date(this.getKeyValue(el, key));
+          const minutes = time.getHours() * 60 + time.getMinutes();
+
+          return minutes <= term.to && minutes >= term.from;
+        })
+      );
+    }
+    return this;
+  }
+
+  private getKeyValue(el: object, key: string | object) {
+    let value = el;
+
+    if (typeof key !== 'object') {
+      return value[key];
+    }
+
+    while (typeof key === 'object') {
+      value = value[Object.keys(key)[0]];
+      key = key[Object.keys(key)[0]];
+    }
+
+    return value[key];
   }
 }

@@ -40,5 +40,14 @@
     type="date"
     placeholder="date"
   />
+  <select
+    class="filter-field date uk-text-meta"
+    formControlName="time"
+    (change)="setInterval($event)"
+  >
+    <option [value]="interval" *ngFor="let interval of sessionIntervals">{{
+      interval
+    }}</option>
+  </select>
   <input class="uk-button uk-button-secondary" type="submit" value="find" />
 </form>

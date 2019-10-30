@@ -35,19 +35,23 @@ export class MoviesPageComponent implements OnInit, OnDestroy {
     this.movieService.getAll().subscribe((res: Response) => {
       this.movies = res.data as Movie[];
 
-      this.filteringService.init(this.movies);
-      this.filteringService.filteredData
-        .pipe(takeUntil(this.unsubscribe$))
-        .subscribe({
-          next: movies => {
-            this.movies = movies;
-            this.loading = false;
-
-            this.paginationService.totalItems = this.movies.length;
-            this.paginationService.items = this.movies;
-          }
-        });
+      this.subscribeToFiltering();
     });
+  }
+
+  subscribeToFiltering() {
+    this.filteringService.init(this.movies);
+    this.filteringService.filteredData
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: movies => {
+          this.movies = movies;
+          this.loading = false;
+
+          this.paginationService.totalItems = this.movies.length;
+          this.paginationService.items = this.movies;
+        }
+      });
   }
 
   ngOnDestroy(): void {

@@ -9,7 +9,7 @@ import { ReserveTicketButtonComponent } from './components/reserve-ticket-button
 import { SliderComponent } from './components/slider/slider.component';
 import { SlideDirective } from './components/slider/slide.directive';
 import { AlertService } from './services/alert.service';
-import { MovieGeneresPipe } from './pipes/movie-generes.pipe';
+import { MovieGenresPipe } from './pipes/movie-genres.pipe';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { SessionPreviewComponent } from './components/session-preview/session-preview.component';
 
@@ -19,7 +19,7 @@ import { SessionPreviewComponent } from './components/session-preview/session-pr
     SlideDirective,
     MovieCardComponent,
     ReserveTicketButtonComponent,
-    MovieGeneresPipe,
+    MovieGenresPipe,
     PaginationComponent,
     SessionPreviewComponent
   ],

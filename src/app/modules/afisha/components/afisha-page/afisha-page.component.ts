@@ -32,19 +32,7 @@ export class AfishaPageComponent implements OnInit, OnDestroy {
       next: sessions => {
         this.sessions = sessions;
 
-        this.filteringService.init(this.sessions);
-        this.filteringService.filteredData
-          .pipe(takeUntil(this.unsubscribe$))
-          .subscribe({
-            next: sessions => {
-              console.log(sessions);
-              this.sessions = sessions;
-              this.loading = false;
-
-              this.paginationService.totalItems = this.sessions.length;
-              this.paginationService.items = this.sessions;
-            }
-          });
+        this.subscribeToFiltering();
       }
     });
   }
@@ -52,5 +40,20 @@ export class AfishaPageComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+  }
+
+  subscribeToFiltering() {
+    this.filteringService.init(this.sessions);
+    this.filteringService.filteredData
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: sessions => {
+          this.sessions = sessions;
+          this.loading = false;
+
+          this.paginationService.totalItems = this.sessions.length;
+          this.paginationService.items = this.sessions;
+        }
+      });
   }
 }
