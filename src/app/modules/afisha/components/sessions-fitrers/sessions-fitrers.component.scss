@@ -14,8 +14,27 @@
     border: none;
     border-bottom: 1px solid $color-stroke;
 
+    &.date {
+      line-height: 1.4rem;
+      padding-top: 1px;
+      padding-bottom: 1px;
+      font-family: inherit;
+    }
+
     &:focus {
       border-bottom: 2px solid $color-active;
+    }
+
+    .date {
+      &::-webkit-inner-spin-button {
+        display: none;
+      }
+      &::-webkit-calendar-picker-indicator {
+        opacity: 0;
+      }
+      &::-webkit-calendar-picker-reset-button {
+        display: none;
+      }
     }
   }
 }

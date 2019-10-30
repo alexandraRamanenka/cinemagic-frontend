@@ -21,7 +21,7 @@ export class SessionsFitrersComponent implements OnInit {
       restriction: [''],
       genre: [''],
       language: [''],
-      date: [''],
+      date: [new Date().toISOString().substring(0, 10)],
       time: ['']
     });
   }
