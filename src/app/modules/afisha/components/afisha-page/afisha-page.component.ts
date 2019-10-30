@@ -31,13 +31,13 @@ export class AfishaPageComponent implements OnInit, OnDestroy {
     this.sessionsService.sessions.pipe(takeUntil(this.unsubscribe$)).subscribe({
       next: sessions => {
         this.sessions = sessions;
-        this.loading = false;
 
         this.filteringService.init(this.sessions);
         this.filteringService.filteredData
           .pipe(takeUntil(this.unsubscribe$))
           .subscribe({
             next: sessions => {
+              console.log(sessions);
               this.sessions = sessions;
               this.loading = false;
 

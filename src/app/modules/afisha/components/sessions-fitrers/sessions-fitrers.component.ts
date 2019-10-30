@@ -42,9 +42,11 @@ export class SessionsFitrersComponent implements OnInit {
     } = this.filtersForm.value;
 
     this.filteringService
-      .includesString('name', name)
-      .includesValue('genre', genre)
-      .lessOrEqual('restriction', restriction)
-      .includesString('language', language);
+      .includesString('film', name, 'name')
+      .includesString('cinema', cinema, 'name')
+      .includesString('cinema', cinema, 'city')
+      .includesValue('film', genre, 'genre')
+      .lessOrEqual('film', restriction, 'restriction')
+      .includesString('film', language, 'language');
   }
 }

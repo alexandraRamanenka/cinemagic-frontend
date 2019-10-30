@@ -21,11 +21,12 @@ export class FilteringService {
     this.filteredItems.next(this.items);
   }
 
-  includesString(key: string, term: string): FilteringService {
+  includesString(key: string, term: string, subkey?: string): FilteringService {
     if (term) {
       this.filteredItems.next(
         this.filteredItems.value.filter(el => {
-          return el[key].toLowerCase().includes(term.toLowerCase());
+          const item = subkey ? el[key][subkey] : el[key];
+          return item.toLowerCase().includes(term.toLowerCase());
         })
       );
     }
@@ -33,11 +34,11 @@ export class FilteringService {
     return this;
   }
 
-  includesValue(key: string, term: string): FilteringService {
+  includesValue(key: string, term: string, subkey?: string): FilteringService {
     if (term) {
       this.filteredItems.next(
         this.filteredItems.value.filter(el => {
-          const arr = el[key] as any[];
+          const arr = subkey ? el[key][subkey] : el[key];
           return arr.some(item =>
             item.toLowerCase().includes(term.toLowerCase())
           );
@@ -48,11 +49,16 @@ export class FilteringService {
     return this;
   }
 
-  greaterOrEqual(key: string, term: number | string | Date): FilteringService {
+  greaterOrEqual(
+    key: string,
+    term: number | string | Date,
+    subkey?: string
+  ): FilteringService {
     if (term) {
       this.filteredItems.next(
         this.filteredItems.value.filter(el => {
-          return el[key] >= term;
+          const item = subkey ? el[key][subkey] : el[key];
+          return item >= term;
         })
       );
     }
@@ -60,11 +66,16 @@ export class FilteringService {
     return this;
   }
 
-  lessOrEqual(key: string, term: number | string | Date): FilteringService {
+  lessOrEqual(
+    key: string,
+    term: number | string | Date,
+    subkey?: string
+  ): FilteringService {
     if (term) {
       this.filteredItems.next(
         this.filteredItems.value.filter(el => {
-          return el[key] <= term;
+          const item = subkey ? el[key][subkey] : el[key];
+          return item <= term;
         })
       );
     }
@@ -72,11 +83,16 @@ export class FilteringService {
     return this;
   }
 
-  equal(key: string, term: number | string | Date): FilteringService {
+  equal(
+    key: string,
+    term: number | string | Date,
+    subkey?: string
+  ): FilteringService {
     if (term) {
       this.filteredItems.next(
         this.filteredItems.value.filter(el => {
-          return el[key] === term;
+          const item = subkey ? el[key][subkey] : el[key];
+          return item === term;
         })
       );
     }
