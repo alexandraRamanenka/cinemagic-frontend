@@ -2,7 +2,11 @@
   <p *ngIf="loading">Loading...</p>
 
   <div class="info" *ngIf="!loading">
-    <span class="login">{{ user.login }}</span>
-    <span class="email">{{ user.email }}</span>
+    <div
+      class="avatar"
+      [ngStyle]="{ 'background-image': 'url(' + user.avatar + ')' }"
+    ></div>
+    <p class="login">{{ user.login }}</p>
+    <p class="email">{{ user.email }}</p>
   </div>
 </div>
