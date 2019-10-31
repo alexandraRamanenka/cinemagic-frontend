@@ -19,7 +19,7 @@
 
       <!-- Show for logged in users -->
       <ng-container *ngIf="currentUser">
-        <li><a href="">profile</a></li>
+        <li><a [routerLink]="['/me']">profile</a></li>
         <li><a href="" (click)="onLogout()">logout</a></li>
       </ng-container>
     </ul>

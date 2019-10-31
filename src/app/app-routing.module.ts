@@ -14,6 +14,14 @@ const routes: Routes = [
       import('./modules/movies/movies.module').then(
         module => module.MoviesModule
       )
+  },
+  {
+    path: 'me',
+    loadChildren: () =>
+      import('./modules/profile/profile.module').then(
+        module => module.ProfileModule
+      ),
+    canActivate: [AuthGuard]
   }
 ];
 

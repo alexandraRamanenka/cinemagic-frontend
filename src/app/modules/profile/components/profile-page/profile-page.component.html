@@ -1,0 +1,8 @@
+<div class="wrapper">
+  <p *ngIf="loading">Loading...</p>
+
+  <div class="info" *ngIf="!loading">
+    <span class="login">{{ user.login }}</span>
+    <span class="email">{{ user.email }}</span>
+  </div>
+</div>
