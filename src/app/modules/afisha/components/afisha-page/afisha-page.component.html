@@ -1,0 +1,18 @@
+<div class="container-outer">
+  <div class="container">
+    <p *ngIf="loading">Loading...</p>
+    <ng-container *ngIf="!loading">
+      <h1 class="page-title">Afisha</h1>
+
+      <app-sessions-fitrers class="filters"></app-sessions-fitrers>
+
+      <app-session-preview
+        *ngFor="let session of sessions"
+        [session]="session"
+        class="session-preview"
+      ></app-session-preview>
+
+      <app-pagination class="pagination"></app-pagination>
+    </ng-container>
+  </div>
+</div>

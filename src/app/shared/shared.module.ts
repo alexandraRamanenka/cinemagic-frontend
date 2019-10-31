@@ -9,8 +9,9 @@ import { ReserveTicketButtonComponent } from './components/reserve-ticket-button
 import { SliderComponent } from './components/slider/slider.component';
 import { SlideDirective } from './components/slider/slide.directive';
 import { AlertService } from './services/alert.service';
-import { MovieGeneresPipe } from './pipes/movie-generes.pipe';
+import { MovieGenresPipe } from './pipes/movie-genres.pipe';
 import { PaginationComponent } from './components/pagination/pagination.component';
+import { SessionPreviewComponent } from './components/session-preview/session-preview.component';
 
 @NgModule({
   declarations: [
@@ -18,8 +19,9 @@ import { PaginationComponent } from './components/pagination/pagination.componen
     SlideDirective,
     MovieCardComponent,
     ReserveTicketButtonComponent,
-    MovieGeneresPipe,
-    PaginationComponent
+    MovieGenresPipe,
+    PaginationComponent,
+    SessionPreviewComponent
   ],
   imports: [CommonModule, ReactiveFormsModule, RouterModule, HttpClientModule],
   providers: [UserService, AlertService],
@@ -32,7 +34,8 @@ import { PaginationComponent } from './components/pagination/pagination.componen
     SliderComponent,
     SlideDirective,
     CommonModule,
-    PaginationComponent
+    PaginationComponent,
+    SessionPreviewComponent
   ]
 })
 export class SharedModule {}

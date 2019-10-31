@@ -8,7 +8,7 @@
     <li
       *ngFor="let page of pagesSet"
       (click)="setPage(page)"
-      [ngClass]="{ active: page === currentPage }"
+      [ngClass]="{ active: page ===  currentPage }"
     >
       {{ page }}
     </li>
