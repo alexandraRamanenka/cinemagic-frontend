@@ -1,1 +1,34 @@
-<p>settings-form works!</p>
+<div class="wrapper">
+  <form action="" [formGroup]="settingsForm" (submit)="saveSettings()">
+    <h2 class="uk-heading-bullet">Edit Profile</h2>
+    <label class="input-label" for="login">*Login:</label>
+    <input
+      class="uk-input user-input"
+      type="text"
+      formControlName="login"
+      placeholder="login"
+    />
+
+    <label class="input-label" for="email">*Email:</label>
+    <input
+      class="uk-input  user-input"
+      type="email"
+      formControlName="email"
+      placeholder="email"
+    />
+
+    <label class="input-label" for="phone">Phone number:</label>
+    <input
+      class="uk-input user-input"
+      type="tel"
+      formControlName="phone"
+      placeholder="phone number"
+    />
+
+    <input
+      class="uk-button uk-button-secondary save-btn"
+      type="submit"
+      value="save"
+    />
+  </form>
+</div>

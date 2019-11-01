@@ -1,0 +1,24 @@
+@import 'variables.scss';
+
+.user-input {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.input-label {
+  color: $color-active;
+  margin-top: 1rem;
+  display: block;
+}
+
+.save-btn {
+  margin-left: auto;
+  margin-top: 0.5rem;
+  display: block;
+}
+
+.wrapper {
+  width: 85vw;
+  max-width: 600px;
+  margin: 0 auto;
+}

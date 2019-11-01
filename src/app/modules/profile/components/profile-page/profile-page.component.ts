@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Response } from '@shared/models/response';
 import { Router } from '@angular/router';
+import { UserService } from '@shared/services/user.service';
 
 @Component({
   selector: 'app-profile-page',
@@ -16,7 +17,11 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   user: User;
   private unsubscribe$: Subject<void> = new Subject();
 
-  constructor(private profileService: ProfileService, private router: Router) {}
+  constructor(
+    private profileService: ProfileService,
+    private router: Router,
+    private userService: UserService
+  ) {}
 
   ngOnInit() {
     this.profileService
@@ -25,6 +30,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res: Response) => {
           this.user = res.user;
+          this.userService.setCurrentUser(res.user);
           this.loading = false;
         }
       });
