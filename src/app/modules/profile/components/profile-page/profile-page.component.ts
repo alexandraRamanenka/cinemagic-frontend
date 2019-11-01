@@ -4,6 +4,7 @@ import { ProfileService } from '../../services/profile.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Response } from '@shared/models/response';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile-page',
@@ -15,7 +16,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   user: User;
   private unsubscribe$: Subject<void> = new Subject();
 
-  constructor(private profileService: ProfileService) {}
+  constructor(private profileService: ProfileService, private router: Router) {}
 
   ngOnInit() {
     this.profileService
@@ -32,5 +33,9 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+  }
+
+  editProfile() {
+    this.router.navigateByUrl('me/settings');
   }
 }
