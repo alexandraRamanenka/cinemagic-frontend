@@ -1,10 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'movieGeneres'
+  name: 'movieGenres'
 })
 export class MovieGenresPipe implements PipeTransform {
-  transform(generes: string[], ...args: any[]): any {
-    return generes.join(', ');
+  transform(genres: string[], ...args: any[]): any {
+    return genres.join(', ');
   }
 }
