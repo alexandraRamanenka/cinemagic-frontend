@@ -1,3 +1,4 @@
+import { Movie } from '@shared/models/movie';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
@@ -6,10 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./movie-card.component.scss']
 })
 export class MovieCardComponent implements OnInit {
-  @Input() title;
-  @Input() genres;
-  @Input() restriction;
-  @Input() poster;
+  @Input() movie: Movie;
 
   constructor() {}
 

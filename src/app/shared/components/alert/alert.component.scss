@@ -15,8 +15,8 @@
   padding-left: 0.5rem;
   display: flex;
   justify-content: space-between;
-  margin: auto auto 1rem 2rem;
   width: 20vw;
+  margin-bottom: 1rem;
 
   .message {
     margin: 0.5rem;
@@ -30,4 +30,13 @@
   height: 1rem;
   margin-right: 0.5rem;
   margin-top: 0.25rem;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: absolute;
+  left: 64px;
+  top: 16px;
 }

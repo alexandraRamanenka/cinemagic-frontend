@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { MovieService } from './../../../../shared/services/movie.service';
+import { Component, OnInit, Input } from '@angular/core';
+import { Movie } from '@shared/models/movie';
+import { Response } from '@shared/models/response';
 
 @Component({
   selector: 'app-landing-page',
@@ -6,56 +9,31 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./landing-page.component.scss']
 })
 export class LandingPageComponent implements OnInit {
-  movieSlides = [
-    [
-      {
-        title: '3 hours of concept art',
-        poster:
-          'https://uproxx.com/wp-content/uploads/2018/01/honest-movie-posters-2018-blade-runner-2049_college-humor.jpg?quality=100',
-        genres: 'action',
-        restriction: '18'
-      },
-      {
-        title: '3 hours of concept art',
-        poster:
-          'https://i.pinimg.com/originals/a0/86/b7/a086b774291cf85b5810372bd83815b3.jpg',
-        genres: 'action',
-        restriction: '18'
-      },
-      {
-        title: '3 hours of concept art',
-        poster:
-          'https://www.bestmovieposters.co.uk/wp-content/uploads/2019/01/bPhD22m-.jpeg',
-        genres: 'action',
-        restriction: '18'
-      }
-    ],
-    [
-      {
-        title: '3 hours of concept art',
-        poster:
-          'https://uproxx.com/wp-content/uploads/2018/01/honest-movie-posters-2018-blade-runner-2049_college-humor.jpg?quality=100',
-        genres: 'action',
-        restriction: '18'
-      },
-      {
-        title: '3 hours of concept art',
-        poster:
-          'https://i.pinimg.com/originals/a0/86/b7/a086b774291cf85b5810372bd83815b3.jpg',
-        genres: 'action',
-        restriction: '18'
-      },
-      {
-        title: '3 hours of concept art',
-        poster:
-          'https://www.bestmovieposters.co.uk/wp-content/uploads/2019/01/bPhD22m-.jpeg',
-        genres: 'action',
-        restriction: '18'
-      }
-    ]
-  ];
+  private itemsPerSlide = 4;
+  movieSlides = [];
+  constructor(private movieService: MovieService) {}
 
-  constructor() {}
+  ngOnInit() {
+    this.movieService.getAll().subscribe((res: Response) => {
+      const movies = res.data as any[];
+      this.movieSlides = this.splitDataIntoSlides(movies, this.itemsPerSlide);
+    });
+  }
 
-  ngOnInit() {}
+  private splitDataIntoSlides(results: any[], limit: number) {
+    const result = [];
+    const wholeParts = results.length / limit;
+
+    for (let i = 0; i < wholeParts; i++) {
+      result.push(results.slice(i * limit, i * limit + limit));
+    }
+
+    const rest = results.length % limit;
+
+    if (rest !== 0) {
+      result.push(results.slice(results.length - rest));
+    }
+
+    return result;
+  }
 }

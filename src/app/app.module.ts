@@ -8,6 +8,7 @@ import { HeaderComponent } from './shared/components/header/header.component';
 import { AlertComponent } from './shared/components/alert/alert.component';
 import { httpInterceptorProviders } from '@shared/interceptors';
 import { LandingModule } from './modules/landing/landing.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, AlertComponent],
@@ -16,7 +17,8 @@ import { LandingModule } from './modules/landing/landing.module';
     AppRoutingModule,
     SharedModule,
     AuthModule,
-    LandingModule
+    LandingModule,
+    BrowserAnimationsModule
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

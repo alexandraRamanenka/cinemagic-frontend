@@ -11,7 +11,7 @@
   width: 60px;
   position: absolute;
   height: 60px;
-  top: calc(70vh / 2 + 20px);
+  top: calc(70vh / 2);
   cursor: default;
   z-index: 10;
   opacity: 0.6;
@@ -27,9 +27,15 @@
 }
 
 .btn-prev {
-  left: 60px;
+  left: 40px;
 }
 
 .btn-next {
-  left: calc(100% - 130px);
+  left: calc(100% - 100px);
+}
+
+.slide-wrapper {
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
 }

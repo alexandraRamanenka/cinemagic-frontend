@@ -1,4 +1,3 @@
-import { Response } from '@shared/models/response';
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { Alert } from '@shared/models/alert';

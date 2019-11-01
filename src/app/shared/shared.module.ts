@@ -1,9 +1,9 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FilteringService } from './services/filtering.service';
+import { MovieService } from './services/movie.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { UserService } from './services/user.service';
 import { MovieCardComponent } from './components/movie-card/movie-card.component';
@@ -11,24 +11,18 @@ import { ReserveTicketButtonComponent } from './components/reserve-ticket-button
 import { SliderComponent } from './components/slider/slider.component';
 import { SlideDirective } from './components/slider/slide.directive';
 import { AlertService } from './services/alert.service';
+import { MovieGenresPipe } from './pipes/movie-genres.pipe';
 
 @NgModule({
   declarations: [
     SliderComponent,
     SlideDirective,
     MovieCardComponent,
-    ReserveTicketButtonComponent
+    ReserveTicketButtonComponent,
+    MovieGenresPipe
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule,
-    HttpClientModule,
-    BrowserModule,
-    BrowserAnimationsModule
-  ],
-  providers: [UserService, AlertService],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, HttpClientModule],
+  providers: [UserService, AlertService, MovieService],
   exports: [
     ReactiveFormsModule,
     RouterModule,
@@ -36,7 +30,8 @@ import { AlertService } from './services/alert.service';
     MovieCardComponent,
     ReserveTicketButtonComponent,
     SliderComponent,
-    SlideDirective
+    SlideDirective,
+    CommonModule
   ]
 })
 export class SharedModule {}

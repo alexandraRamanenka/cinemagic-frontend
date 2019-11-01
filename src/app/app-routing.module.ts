@@ -7,6 +7,13 @@ const routes: Routes = [
   {
     path: '',
     component: LandingPageComponent
+  },
+  {
+    path: 'movies',
+    loadChildren: () =>
+      import('./modules/movies/movies.module').then(
+        module => module.MoviesModule
+      )
   }
 ];
 
