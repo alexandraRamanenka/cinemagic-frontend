@@ -3,7 +3,7 @@
     <div *appSlide class="slider-item">
       <div class="slide-wrapper">
         <app-movie-card
-          *ngFor="let movie of movieSlide; let i = index"
+          *ngFor="let movie of movieSlide"
           [movie]="movie"
         ></app-movie-card>
       </div>

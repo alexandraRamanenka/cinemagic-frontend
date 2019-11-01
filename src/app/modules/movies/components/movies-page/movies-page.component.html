@@ -1,5 +1,6 @@
 <div class="container-outer">
   <div class="container">
+<<<<<<< HEAD
     <p *ngIf="loading">Loading...</p>
     <ng-container *ngIf="!loading">
       <h1 class="page-title">Movies</h1>
@@ -14,5 +15,16 @@
 
       <app-pagination class="pagination"></app-pagination>
     </ng-container>
+=======
+    <h1 class="page-title">Movies</h1>
+
+    <app-movies-filters class="filters"></app-movies-filters>
+
+    <app-movie-card
+      *ngFor="let movie of movies"
+      [movie]="movie"
+      class="movie-card"
+    ></app-movie-card>
+>>>>>>> dev
   </div>
 </div>
