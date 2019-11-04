@@ -1,17 +1,7 @@
-.container {
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  align-items: flex-start;
+.container-outer {
   margin-left: auto;
   margin-right: auto;
   max-width: 1276px;
-}
-
-.movie-card {
-  margin-right: 32px;
-  margin-left: 32px;
-  margin-bottom: 32px;
 }
 
 .page-title {
@@ -22,6 +12,7 @@
 
 .filters {
   width: 100%;
+  display: block;
   margin-bottom: 2rem;
   margin-left: 32px;
   margin-right: 88px;

@@ -1,18 +1,13 @@
 <div class="container-outer">
-  <div class="container">
-    <p *ngIf="loading">Loading...</p>
-    <ng-container *ngIf="!loading">
-      <h1 class="page-title">Movies</h1>
+  <app-loading-spinner [loading]="loading">
+    <app-movies-filters class="filters"></app-movies-filters>
 
-      <app-movies-filters class="filters"></app-movies-filters>
-
-      <app-movie-card
-        *ngFor="let movie of moviesSet"
-        [movie]="movie"
-        class="movie-card"
-      ></app-movie-card>
-
-      <app-pagination class="pagination"></app-pagination>
-    </ng-container>
-  </div>
+    <app-movies-list [moviesSet]="moviesSet"></app-movies-list>
+    <app-pagination
+      class="pagination"
+      [limitPerPage]="limitPerPage"
+      [items$]="movies"
+      (itemsSetChanged)="onMoviesSetChanged($event)"
+    ></app-pagination>
+  </app-loading-spinner>
 </div>
