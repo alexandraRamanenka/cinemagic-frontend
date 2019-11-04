@@ -12,6 +12,7 @@ import { AlertService } from './services/alert.service';
 import { MovieGenresPipe } from './pipes/movie-genres.pipe';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { SessionPreviewComponent } from './components/session-preview/session-preview.component';
+import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { SessionPreviewComponent } from './components/session-preview/session-pr
     ReserveTicketButtonComponent,
     MovieGenresPipe,
     PaginationComponent,
-    SessionPreviewComponent
+    SessionPreviewComponent,
+    LoadingSpinnerComponent
   ],
   imports: [CommonModule, ReactiveFormsModule, RouterModule, HttpClientModule],
   providers: [UserService, AlertService],
@@ -35,7 +37,8 @@ import { SessionPreviewComponent } from './components/session-preview/session-pr
     SlideDirective,
     CommonModule,
     PaginationComponent,
-    SessionPreviewComponent
+    SessionPreviewComponent,
+    LoadingSpinnerComponent
   ]
 })
 export class SharedModule {}

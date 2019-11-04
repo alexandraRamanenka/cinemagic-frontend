@@ -1,15 +1,15 @@
-import { SessionsTimeIntervals } from './../../../../shared/enums/sessionsTimeIntervals';
+import { SessionsTimeIntervals } from '../../../../shared/enums/sessionsTimeIntervals';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { FilteringService } from '@shared/services/filtering.service';
 import { Component, OnInit } from '@angular/core';
 import { Interval } from '@shared/models/interval';
 
 @Component({
-  selector: 'app-sessions-fitrers',
-  templateUrl: './sessions-fitrers.component.html',
-  styleUrls: ['./sessions-fitrers.component.scss']
+  selector: 'app-sessions-filters',
+  templateUrl: './sessions-filters.component.html',
+  styleUrls: ['./sessions-filters.component.scss']
 })
-export class SessionsFitrersComponent implements OnInit {
+export class SessionsFiltersComponent implements OnInit {
   filtersForm: FormGroup;
   sessionIntervals = [
     SessionsTimeIntervals.Morning,
@@ -37,13 +37,12 @@ export class SessionsFitrersComponent implements OnInit {
   ngOnInit() {}
 
   getTimeInterval(interval: SessionsTimeIntervals): Interval {
-    let from = +interval.substring(0, 2) * 60;
-    let to = +interval.substring(8, 10) * 60;
+    const from = +interval.substring(0, 2) * 60;
+    const to = +interval.substring(8, 10) * 60;
     return { from, to };
   }
 
   setInterval(e) {
-    console.log(e.target.value);
     this.filtersForm.patchValue({ time: e.target.value });
 
     this.filter();

@@ -1,10 +1,9 @@
-import { PaginationService } from '@shared/services/pagination.service';
 import { FilteringService } from '@shared/services/filtering.service';
 import { Response } from '@shared/models/response';
 import { MovieService } from '@shared/services/movie.service';
 import { Movie } from '@shared/models/movie';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -15,40 +14,38 @@ import { takeUntil } from 'rxjs/operators';
 export class MoviesPageComponent implements OnInit, OnDestroy {
   limitPerPage = 8;
   loading = true;
-  private movies: Movie[] = [];
-  private unsubscribe$: Subject<void> = new Subject();
+  moviesSet: Movie[];
 
-  get moviesSet(): Movie[] {
-    return this.paginationService.currentItemsSet;
+  private unsubscribe$: Subject<void> = new Subject();
+  private moviesSubject: BehaviorSubject<Movie[]> = new BehaviorSubject([]);
+
+  get movies(): Observable<Movie[]> {
+    return this.moviesSubject.asObservable();
   }
 
   constructor(
     private movieService: MovieService,
     private filteringService: FilteringService,
-    private paginationService: PaginationService
-  ) {
-    this.paginationService.limitPerPage = this.limitPerPage;
-  }
+    private changeDetector: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
-    this.movieService.getAll().subscribe((res: Response) => {
-      this.movies = res.data;
-
-      this.subscribeToFiltering();
-    });
+    this.movieService
+      .getAll()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((res: Response) => {
+        this.subscribeToFiltering(res.data);
+      });
   }
 
-  subscribeToFiltering() {
-    this.filteringService.init(this.movies);
+  subscribeToFiltering(movies) {
+    this.filteringService.init(movies);
     this.filteringService.filteredData
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: movies => {
-          this.movies = movies;
+          this.moviesSubject.next(movies);
           this.loading = false;
-
-          this.paginationService.totalItems = this.movies.length;
-          this.paginationService.items = this.movies;
         }
       });
   }
@@ -56,5 +53,10 @@ export class MoviesPageComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+  }
+
+  onMoviesSetChanged(e) {
+    this.moviesSet = e;
+    this.changeDetector.detectChanges();
   }
 }
