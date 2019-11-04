@@ -30,9 +30,12 @@ export class MoviesPageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.movieService.getAll().subscribe((res: Response) => {
-      this.subscribeToFiltering(res.data);
-    });
+    this.movieService
+      .getAll()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((res: Response) => {
+        this.subscribeToFiltering(res.data);
+      });
   }
 
   subscribeToFiltering(movies) {
