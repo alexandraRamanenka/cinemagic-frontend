@@ -1,6 +1,9 @@
-button:active {
+@import 'variables.scss';
+
+button {
   outline: none;
 }
-button:focus {
+
+input {
   outline: none;
 }

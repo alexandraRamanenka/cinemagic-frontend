@@ -1,5 +1,3 @@
-import { FilteringService } from './services/filtering.service';
-import { MovieService } from './services/movie.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -12,6 +10,8 @@ import { SliderComponent } from './components/slider/slider.component';
 import { SlideDirective } from './components/slider/slide.directive';
 import { AlertService } from './services/alert.service';
 import { MovieGenresPipe } from './pipes/movie-genres.pipe';
+import { PaginationComponent } from './components/pagination/pagination.component';
+import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 
 @NgModule({
   declarations: [
@@ -19,10 +19,12 @@ import { MovieGenresPipe } from './pipes/movie-genres.pipe';
     SlideDirective,
     MovieCardComponent,
     ReserveTicketButtonComponent,
-    MovieGenresPipe
+    MovieGenresPipe,
+    PaginationComponent,
+    LoadingSpinnerComponent
   ],
   imports: [CommonModule, ReactiveFormsModule, RouterModule, HttpClientModule],
-  providers: [UserService, AlertService, MovieService],
+  providers: [UserService, AlertService],
   exports: [
     ReactiveFormsModule,
     RouterModule,
@@ -31,7 +33,9 @@ import { MovieGenresPipe } from './pipes/movie-genres.pipe';
     ReserveTicketButtonComponent,
     SliderComponent,
     SlideDirective,
-    CommonModule
+    CommonModule,
+    PaginationComponent,
+    LoadingSpinnerComponent
   ]
 })
 export class SharedModule {}

@@ -1,0 +1,22 @@
+<div class="pagination">
+  <ul class="pages">
+    <button
+      class="pagination-control prev-btn"
+      uk-icon="icon: chevron-double-left"
+      (click)="prevPage()"
+    ></button>
+    <li
+      *ngFor="let page of pagesSet"
+      (click)="setPage(page)"
+      [ngClass]="{ active: page === currentPage }"
+    >
+      {{ page }}
+    </li>
+    <li *ngIf="pagesSet[pagesSet.length - 1] !== totalPages">...</li>
+    <button
+      class="pagination-control next-btn"
+      uk-icon="icon: chevron-double-right"
+      (click)="nextPage()"
+    ></button>
+  </ul>
+</div>

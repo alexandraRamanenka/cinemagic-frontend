@@ -32,6 +32,6 @@ export class MoviesFiltersComponent {
       .includesValue('genre', genre)
       .lessOrEqual('restriction', restriction)
       .includesString('year', year)
-      .equal('language', language);
+      .includesString('language', language);
   }
 }

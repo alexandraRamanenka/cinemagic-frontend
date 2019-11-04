@@ -1,0 +1,34 @@
+@import 'variables.scss';
+
+.pagination {
+  width: 100%;
+
+  .pages {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    border-bottom: 1px solid $color-stroke;
+
+    li {
+      margin-right: 0.8rem;
+      height: inherit;
+      font-weight: 600;
+      cursor: pointer;
+
+      &.active {
+        font-weight: 700;
+        color: $color-active;
+      }
+    }
+
+    .pagination-control {
+      height: inherit;
+
+      &.prev-btn {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+}
