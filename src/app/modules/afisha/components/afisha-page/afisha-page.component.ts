@@ -1,9 +1,8 @@
-import { PaginationService } from '@shared/services/pagination.service';
 import { SessionsService } from './../../../../shared/services/sessions.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Session } from '@shared/models/session';
 import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject, Observable } from 'rxjs';
 import { FilteringService } from '@shared/services/filtering.service';
 
 @Component({
@@ -12,27 +11,27 @@ import { FilteringService } from '@shared/services/filtering.service';
   styleUrls: ['./afisha-page.component.scss']
 })
 export class AfishaPageComponent implements OnInit, OnDestroy {
-  limit = 8;
+  limitPerPage = 8;
   loading = true;
-  sessions: Session[] = [];
+  sessionsSet: Session[];
 
+  private sessionsSubject: BehaviorSubject<Session[]> = new BehaviorSubject([]);
   private unsubscribe$: Subject<void> = new Subject();
+
+  get sessions(): Observable<Session[]> {
+    return this.sessionsSubject.asObservable();
+  }
 
   constructor(
     private sessionsService: SessionsService,
-    private paginationService: PaginationService,
     private filteringService: FilteringService
-  ) {
-    this.paginationService.limitPerPage = this.limit;
-  }
+  ) {}
 
   ngOnInit() {
     this.sessionsService.getAll();
     this.sessionsService.sessions.pipe(takeUntil(this.unsubscribe$)).subscribe({
       next: sessions => {
-        this.sessions = sessions;
-
-        this.subscribeToFiltering();
+        this.subscribeToFiltering(sessions);
       }
     });
   }
@@ -42,17 +41,14 @@ export class AfishaPageComponent implements OnInit, OnDestroy {
     this.unsubscribe$.complete();
   }
 
-  subscribeToFiltering() {
-    this.filteringService.init(this.sessions);
+  subscribeToFiltering(sessions) {
+    this.filteringService.init(sessions);
     this.filteringService.filteredData
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: sessions => {
-          this.sessions = sessions;
+          this.sessionsSubject.next(sessions);
           this.loading = false;
-
-          this.paginationService.totalItems = this.sessions.length;
-          this.paginationService.items = this.sessions;
         }
       });
   }

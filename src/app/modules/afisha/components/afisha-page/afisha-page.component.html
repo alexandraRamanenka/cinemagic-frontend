@@ -4,15 +4,15 @@
     <ng-container *ngIf="!loading">
       <h1 class="page-title">Afisha</h1>
 
-      <app-sessions-fitrers class="filters"></app-sessions-fitrers>
+      <app-sessions-filters class="filters"></app-sessions-filters>
 
-      <app-session-preview
-        *ngFor="let session of sessions"
-        [session]="session"
-        class="session-preview"
-      ></app-session-preview>
+      <app-sessions-list [sessionsSet]="sessionsSet"></app-sessions-list>
 
-      <app-pagination class="pagination"></app-pagination>
+      <app-pagination
+        class="pagination"
+        [limitPerPage]="limitPerPage"
+        [items$]="sessions"
+      ></app-pagination>
     </ng-container>
   </div>
 </div>
