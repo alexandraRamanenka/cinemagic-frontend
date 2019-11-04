@@ -5,14 +5,15 @@ export class PaginationService {
   items: any[] = [];
   totalItems = 1;
   limitPerPage = 10;
-  private currPage = 1;
+  private _currentPage = 1;
 
   set currentPage(page) {
-    this.currPage = page <= this.totalPages && page >= 1 ? page : this.currPage;
+    this._currentPage =
+      page <= this.totalPages && page >= 1 ? page : this._currentPage;
   }
 
   get currentPage(): number {
-    return this.currPage;
+    return this._currentPage;
   }
 
   get currentItemsSet(): any[] {
