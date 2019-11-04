@@ -1,8 +1,5 @@
 <div class="container-outer">
-  <p *ngIf="loading">Loading...</p>
-  <ng-container *ngIf="!loading">
-    <h1 class="page-title">Movies</h1>
-
+  <app-loading-spinner [loading]="loading">
     <app-movies-filters class="filters"></app-movies-filters>
 
     <app-movies-list [moviesSet]="moviesSet"></app-movies-list>
@@ -12,5 +9,5 @@
       [items$]="movies"
       (itemsSetChanged)="onMoviesSetChanged($event)"
     ></app-pagination>
-  </ng-container>
+  </app-loading-spinner>
 </div>
