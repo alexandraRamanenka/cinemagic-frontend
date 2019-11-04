@@ -55,8 +55,8 @@ export class MoviesPageComponent implements OnInit, OnDestroy {
     this.unsubscribe$.complete();
   }
 
-  onMoviesSetChanged(e) {
-    this.moviesSet = e;
+  onMoviesSetChanged(moviesSet) {
+    this.moviesSet = moviesSet;
     this.changeDetector.detectChanges();
   }
 }
