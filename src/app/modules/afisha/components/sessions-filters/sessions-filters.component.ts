@@ -43,7 +43,6 @@ export class SessionsFiltersComponent implements OnInit {
   }
 
   setInterval(e) {
-    console.log(e.target.value);
     this.filtersForm.patchValue({ time: e.target.value });
 
     this.filter();
