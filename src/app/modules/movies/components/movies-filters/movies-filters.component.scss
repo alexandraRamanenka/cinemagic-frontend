@@ -3,12 +3,12 @@
 .filters {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-wrap: wrap;
 
   .filter-field {
     height: 32px;
-    margin-right: 0.5rem;
+    margin-right: 1.6rem;
     margin-bottom: 0.5rem;
     padding-left: 1rem;
     border: none;

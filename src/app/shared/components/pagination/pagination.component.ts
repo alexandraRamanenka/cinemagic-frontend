@@ -1,28 +1,42 @@
-import { PaginationService } from '@shared/services/pagination.service';
-import { Component, Input } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnInit,
+  OnDestroy
+} from '@angular/core';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-pagination',
   templateUrl: './pagination.component.html',
   styleUrls: ['./pagination.component.scss']
 })
-export class PaginationComponent {
+export class PaginationComponent implements OnInit, OnDestroy {
   @Input() pagesLimit = 10;
+  @Input() limitPerPage = 10;
+  @Input() items$: Observable<any[]>;
+  @Output() itemsSetChanged = new EventEmitter<any[]>();
 
-  get limit(): number {
-    return this.paginationService.limitPerPage;
-  }
+  items: any[];
+  totalItems: number;
+  private currentPage = 1;
+  private unsubscribe$: Subject<void> = new Subject<void>();
 
-  get totalItems(): number {
-    return this.paginationService.totalItems;
+  get currentItemsSet(): any[] {
+    const startItemIndex = (this.currentPage - 1) * this.limitPerPage;
+    const itemSet = this.items.slice(
+      startItemIndex,
+      startItemIndex + this.limitPerPage
+    );
+
+    return itemSet;
   }
 
   get totalPages(): number {
-    return this.paginationService.totalPages;
-  }
-
-  get currentPage(): number {
-    return this.paginationService.currentPage;
+    return Math.ceil(this.totalItems / this.limitPerPage);
   }
 
   get pagesSet(): number[] {
@@ -38,17 +52,36 @@ export class PaginationComponent {
     return pages;
   }
 
-  constructor(private paginationService: PaginationService) {}
+  constructor() {}
+
+  ngOnInit() {
+    this.items$.pipe(takeUntil(this.unsubscribe$)).subscribe({
+      next: items => {
+        this.items = items;
+        this.totalItems = this.items.length || 1;
+        this.itemsSetChanged.emit(this.currentItemsSet);
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
 
   setPage(page) {
-    this.paginationService.currentPage = page;
+    this.currentPage =
+      page <= this.totalPages && page >= 1 ? page : this.currentPage;
+    this.itemsSetChanged.emit(this.currentItemsSet);
   }
 
   nextPage() {
-    this.paginationService.nextPage();
+    this.currentPage++;
+    this.itemsSetChanged.emit(this.currentItemsSet);
   }
 
   prevPage() {
-    this.paginationService.prevPage();
+    this.currentPage--;
+    this.itemsSetChanged.emit(this.currentItemsSet);
   }
 }
