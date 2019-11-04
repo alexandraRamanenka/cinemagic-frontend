@@ -9,6 +9,6 @@ import { SettingsFormComponent } from './components/settings-form/settings-form.
 @NgModule({
   declarations: [ProfilePageComponent, SettingsFormComponent],
   imports: [SharedModule, ProfileRoutingModule],
-  providers: [ProfileService, httpInterceptorProviders]
+  providers: [httpInterceptorProviders, ProfileService]
 })
 export class ProfileModule {}

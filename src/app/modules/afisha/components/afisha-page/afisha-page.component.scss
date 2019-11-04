@@ -10,12 +10,6 @@
   max-width: $max-width;
 }
 
-.session-preview {
-  margin-right: 32px;
-  margin-left: 32px;
-  margin-bottom: 32px;
-}
-
 .page-title {
   width: 100%;
   font-weight: 700;
@@ -33,4 +27,8 @@
   height: 1.5rem;
   width: 100%;
   margin-bottom: 1rem;
+}
+
+.spinner {
+  width: 100%;
 }

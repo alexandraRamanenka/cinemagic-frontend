@@ -29,6 +29,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (res: Response) => {
+          console.log(res.user);
           this.user = res.user;
           this.userService.setCurrentUser(res.user);
           this.loading = false;

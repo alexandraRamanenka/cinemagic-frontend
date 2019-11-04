@@ -1,6 +1,6 @@
 <div class="container-outer">
   <div class="container">
-    <p *ngIf="loading">Loading...</p>
+    <app-loading-spinner *ngIf="loading" class="spinner"></app-loading-spinner>
     <ng-container *ngIf="!loading">
       <h1 class="page-title">Afisha</h1>
 

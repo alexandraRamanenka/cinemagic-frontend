@@ -49,6 +49,7 @@ export class AfishaPageComponent implements OnInit, OnDestroy {
       .subscribe({
         next: sessions => {
           this.sessionsSubject.next(sessions);
+          console.log('ses ' + sessions);
           this.loading = false;
         }
       });

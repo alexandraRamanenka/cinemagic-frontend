@@ -1,10 +1,11 @@
 <div class="wrapper">
-  <p *ngIf="loading">Loading...</p>
-
+  <app-loading-spinner *ngIf="loading"> </app-loading-spinner>
   <div class="info" *ngIf="!loading">
     <div
       class="avatar"
-      [ngStyle]="{ 'background-image': 'url(' + user.avatar + ')' }"
+      [ngStyle]="{
+        'background-image': 'url(' + user.avatar + ')'
+      }"
     ></div>
     <p class="login">{{ user.login }}</p>
     <p class="email">{{ user.email }}</p>
