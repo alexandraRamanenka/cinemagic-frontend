@@ -1,3 +1,4 @@
+import { KeyPath } from './../models/keyPath';
 import { Interval } from '@shared/models/interval';
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
@@ -22,7 +23,7 @@ export class FilteringService {
     this.filteredItems.next(this.items);
   }
 
-  includesString(key: string | object, term: string): FilteringService {
+  includesString(key: string | KeyPath, term: string): FilteringService {
     if (term) {
       this.filteredItems.next(
         this.filteredItems.value.filter(el => {
@@ -35,7 +36,7 @@ export class FilteringService {
     return this;
   }
 
-  includesValue(key: string | object, term: string): FilteringService {
+  includesValue(key: string | KeyPath, term: string): FilteringService {
     if (term) {
       this.filteredItems.next(
         this.filteredItems.value.filter(el => {
@@ -51,7 +52,7 @@ export class FilteringService {
   }
 
   greaterOrEqual(
-    key: string | object,
+    key: string | KeyPath,
     term: number | string
   ): FilteringService {
     if (term) {
@@ -66,7 +67,7 @@ export class FilteringService {
     return this;
   }
 
-  lessOrEqual(key: string | object, term: number | string): FilteringService {
+  lessOrEqual(key: string | KeyPath, term: number | string): FilteringService {
     if (term) {
       this.filteredItems.next(
         this.filteredItems.value.filter(el => {
@@ -79,7 +80,7 @@ export class FilteringService {
     return this;
   }
 
-  equal(key: string | object, term: number | string): FilteringService {
+  equal(key: string | KeyPath, term: number | string): FilteringService {
     if (term) {
       this.filteredItems.next(
         this.filteredItems.value.filter(el => {
@@ -91,7 +92,7 @@ export class FilteringService {
     return this;
   }
 
-  onDate(key: string | object, term: Date): FilteringService {
+  onDate(key: string | KeyPath, term: Date): FilteringService {
     if (term) {
       this.filteredItems.next(
         this.filteredItems.value.filter(el => {
@@ -107,7 +108,7 @@ export class FilteringService {
     return this;
   }
 
-  inTimePeriod(key: string | object, term: Interval): FilteringService {
+  inTimePeriod(key: string | KeyPath, term: Interval): FilteringService {
     if (term) {
       this.filteredItems.next(
         this.filteredItems.value.filter(el => {
@@ -121,7 +122,7 @@ export class FilteringService {
     return this;
   }
 
-  private getKeyValue(el: object, key: string | object) {
+  private getKeyValue(el: object, key: string | KeyPath) {
     let value = el;
 
     if (typeof key !== 'object') {

@@ -1,9 +1,10 @@
-import { SessionsService } from './../../../../shared/services/sessions.service';
+import { SessionsService } from '@shared/services/sessions.service';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Session } from '@shared/models/session';
 import { takeUntil } from 'rxjs/operators';
 import { Subject, BehaviorSubject, Observable } from 'rxjs';
 import { FilteringService } from '@shared/services/filtering.service';
+import { Response } from '@shared/models/response';
 
 @Component({
   selector: 'app-afisha-page',
@@ -15,7 +16,7 @@ export class AfishaPageComponent implements OnInit, OnDestroy {
   loading = true;
   sessionsSet: Session[];
 
-  private sessionsSubject: BehaviorSubject<Session[]> = new BehaviorSubject([]);
+  private sessionsSubject = new BehaviorSubject([]);
   private unsubscribe$: Subject<void> = new Subject();
 
   get sessions(): Observable<Session[]> {
@@ -29,12 +30,11 @@ export class AfishaPageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.sessionsService.getAll();
-    this.sessionsService.sessions.pipe(takeUntil(this.unsubscribe$)).subscribe({
-      next: sessions => {
-        this.subscribeToFiltering(sessions);
-      }
-    });
+    this.sessionsService
+      .getAll()
+      .subscribe((res: Response<Session[]>) =>
+        this.subscribeToFiltering(res.data)
+      );
   }
 
   ngOnDestroy(): void {
@@ -46,11 +46,9 @@ export class AfishaPageComponent implements OnInit, OnDestroy {
     this.filteringService.init(sessions);
     this.filteringService.filteredData
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe({
-        next: sessions => {
-          this.sessionsSubject.next(sessions);
-          this.loading = false;
-        }
+      .subscribe(sessions => {
+        this.sessionsSubject.next(sessions);
+        this.loading = false;
       });
   }
 

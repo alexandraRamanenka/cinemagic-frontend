@@ -16,8 +16,8 @@ export class MoviesPageComponent implements OnInit, OnDestroy {
   loading = true;
   moviesSet: Movie[];
 
-  private unsubscribe$: Subject<void> = new Subject();
-  private moviesSubject: BehaviorSubject<Movie[]> = new BehaviorSubject([]);
+  private unsubscribe$ = new Subject();
+  private moviesSubject = new BehaviorSubject([]);
 
   get movies(): Observable<Movie[]> {
     return this.moviesSubject.asObservable();
@@ -30,12 +30,9 @@ export class MoviesPageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.movieService
-      .getAll()
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((res: Response) => {
-        this.subscribeToFiltering(res.data);
-      });
+    this.movieService.getAll().subscribe((res: Response<Movie[]>) => {
+      this.subscribeToFiltering(res.data);
+    });
   }
 
   subscribeToFiltering(movies) {
