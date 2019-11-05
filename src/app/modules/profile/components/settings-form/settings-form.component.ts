@@ -25,9 +25,12 @@ export class SettingsFormComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       phone: ['']
     });
+  }
 
+  ngOnInit() {
     this.userService.currentUser.subscribe({
       next: user => {
+        console.log(user);
         this.settingsForm.setValue({
           login: user.login,
           email: user.email,
@@ -37,18 +40,8 @@ export class SettingsFormComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
-
   saveSettings() {
     const userFields = this.settingsForm.value;
-    this.profileService
-      .updateMe(userFields)
-      .pipe(take(1))
-      .subscribe({
-        next: (res: Response) => {
-          this.userService.setCurrentUser(res.data.user);
-          this.router.navigateByUrl('me');
-        }
-      });
+    this.profileService.updateMe(userFields);
   }
 }

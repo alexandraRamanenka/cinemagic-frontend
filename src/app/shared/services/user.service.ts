@@ -13,9 +13,14 @@ export class UserService {
   }
 
   constructor() {
-    this.currentUserSubject = new BehaviorSubject(
-      JSON.parse(localStorage.getItem('currentUser'))
-    );
+    const currentUser = localStorage.getItem('currentUser');
+    if (currentUser) {
+      this.currentUserSubject = new BehaviorSubject(
+        JSON.parse(localStorage.getItem('currentUser'))
+      );
+    } else {
+      this.currentUserSubject = new BehaviorSubject(null);
+    }
   }
 
   setCurrentUser(user: User) {

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ɵConsole } from '@angular/core';
 import { User } from '@shared/models/user';
 import { ProfileService } from '../../services/profile.service';
 import { Subject } from 'rxjs';
@@ -24,17 +24,15 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.profileService
-      .getCurrentUser()
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe({
-        next: (res: Response) => {
-          console.log(res.user);
-          this.user = res.user;
-          this.userService.setCurrentUser(res.user);
-          this.loading = false;
-        }
-      });
+    this.profileService.getCurrentUser();
+
+    this.userService.currentUser.pipe(takeUntil(this.unsubscribe$)).subscribe({
+      next: user => {
+        console.log(user);
+        this.user = user;
+        this.loading = false;
+      }
+    });
   }
 
   ngOnDestroy(): void {
