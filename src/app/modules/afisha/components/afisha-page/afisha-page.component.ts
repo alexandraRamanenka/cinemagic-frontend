@@ -1,8 +1,8 @@
 import { SessionsService } from '@shared/services/sessions.service';
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Session } from '@shared/models/session';
 import { takeUntil } from 'rxjs/operators';
-import { Subject, BehaviorSubject, Observable } from 'rxjs';
+import { Subject } from 'rxjs';
 import { FilteringService } from '@shared/services/filtering.service';
 import { Response } from '@shared/models/response';
 import { CurrentPage } from '@shared/models/currentPage';
