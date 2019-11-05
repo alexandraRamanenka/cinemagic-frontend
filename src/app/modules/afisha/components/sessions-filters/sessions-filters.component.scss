@@ -3,12 +3,12 @@
 .filters {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-wrap: wrap;
 
   .filter-field {
     height: 32px;
-    margin-right: 0.5rem;
+    margin-right: 1.6rem;
     margin-bottom: 0.5rem;
     padding-left: 1rem;
     border: none;
@@ -19,6 +19,9 @@
       padding-top: 1px;
       padding-bottom: 1px;
       font-family: inherit;
+    }
+    &.time-select {
+      margin-top: 3px;
     }
 
     &:focus {
