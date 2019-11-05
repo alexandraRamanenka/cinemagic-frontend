@@ -2,9 +2,10 @@ import { FilteringService } from '@shared/services/filtering.service';
 import { Response } from '@shared/models/response';
 import { MovieService } from '@shared/services/movie.service';
 import { Movie } from '@shared/models/movie';
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { Subject, Observable, BehaviorSubject } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { CurrentPage } from '@shared/models/currentPage';
 
 @Component({
   selector: 'app-movies-page',
@@ -14,23 +15,18 @@ import { takeUntil } from 'rxjs/operators';
 export class MoviesPageComponent implements OnInit, OnDestroy {
   limitPerPage = 8;
   loading = true;
-  moviesSet: Movie[];
-
+  moviesForPage: Movie[] = [];
+  allMovies: Movie[] = [];
   private unsubscribe$ = new Subject();
-  private moviesSubject = new BehaviorSubject([]);
-
-  get movies(): Observable<Movie[]> {
-    return this.moviesSubject.asObservable();
-  }
 
   constructor(
     private movieService: MovieService,
-    private filteringService: FilteringService,
-    private changeDetector: ChangeDetectorRef
+    private filteringService: FilteringService
   ) {}
 
   ngOnInit() {
     this.movieService.getAll().subscribe((res: Response<Movie[]>) => {
+      this.allMovies = res.data;
       this.subscribeToFiltering(res.data);
     });
   }
@@ -41,7 +37,8 @@ export class MoviesPageComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: movies => {
-          this.moviesSubject.next(movies);
+          this.allMovies = movies;
+          this.moviesForPage = this.allMovies.slice(0, this.limitPerPage);
           this.loading = false;
         }
       });
@@ -52,8 +49,10 @@ export class MoviesPageComponent implements OnInit, OnDestroy {
     this.unsubscribe$.complete();
   }
 
-  onMoviesSetChanged(moviesSet) {
-    this.moviesSet = moviesSet;
-    this.changeDetector.detectChanges();
+  onPageChanged(page: CurrentPage) {
+    this.moviesForPage = this.allMovies.slice(
+      page.itemsStartIndex,
+      page.itemsEndIndex
+    );
   }
 }

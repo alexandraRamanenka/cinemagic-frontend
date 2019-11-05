@@ -3,12 +3,12 @@
     <h1 class="page-title">Movies</h1>
     <app-movies-filters class="filters"></app-movies-filters>
 
-    <app-movies-list [moviesSet]="moviesSet"></app-movies-list>
+    <app-movies-list [moviesSet]="moviesForPage"></app-movies-list>
     <app-pagination
       class="pagination"
       [limitPerPage]="limitPerPage"
-      [items$]="movies"
-      (itemsSetChanged)="onMoviesSetChanged($event)"
+      [totalItems]="allMovies.length"
+      (pageChanged)="onPageChanged($event)"
     ></app-pagination>
   </app-loading-spinner>
 </div>

@@ -4,13 +4,13 @@
 
     <app-sessions-filters class="filters"></app-sessions-filters>
 
-    <app-sessions-list [sessionsSet]="sessionsSet"></app-sessions-list>
+    <app-sessions-list [sessionsSet]="sessionsForPage"></app-sessions-list>
 
     <app-pagination
       class="pagination"
       [limitPerPage]="limitPerPage"
-      [items$]="sessions"
-      (itemsSetChanged)="onSessionsSetChanged($event)"
+      [totalItems]="allSessions.length"
+      (PageChanged)="onPageChanged($event)"
     ></app-pagination>
   </app-loading-spinner>
 </div>

@@ -1,40 +1,28 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  OnInit,
-  OnDestroy
-} from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { CurrentPage } from '@shared/models/currentPage';
 
 @Component({
   selector: 'app-pagination',
   templateUrl: './pagination.component.html',
   styleUrls: ['./pagination.component.scss']
 })
-export class PaginationComponent implements OnInit, OnDestroy {
+export class PaginationComponent {
   @Input() pagesLimit = 10;
   @Input() limitPerPage = 10;
   @Input() totalItems: number;
-  @Output() pageChanged = new EventEmitter<number>();
+  @Output() pageChanged = new EventEmitter<CurrentPage>();
 
   private currentPage = 1;
 
-  get currentItemsSet(): any[] {
-    const startItemIndex = (this.currentPage - 1) * this.limitPerPage;
-    const itemSet = this.items.slice(
-      startItemIndex,
-      startItemIndex + this.limitPerPage
-    );
-
-    return itemSet;
+  get itemsStartIndex() {
+    return (this.currentPage - 1) * this.limitPerPage;
   }
 
   get totalPages(): number {
     return Math.ceil(this.totalItems / this.limitPerPage);
   }
 
-  get pagesSet(): number[] {
+  get pages(): number[] {
     const pages = [];
     for (
       let i = 0;
@@ -52,16 +40,22 @@ export class PaginationComponent implements OnInit, OnDestroy {
   setPage(page) {
     this.currentPage =
       page <= this.totalPages && page >= 1 ? page : this.currentPage;
-    this.pageChanged.emit(this.currentPage);
+    this.pageChanged.emit(this.CurrentPage);
   }
 
   nextPage() {
-    this.currentPage++;
-    this.pageChanged.emit(this.currentPage);
+    this.setPage(this.currentPage + 1);
   }
 
   prevPage() {
-    this.currentPage--;
-    this.pageChanged.emit(this.currentPage);
+    this.setPage(this.currentPage - 1);
+  }
+
+  private get CurrentPage(): CurrentPage {
+    return {
+      number: this.currentPage,
+      itemsStartIndex: this.itemsStartIndex,
+      itemsEndIndex: this.itemsStartIndex + this.limitPerPage
+    };
   }
 }
