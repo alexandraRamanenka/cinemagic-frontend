@@ -1,4 +1,3 @@
-import { Observable, Subject } from 'rxjs';
 import {
   Component,
   Input,
@@ -7,7 +6,6 @@ import {
   OnInit,
   OnDestroy
 } from '@angular/core';
-import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-pagination',
@@ -17,13 +15,10 @@ import { takeUntil } from 'rxjs/operators';
 export class PaginationComponent implements OnInit, OnDestroy {
   @Input() pagesLimit = 10;
   @Input() limitPerPage = 10;
-  @Input() items$: Observable<any[]>;
-  @Output() itemsSetChanged = new EventEmitter<any[]>();
+  @Input() totalItems: number;
+  @Output() pageChanged = new EventEmitter<number>();
 
-  items: any[];
-  totalItems: number;
   private currentPage = 1;
-  private unsubscribe$: Subject<void> = new Subject<void>();
 
   get currentItemsSet(): any[] {
     const startItemIndex = (this.currentPage - 1) * this.limitPerPage;
@@ -54,34 +49,19 @@ export class PaginationComponent implements OnInit, OnDestroy {
 
   constructor() {}
 
-  ngOnInit() {
-    this.items$.pipe(takeUntil(this.unsubscribe$)).subscribe({
-      next: items => {
-        this.items = items;
-        this.totalItems = this.items.length || 1;
-        this.itemsSetChanged.emit(this.currentItemsSet);
-      }
-    });
-  }
-
-  ngOnDestroy() {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
-  }
-
   setPage(page) {
     this.currentPage =
       page <= this.totalPages && page >= 1 ? page : this.currentPage;
-    this.itemsSetChanged.emit(this.currentItemsSet);
+    this.pageChanged.emit(this.currentPage);
   }
 
   nextPage() {
     this.currentPage++;
-    this.itemsSetChanged.emit(this.currentItemsSet);
+    this.pageChanged.emit(this.currentPage);
   }
 
   prevPage() {
     this.currentPage--;
-    this.itemsSetChanged.emit(this.currentItemsSet);
+    this.pageChanged.emit(this.currentPage);
   }
 }

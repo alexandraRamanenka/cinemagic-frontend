@@ -54,6 +54,5 @@ export class AfishaPageComponent implements OnInit, OnDestroy {
 
   onSessionsSetChanged(sessions) {
     this.sessionsSet = sessions;
-    this.changeDetector.detectChanges();
   }
 }
