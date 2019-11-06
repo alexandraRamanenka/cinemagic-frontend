@@ -1,4 +1,3 @@
-import { KeyPath } from './../models/keyPath';
 import { Interval } from '@shared/models/interval';
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
@@ -23,7 +22,7 @@ export class FilteringService {
     this.filteredItems.next(this.items);
   }
 
-  includesString(key: string | KeyPath, term: string): FilteringService {
+  includesString(key: string, term: string): FilteringService {
     if (term) {
       this.filteredItems.next(
         this.filteredItems.value.filter(el => {
@@ -36,7 +35,7 @@ export class FilteringService {
     return this;
   }
 
-  includesValue(key: string | KeyPath, term: string): FilteringService {
+  includesValue(key: string, term: string): FilteringService {
     if (term) {
       this.filteredItems.next(
         this.filteredItems.value.filter(el => {
@@ -51,10 +50,7 @@ export class FilteringService {
     return this;
   }
 
-  greaterOrEqual(
-    key: string | KeyPath,
-    term: number | string
-  ): FilteringService {
+  greaterOrEqual(key: string, term: number | string): FilteringService {
     if (term) {
       this.filteredItems.next(
         this.filteredItems.value.filter(el => {
@@ -67,7 +63,7 @@ export class FilteringService {
     return this;
   }
 
-  lessOrEqual(key: string | KeyPath, term: number | string): FilteringService {
+  lessOrEqual(key: string, term: number | string): FilteringService {
     if (term) {
       this.filteredItems.next(
         this.filteredItems.value.filter(el => {
@@ -80,7 +76,7 @@ export class FilteringService {
     return this;
   }
 
-  equal(key: string | KeyPath, term: number | string): FilteringService {
+  equal(key: string, term: number | string): FilteringService {
     if (term) {
       this.filteredItems.next(
         this.filteredItems.value.filter(el => {
@@ -92,7 +88,7 @@ export class FilteringService {
     return this;
   }
 
-  onDate(key: string | KeyPath, term: Date): FilteringService {
+  onDate(key: string, term: Date): FilteringService {
     if (term) {
       this.filteredItems.next(
         this.filteredItems.value.filter(el => {
@@ -108,7 +104,7 @@ export class FilteringService {
     return this;
   }
 
-  inTimePeriod(key: string | KeyPath, term: Interval): FilteringService {
+  inTimePeriod(key: string, term: Interval): FilteringService {
     if (term) {
       this.filteredItems.next(
         this.filteredItems.value.filter(el => {
@@ -122,18 +118,18 @@ export class FilteringService {
     return this;
   }
 
-  private getKeyValue(el: object, key: string | KeyPath) {
+  private getKeyValue(el: object, key: string) {
     let value = el;
+    let keys = key.split('.');
 
-    if (typeof key !== 'object') {
+    if (keys.length === 1) {
       return value[key];
     }
 
-    while (typeof key === 'object') {
-      value = value[Object.keys(key)[0]];
-      key = key[Object.keys(key)[0]];
+    for (let i = 0; i < keys.length; i++) {
+      value = value[keys[i]];
     }
 
-    return value[key];
+    return value;
   }
 }
