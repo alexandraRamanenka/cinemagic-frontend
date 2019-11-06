@@ -1,22 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserService } from '@shared/services/user.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { take } from 'rxjs/operators';
-import { ProfileService } from '../../services/profile.service';
-import { Response } from '@shared/models/response';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-settings-form',
   templateUrl: './settings-form.component.html',
   styleUrls: ['./settings-form.component.scss']
 })
-export class SettingsFormComponent implements OnInit {
+export class SettingsFormComponent implements OnInit, OnDestroy {
   settingsForm: FormGroup;
+  private unsubscribe$: Subject<void> = new Subject();
 
   constructor(
     private userService: UserService,
-    private profileService: ProfileService,
     private router: Router,
     private fb: FormBuilder
   ) {
@@ -28,20 +27,28 @@ export class SettingsFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.currentUser.subscribe({
+    this.userService.currentUser.pipe(takeUntil(this.unsubscribe$)).subscribe({
       next: user => {
         console.log(user);
-        this.settingsForm.setValue({
-          login: user.login,
-          email: user.email,
-          phone: user.phone
-        });
+        if (user) {
+          this.settingsForm.setValue({
+            login: user.login,
+            email: user.email,
+            phone: user.phone
+          });
+        }
       }
     });
   }
 
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+
   saveSettings() {
     const userFields = this.settingsForm.value;
-    this.profileService.updateMe(userFields);
+    this.userService.updateMe(userFields);
+    this.router.navigateByUrl('me');
   }
 }

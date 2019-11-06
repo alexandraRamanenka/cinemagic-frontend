@@ -13,7 +13,8 @@
 }
 
 .email,
-.login {
+.login,
+.phone {
   margin: 0;
 }
 
@@ -23,11 +24,16 @@
   margin-top: 0.5rem;
 }
 
+.phone {
+  margin-top: 0.5rem;
+}
+
 .avatar {
   width: 25vh;
   height: 25vh;
   border-radius: 50%;
   background-color: $color-stroke;
+  background: center/cover;
 }
 
 .edit-btn {

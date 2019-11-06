@@ -1,9 +1,7 @@
-import { Component, OnInit, OnDestroy, ɵConsole } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { User } from '@shared/models/user';
-import { ProfileService } from '../../services/profile.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Response } from '@shared/models/response';
 import { Router } from '@angular/router';
 import { UserService } from '@shared/services/user.service';
 
@@ -13,24 +11,24 @@ import { UserService } from '@shared/services/user.service';
   styleUrls: ['./profile-page.component.scss']
 })
 export class ProfilePageComponent implements OnInit, OnDestroy {
+  private defaultAvatar = '/assets/defaultUserAvatar.png';
   loading = true;
   user: User;
   private unsubscribe$: Subject<void> = new Subject();
 
-  constructor(
-    private profileService: ProfileService,
-    private router: Router,
-    private userService: UserService
-  ) {}
+  constructor(private router: Router, private userService: UserService) {}
 
   ngOnInit() {
-    this.profileService.getCurrentUser();
-
+    this.userService.getCurrentUserProfile();
     this.userService.currentUser.pipe(takeUntil(this.unsubscribe$)).subscribe({
       next: user => {
-        console.log(user);
-        this.user = user;
-        this.loading = false;
+        if (user) {
+          this.user = user;
+          this.user.avatar = this.user.avatar
+            ? this.user.avatar
+            : this.defaultAvatar;
+          this.loading = false;
+        }
       }
     });
   }
