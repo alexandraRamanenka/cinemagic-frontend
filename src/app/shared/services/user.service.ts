@@ -5,6 +5,7 @@ import { Response } from '../models/response';
 import { HttpClient } from '@angular/common/http';
 import { AlertService } from './alert.service';
 import { distinctUntilChanged } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,11 @@ export class UserService {
     return this.currentUserSubject.asObservable().pipe(distinctUntilChanged());
   }
 
-  constructor(private http: HttpClient, private alertService: AlertService) {
+  constructor(
+    private http: HttpClient,
+    private alertService: AlertService,
+    private router: Router
+  ) {
     const currentUser = localStorage.getItem('currentUser');
     if (currentUser) {
       this.currentUserSubject = new BehaviorSubject(
@@ -35,6 +40,7 @@ export class UserService {
   deleteCurrentUser() {
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
+    console.log('delete user');
   }
 
   getCurrentUserProfile() {
@@ -52,6 +58,7 @@ export class UserService {
     this.http.post('users/me', userFields).subscribe({
       next: (res: Response<User>) => {
         this.setCurrentUser(res.data);
+        this.router.navigateByUrl('me');
       },
       error: err => {
         this.alertService.sendAlert(err.message, 'error');

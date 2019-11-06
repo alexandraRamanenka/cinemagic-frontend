@@ -26,7 +26,7 @@ import { LoadingSpinnerComponent } from './components/loading-spinner/loading-sp
     LoadingSpinnerComponent
   ],
   imports: [CommonModule, ReactiveFormsModule, RouterModule, HttpClientModule],
-  providers: [UserService, AlertService],
+  providers: [AlertService],
   exports: [
     ReactiveFormsModule,
     RouterModule,

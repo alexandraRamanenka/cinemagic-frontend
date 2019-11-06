@@ -49,6 +49,5 @@ export class SettingsFormComponent implements OnInit, OnDestroy {
   saveSettings() {
     const userFields = this.settingsForm.value;
     this.userService.updateMe(userFields);
-    this.router.navigateByUrl('me');
   }
 }
