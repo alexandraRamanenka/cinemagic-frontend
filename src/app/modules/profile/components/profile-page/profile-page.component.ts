@@ -11,26 +11,29 @@ import { UserService } from '@shared/services/user.service';
   styleUrls: ['./profile-page.component.scss']
 })
 export class ProfilePageComponent implements OnInit, OnDestroy {
-  private defaultAvatar = '/assets/defaultUserAvatar.png';
   loading = true;
   user: User;
+
+  private defaultAvatar = '/assets/defaultUserAvatar.png';
   private unsubscribe$: Subject<void> = new Subject();
 
   constructor(private router: Router, private userService: UserService) {}
 
   ngOnInit() {
     this.userService.getCurrentUserProfile();
-    this.userService.currentUser.pipe(takeUntil(this.unsubscribe$)).subscribe({
-      next: user => {
+    this.userService.currentUser
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(user => {
         if (user) {
           this.user = user;
-          this.user.avatar = this.user.avatar
-            ? this.user.avatar
-            : this.defaultAvatar;
+
+          if (!this.user.avatar) {
+            this.user.avatar = this.defaultAvatar;
+          }
+
           this.loading = false;
         }
-      }
-    });
+      });
   }
 
   ngOnDestroy(): void {

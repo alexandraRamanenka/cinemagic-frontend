@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserService } from '@shared/services/user.service';
-import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -12,13 +11,10 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class SettingsFormComponent implements OnInit, OnDestroy {
   settingsForm: FormGroup;
+
   private unsubscribe$: Subject<void> = new Subject();
 
-  constructor(
-    private userService: UserService,
-    private router: Router,
-    private fb: FormBuilder
-  ) {
+  constructor(private userService: UserService, private fb: FormBuilder) {
     this.settingsForm = this.fb.group({
       login: ['', [Validators.required, Validators.minLength(6)]],
       email: ['', [Validators.required, Validators.email]],
@@ -29,7 +25,6 @@ export class SettingsFormComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.userService.currentUser.pipe(takeUntil(this.unsubscribe$)).subscribe({
       next: user => {
-        console.log(user);
         if (user) {
           this.settingsForm.setValue({
             login: user.login,

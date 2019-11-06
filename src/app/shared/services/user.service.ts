@@ -22,14 +22,9 @@ export class UserService {
     private alertService: AlertService,
     private router: Router
   ) {
-    const currentUser = localStorage.getItem('currentUser');
-    if (currentUser) {
-      this.currentUserSubject = new BehaviorSubject(
-        JSON.parse(localStorage.getItem('currentUser'))
-      );
-    } else {
-      this.currentUserSubject = new BehaviorSubject(null);
-    }
+    this.currentUserSubject = new BehaviorSubject(
+      JSON.parse(localStorage.getItem('currentUser'))
+    );
   }
 
   setCurrentUser(user: User) {
@@ -40,7 +35,6 @@ export class UserService {
   deleteCurrentUser() {
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
-    console.log('delete user');
   }
 
   getCurrentUserProfile() {
