@@ -1,45 +1,28 @@
-import { Observable, Subject } from 'rxjs';
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  OnInit,
-  OnDestroy
-} from '@angular/core';
-import { takeUntil } from 'rxjs/operators';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { CurrentPage } from '@shared/models/currentPage';
 
 @Component({
   selector: 'app-pagination',
   templateUrl: './pagination.component.html',
   styleUrls: ['./pagination.component.scss']
 })
-export class PaginationComponent implements OnInit, OnDestroy {
+export class PaginationComponent {
   @Input() pagesLimit = 10;
   @Input() limitPerPage = 10;
-  @Input() items$: Observable<any[]>;
-  @Output() itemsSetChanged = new EventEmitter<any[]>();
+  @Input() totalItems: number;
+  @Output() pageChanged = new EventEmitter<CurrentPage>();
 
-  items: any[];
-  totalItems: number;
   private currentPage = 1;
-  private unsubscribe$: Subject<void> = new Subject<void>();
 
-  get currentItemsSet(): any[] {
-    const startItemIndex = (this.currentPage - 1) * this.limitPerPage;
-    const itemSet = this.items.slice(
-      startItemIndex,
-      startItemIndex + this.limitPerPage
-    );
-
-    return itemSet;
+  get itemsStartIndex() {
+    return (this.currentPage - 1) * this.limitPerPage;
   }
 
   get totalPages(): number {
     return Math.ceil(this.totalItems / this.limitPerPage);
   }
 
-  get pagesSet(): number[] {
+  get pages(): number[] {
     const pages = [];
     for (
       let i = 0;
@@ -54,34 +37,25 @@ export class PaginationComponent implements OnInit, OnDestroy {
 
   constructor() {}
 
-  ngOnInit() {
-    this.items$.pipe(takeUntil(this.unsubscribe$)).subscribe({
-      next: items => {
-        this.items = items;
-        this.totalItems = this.items.length || 1;
-        this.itemsSetChanged.emit(this.currentItemsSet);
-      }
-    });
-  }
-
-  ngOnDestroy() {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
-  }
-
   setPage(page) {
     this.currentPage =
       page <= this.totalPages && page >= 1 ? page : this.currentPage;
-    this.itemsSetChanged.emit(this.currentItemsSet);
+    this.pageChanged.emit(this.CurrentPage);
   }
 
   nextPage() {
-    this.currentPage++;
-    this.itemsSetChanged.emit(this.currentItemsSet);
+    this.setPage(this.currentPage + 1);
   }
 
   prevPage() {
-    this.currentPage--;
-    this.itemsSetChanged.emit(this.currentItemsSet);
+    this.setPage(this.currentPage - 1);
+  }
+
+  private get CurrentPage(): CurrentPage {
+    return {
+      number: this.currentPage,
+      itemsStartIndex: this.itemsStartIndex,
+      itemsEndIndex: this.itemsStartIndex + this.limitPerPage
+    };
   }
 }

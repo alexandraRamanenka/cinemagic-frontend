@@ -6,6 +6,7 @@ import { CinemaInfoComponent } from './components/cinema-info/cinema-info.compon
 
 @NgModule({
   declarations: [CinemaPageComponent, CinemaInfoComponent],
-  imports: [SharedModule, CinemaRoutingModule]
+  imports: [SharedModule, CinemaRoutingModule],
+  providers: []
 })
 export class CinemaModule {}

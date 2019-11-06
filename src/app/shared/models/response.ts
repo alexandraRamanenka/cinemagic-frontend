@@ -1,4 +1,4 @@
-export interface Response {
+export interface Response<T> {
   status: string;
-  [key: string]: any;
+  data: T;
 }

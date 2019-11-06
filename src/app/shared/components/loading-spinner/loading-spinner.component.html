@@ -1,1 +1,2 @@
-<div uk-spinner="ratio: 3"></div>
+<div uk-spinner="ratio: 3" *ngIf="loading"></div>
+<ng-content *ngIf="!loading"></ng-content>

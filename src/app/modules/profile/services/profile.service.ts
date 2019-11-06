@@ -25,9 +25,9 @@ export class ProfileService {
 
   getCurrentUser() {
     return this.http.get('users/me').subscribe({
-      next: (res: Response) => {
-        console.log(res.data.user);
-        this.userService.setCurrentUser(res.data.user);
+      next: (res: Response<User>) => {
+        console.log(res.data);
+        this.userService.setCurrentUser(res.data);
       },
       error: err => {
         this.alertService.sendAlert(err.message, 'error');
@@ -37,8 +37,8 @@ export class ProfileService {
 
   updateMe(userFields: User) {
     return this.http.post('users/me', userFields).subscribe({
-      next: (res: Response) => {
-        this.userService.setCurrentUser(res.data.user);
+      next: (res: Response<User>) => {
+        this.userService.setCurrentUser(res.data);
       },
       error: err => {
         this.alertService.sendAlert(err.message, 'error');

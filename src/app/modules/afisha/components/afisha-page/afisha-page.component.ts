@@ -1,9 +1,11 @@
-import { SessionsService } from './../../../../shared/services/sessions.service';
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { SessionsService } from '@shared/services/sessions.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Session } from '@shared/models/session';
 import { takeUntil } from 'rxjs/operators';
-import { Subject, BehaviorSubject, Observable } from 'rxjs';
+import { Subject } from 'rxjs';
 import { FilteringService } from '@shared/services/filtering.service';
+import { Response } from '@shared/models/response';
+import { CurrentPage } from '@shared/models/currentPage';
 
 @Component({
   selector: 'app-afisha-page',
@@ -13,27 +15,20 @@ import { FilteringService } from '@shared/services/filtering.service';
 export class AfishaPageComponent implements OnInit, OnDestroy {
   limitPerPage = 8;
   loading = true;
-  sessionsSet: Session[];
+  allSessions: Session[] = [];
+  sessionsForPage: Session[] = [];
 
-  private sessionsSubject: BehaviorSubject<Session[]> = new BehaviorSubject([]);
   private unsubscribe$: Subject<void> = new Subject();
-
-  get sessions(): Observable<Session[]> {
-    return this.sessionsSubject.asObservable();
-  }
 
   constructor(
     private sessionsService: SessionsService,
-    private filteringService: FilteringService,
-    private changeDetector: ChangeDetectorRef
+    private filteringService: FilteringService
   ) {}
 
   ngOnInit() {
-    this.sessionsService.getAll();
-    this.sessionsService.sessions.pipe(takeUntil(this.unsubscribe$)).subscribe({
-      next: sessions => {
-        this.subscribeToFiltering(sessions);
-      }
+    this.sessionsService.getAll().subscribe((res: Response<Session[]>) => {
+      this.allSessions = res.data;
+      this.subscribeToFiltering(res.data);
     });
   }
 
@@ -46,17 +41,17 @@ export class AfishaPageComponent implements OnInit, OnDestroy {
     this.filteringService.init(sessions);
     this.filteringService.filteredData
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe({
-        next: sessions => {
-          this.sessionsSubject.next(sessions);
-          console.log('ses ' + sessions);
-          this.loading = false;
-        }
+      .subscribe(sessions => {
+        this.allSessions = sessions;
+        this.sessionsForPage = this.allSessions.slice(0, this.limitPerPage);
+        this.loading = false;
       });
   }
 
-  onSessionsSetChanged(sessions) {
-    this.sessionsSet = sessions;
-    this.changeDetector.detectChanges();
+  onPageChanged(page: CurrentPage) {
+    this.sessionsForPage = this.allSessions.slice(
+      page.itemsStartIndex,
+      page.itemsEndIndex
+    );
   }
 }

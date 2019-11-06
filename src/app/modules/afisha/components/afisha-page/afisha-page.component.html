@@ -1,19 +1,16 @@
-<div class="container-outer">
-  <div class="container">
-    <app-loading-spinner *ngIf="loading" class="spinner"></app-loading-spinner>
-    <ng-container *ngIf="!loading">
-      <h1 class="page-title">Afisha</h1>
+<div class="container">
+  <app-loading-spinner [loading]="loading" class="spinner">
+    <h1 class="page-title">Afisha</h1>
 
-      <app-sessions-filters class="filters"></app-sessions-filters>
+    <app-sessions-filters class="filters"></app-sessions-filters>
 
-      <app-sessions-list [sessionsSet]="sessionsSet"></app-sessions-list>
+    <app-sessions-list [sessionsSet]="sessionsForPage"></app-sessions-list>
 
-      <app-pagination
-        class="pagination"
-        [limitPerPage]="limitPerPage"
-        [items$]="sessions"
-        (itemsSetChanged)="onSessionsSetChanged($event)"
-      ></app-pagination>
-    </ng-container>
-  </div>
+    <app-pagination
+      class="pagination"
+      [limitPerPage]="limitPerPage"
+      [totalItems]="allSessions.length"
+      (PageChanged)="onPageChanged($event)"
+    ></app-pagination>
+  </app-loading-spinner>
 </div>

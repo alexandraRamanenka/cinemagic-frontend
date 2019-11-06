@@ -64,12 +64,12 @@ export class SessionsFiltersComponent implements OnInit {
     time = time ? this.getTimeInterval(time) : null;
 
     this.filteringService
-      .includesString({ film: 'name' }, name)
-      .includesString({ hall: { cinema: 'name' } }, cinema)
-      .includesString({ hall: { cinema: 'city' } }, city)
-      .includesValue({ film: 'genre' }, genre)
-      .lessOrEqual({ film: 'restriction' }, restriction)
-      .includesString({ film: 'language' }, language)
+      .includesString('film.name', name)
+      .includesString('hall.cinema.name', cinema)
+      .includesString('hall.cinema.city', city)
+      .includesValue('film.genre', genre)
+      .lessOrEqual('film.restriction', restriction)
+      .includesString('film.language', language)
       .onDate('dateTime', date)
       .inTimePeriod('dateTime', time);
   }
