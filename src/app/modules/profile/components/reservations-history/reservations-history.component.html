@@ -1,1 +1,12 @@
-<p>reservations-history works!</p>
+<app-loading-spinner [loading]="loading">
+  <div *ngFor="let reservation of reservationsForPage">
+    Date{{ reservation.date | date: 'short' }} Seats:
+    {{ reservation.seats }} Price:
+    {{ reservation.price }}
+  </div>
+  <app-pagination
+    [limitPerPage]="limitPerPage"
+    [totalItems]="allReservations.length"
+    (pageChanged)="onPageChanged($event)"
+  ></app-pagination>
+</app-loading-spinner>
