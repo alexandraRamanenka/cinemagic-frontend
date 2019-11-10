@@ -1,8 +1,22 @@
 <app-loading-spinner [loading]="loading">
-  <div *ngFor="let reservation of reservationsForPage">
-    Date{{ reservation.date | date: 'short' }} Seats:
-    {{ reservation.seats }} Price:
-    {{ reservation.price }}
+  <div class="reservation-card" *ngFor="let reservation of reservationsForPage">
+    <h2 class="film-name">{{ reservation.session.film.name }}</h2>
+    <p class="date">
+      {{ reservation.session.dateTime | date: 'MMMM dd, yyyy HH:MM' }}
+    </p>
+    <span class="seats">Seats:</span>
+    <span class="seat-number" *ngFor="let seat of reservation.seats">{{
+      seat.seatNumber
+    }}</span>
+    <div>
+      <ng-container *ngIf="reservation.services.length !== 0">
+        <p class="services">Services:</p>
+        <p class="service" *ngFor="let serviceOrder of reservation.services">
+          {{ serviceOrder.service.name + ' x' + serviceOrder.amount }}
+        </p></ng-container
+      >
+    </div>
+    <p class="price">{{ reservation.price }} BYN</p>
   </div>
   <app-pagination
     [limitPerPage]="limitPerPage"

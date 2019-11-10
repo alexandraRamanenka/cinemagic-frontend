@@ -22,6 +22,7 @@ export class ReservationsHistoryComponent implements OnInit {
       .getUserHistory()
       .subscribe((res: Response<Reservation[]>) => {
         this.allReservations = res.data;
+        console.log(res.data);
         this.reservationsForPage = this.allReservations.slice(
           0,
           this.limitPerPage

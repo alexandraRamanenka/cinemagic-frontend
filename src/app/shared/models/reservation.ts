@@ -1,7 +1,9 @@
+import { Session } from './session';
+
 export interface Reservation {
   _id: string;
   date: Date;
-  session: string;
+  session: Session;
   user: string;
   seats: [];
   services: [];
