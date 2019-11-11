@@ -1,5 +1,5 @@
 <app-loading-spinner [loading]="loading">
-  <div class="reservation-card" *ngFor="let reservation of reservationsForPage">
+  <div class="reservation-card" *ngFor="let reservation of reservations">
     <div class="content-box">
       <div
         class="poster"
@@ -39,7 +39,7 @@
   </div>
   <app-pagination
     [limitPerPage]="limitPerPage"
-    [totalItems]="allReservations.length"
+    [totalItems]="reservationsAmount"
     (pageChanged)="onPageChanged($event)"
   ></app-pagination>
 </app-loading-spinner>
