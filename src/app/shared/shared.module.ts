@@ -40,7 +40,8 @@ import { PhonePipe } from './pipes/phone.pipe';
     CommonModule,
     PaginationComponent,
     SessionPreviewComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    PhonePipe
   ]
 })
 export class SharedModule {}
