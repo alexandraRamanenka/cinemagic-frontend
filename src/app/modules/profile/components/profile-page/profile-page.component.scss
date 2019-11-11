@@ -1,0 +1,41 @@
+@import 'variables.scss';
+
+.wrapper {
+  width: 85vw;
+}
+
+.info {
+  color: $color-active;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.email,
+.login,
+.phone {
+  margin: 0;
+}
+
+.login {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  margin-top: 0.5rem;
+}
+
+.phone {
+  margin-top: 0.5rem;
+}
+
+.avatar {
+  width: 25vh;
+  height: 25vh;
+  border-radius: 50%;
+  background-color: $color-stroke;
+  background: center/cover;
+}
+
+.edit-btn {
+  margin-top: 1rem;
+}

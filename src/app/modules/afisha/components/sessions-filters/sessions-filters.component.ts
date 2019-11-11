@@ -20,9 +20,9 @@ export class SessionsFiltersComponent implements OnInit {
 
   constructor(
     private filteringService: FilteringService,
-    private formBuilder: FormBuilder
+    private fb: FormBuilder
   ) {
-    this.filtersForm = this.formBuilder.group({
+    this.filtersForm = this.fb.group({
       city: [''],
       cinema: [''],
       name: [''],
