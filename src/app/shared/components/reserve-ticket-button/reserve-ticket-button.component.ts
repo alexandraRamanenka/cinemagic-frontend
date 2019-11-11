@@ -9,4 +9,13 @@ export class ReserveTicketButtonComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+
+  click() {
+    const url = 'ws://localhost:8080';
+    const ws = new WebSocket(url);
+    ws.onopen = () => {
+      console.log('ws connection');
+      ws.send('hey');
+    };
+  }
 }
