@@ -7,7 +7,7 @@ import { Movie } from '@shared/models/movie';
   styleUrls: ['./movies-list.component.scss']
 })
 export class MoviesListComponent implements OnInit {
-  @Input() moviesSet: Movie[];
+  @Input() movies: Movie[];
   constructor() {}
 
   ngOnInit() {}

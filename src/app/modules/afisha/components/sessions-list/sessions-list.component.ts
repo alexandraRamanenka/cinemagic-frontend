@@ -7,7 +7,7 @@ import { Session } from '@shared/models/session';
   styleUrls: ['./sessions-list.component.scss']
 })
 export class SessionsListComponent implements OnInit {
-  @Input() sessionsSet: Session[];
+  @Input() sessions: Session[];
 
   constructor() {}
 

@@ -15,9 +15,13 @@ import { CurrentPage } from '@shared/models/currentPage';
 export class MoviesPageComponent implements OnInit, OnDestroy {
   limitPerPage = 8;
   loading = true;
-  moviesForPage: Movie[] = [];
-  allMovies: Movie[] = [];
+  movies: Movie[] = [];
+  private allMovies: Movie[] = [];
   private unsubscribe$ = new Subject();
+
+  get moviesAmount(): number {
+    return this.allMovies.length;
+  }
 
   constructor(
     private movieService: MovieService,
@@ -28,19 +32,25 @@ export class MoviesPageComponent implements OnInit, OnDestroy {
     this.movieService.getAll().subscribe((res: Response<Movie[]>) => {
       this.allMovies = res.data;
       this.subscribeToFiltering(res.data);
+      this.subscribeToPagination();
     });
   }
 
   subscribeToFiltering(movies) {
-    this.filteringService.init(movies);
+    this.filteringService.init(movies, this.limitPerPage);
     this.filteringService.filteredData
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe({
-        next: movies => {
-          this.allMovies = movies;
-          this.moviesForPage = this.allMovies.slice(0, this.limitPerPage);
-          this.loading = false;
-        }
+      .subscribe(movies => {
+        this.allMovies = movies;
+        this.loading = false;
+      });
+  }
+
+  subscribeToPagination() {
+    this.filteringService.paginatedData
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(movies => {
+        this.movies = movies;
       });
   }
 
@@ -50,9 +60,6 @@ export class MoviesPageComponent implements OnInit, OnDestroy {
   }
 
   onPageChanged(page: CurrentPage) {
-    this.moviesForPage = this.allMovies.slice(
-      page.itemsStartIndex,
-      page.itemsEndIndex
-    );
+    this.filteringService.getItemsForPage(page);
   }
 }
