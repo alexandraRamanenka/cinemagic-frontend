@@ -1,9 +1,4 @@
-<form
-  [formGroup]="filtersForm"
-  class="filters"
-  (ngSubmit)="filter()"
-  (input)="filter()"
->
+<form [formGroup]="filtersForm" class="filters" (input)="filter()">
   <input
     formControlName="name"
     class="filter-field"
@@ -34,5 +29,4 @@
     type="text"
     placeholder="language"
   />
-  <input class="uk-button uk-button-secondary" type="submit" value="find" />
 </form>

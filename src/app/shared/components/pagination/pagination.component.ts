@@ -51,7 +51,7 @@ export class PaginationComponent {
   setPage(page) {
     this.currentPage =
       page <= this.totalPages && page >= 1 ? page : this.currentPage;
-    this.pageChanged.emit(this.CurrentPage);
+    this.pageChanged.emit(this.currentPageObject);
   }
 
   nextPage() {
@@ -62,7 +62,7 @@ export class PaginationComponent {
     this.setPage(this.currentPage - 1);
   }
 
-  private get CurrentPage(): CurrentPage {
+  private get currentPageObject(): CurrentPage {
     return {
       number: this.currentPage,
       itemsStartIndex: this.itemsStartIndex,
