@@ -15,10 +15,14 @@ import { CurrentPage } from '@shared/models/currentPage';
 export class AfishaPageComponent implements OnInit, OnDestroy {
   limitPerPage = 8;
   loading = true;
-  allSessions: Session[] = [];
-  sessionsForPage: Session[] = [];
+  sessions: Session[] = [];
 
+  private allSessions: Session[] = [];
   private unsubscribe$: Subject<void> = new Subject();
+
+  get sessionsAmount(): number {
+    return this.allSessions.length;
+  }
 
   constructor(
     private sessionsService: SessionsService,
@@ -29,6 +33,7 @@ export class AfishaPageComponent implements OnInit, OnDestroy {
     this.sessionsService.getAll().subscribe((res: Response<Session[]>) => {
       this.allSessions = res.data;
       this.subscribeToFiltering(res.data);
+      this.subscribeToPagination();
     });
   }
 
@@ -38,20 +43,24 @@ export class AfishaPageComponent implements OnInit, OnDestroy {
   }
 
   subscribeToFiltering(sessions) {
-    this.filteringService.init(sessions);
+    this.filteringService.init(sessions, this.limitPerPage);
     this.filteringService.filteredData
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(sessions => {
         this.allSessions = sessions;
-        this.sessionsForPage = this.allSessions.slice(0, this.limitPerPage);
         this.loading = false;
       });
   }
 
+  subscribeToPagination() {
+    this.filteringService.paginatedData
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(sessions => {
+        this.sessions = sessions;
+      });
+  }
+
   onPageChanged(page: CurrentPage) {
-    this.sessionsForPage = this.allSessions.slice(
-      page.itemsStartIndex,
-      page.itemsEndIndex
-    );
+    this.filteringService.getItemsForPage(page);
   }
 }
