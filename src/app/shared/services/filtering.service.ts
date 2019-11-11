@@ -5,6 +5,8 @@ import { Observable, BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class FilteringService {
+  afterInit = () => {};
+
   private limit: number;
   private items: any[];
   private filteredItems: BehaviorSubject<any[]>;
@@ -28,6 +30,8 @@ export class FilteringService {
     this.filteredData.subscribe(items =>
       this.paginatedItems.next(items.slice(0, this.limit))
     );
+
+    this.afterInit();
   }
 
   reset() {
@@ -124,6 +128,30 @@ export class FilteringService {
           const minutes = time.getHours() * 60 + time.getMinutes();
 
           return minutes <= term.to && minutes >= term.from;
+        })
+      );
+    }
+    return this;
+  }
+
+  past(key: string, term: Date): FilteringService {
+    if (term) {
+      this.filteredItems.next(
+        this.filteredItems.value.filter(el => {
+          const date = new Date(this.getKeyValue(el, key));
+          return date < term;
+        })
+      );
+    }
+    return this;
+  }
+
+  future(key: string, term: Date): FilteringService {
+    if (term) {
+      this.filteredItems.next(
+        this.filteredItems.value.filter(el => {
+          const date = new Date(this.getKeyValue(el, key));
+          return date >= term;
         })
       );
     }

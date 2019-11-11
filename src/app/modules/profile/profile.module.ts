@@ -6,12 +6,14 @@ import { ProfileRoutingModule } from './profile-routing.module';
 import { httpInterceptorProviders } from '@shared/interceptors';
 import { SettingsFormComponent } from './components/settings-form/settings-form.component';
 import { ReservationsHistoryComponent } from './components/reservations-history/reservations-history.component';
+import { ReservationsFiltersComponent } from './components/reservations-filters/reservations-filters.component';
 
 @NgModule({
   declarations: [
     ProfilePageComponent,
     SettingsFormComponent,
-    ReservationsHistoryComponent
+    ReservationsHistoryComponent,
+    ReservationsFiltersComponent
   ],
   imports: [SharedModule, ProfileRoutingModule],
   providers: [httpInterceptorProviders, FilteringService]

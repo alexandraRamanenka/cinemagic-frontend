@@ -1,4 +1,8 @@
 <app-loading-spinner [loading]="loading">
+  <app-reservations-filters></app-reservations-filters>
+  <div class="no-content" *ngIf="reservations.length === 0">
+    <p class="message">You haven't any reservations yet</p>
+  </div>
   <div class="reservation-card" *ngFor="let reservation of reservations">
     <div class="content-box">
       <div

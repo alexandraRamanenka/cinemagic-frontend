@@ -84,3 +84,12 @@
   margin-top: 4px;
   margin-right: 4rem;
 }
+
+.no-content {
+  margin: 4rem auto;
+  text-align: center;
+
+  .message {
+    color: $color-active;
+  }
+}

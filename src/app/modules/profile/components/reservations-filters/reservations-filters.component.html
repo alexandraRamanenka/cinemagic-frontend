@@ -1,0 +1,9 @@
+<form [formGroup]="filtersForm" class="filters" (input)="filter()">
+  <input
+    formControlName="period"
+    class="filter-field uk-checkbox"
+    type="checkbox"
+    (change)="filter()"
+  />
+  <label class="period-label" for="period">show past reservations</label>
+</form>
