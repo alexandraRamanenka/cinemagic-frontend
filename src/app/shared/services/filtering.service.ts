@@ -5,12 +5,12 @@ import { Observable, BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class FilteringService {
-  afterInit = () => {};
-
   private limit: number;
   private items: any[];
   private filteredItems: BehaviorSubject<any[]>;
   private paginatedItems: BehaviorSubject<any[]>;
+
+  afterInit = () => {};
 
   get filteredData(): Observable<any[]> {
     return this.filteredItems.asObservable();
