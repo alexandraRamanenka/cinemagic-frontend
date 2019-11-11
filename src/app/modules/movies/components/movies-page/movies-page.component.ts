@@ -2,9 +2,10 @@ import { FilteringService } from '@shared/services/filtering.service';
 import { Response } from '@shared/models/response';
 import { MovieService } from '@shared/services/movie.service';
 import { Movie } from '@shared/models/movie';
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { Subject, Observable, BehaviorSubject } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { CurrentPage } from '@shared/models/currentPage';
 
 @Component({
   selector: 'app-movies-page',
@@ -14,33 +15,43 @@ import { takeUntil } from 'rxjs/operators';
 export class MoviesPageComponent implements OnInit, OnDestroy {
   limitPerPage = 8;
   loading = true;
-  moviesSet: Movie[];
+  movies: Movie[] = [];
+  private allMovies: Movie[] = [];
+  private unsubscribe$ = new Subject();
 
-  private unsubscribe$: Subject<void> = new Subject();
-  private moviesSubject: BehaviorSubject<Movie[]> = new BehaviorSubject([]);
-
-  get movies(): Observable<Movie[]> {
-    return this.moviesSubject.asObservable();
+  get moviesAmount(): number {
+    return this.allMovies.length;
   }
 
   constructor(
     private movieService: MovieService,
-    private filteringService: FilteringService,
-    private changeDetector: ChangeDetectorRef
+    private filteringService: FilteringService
   ) {}
 
   ngOnInit() {
-    this.movieService.getAll().subscribe((res: Response) => {
-      this.filteringService.init(res.data);
-      this.filteringService.filteredData
-        .pipe(takeUntil(this.unsubscribe$))
-        .subscribe({
-          next: movies => {
-            this.moviesSubject.next(movies);
-            this.loading = false;
-          }
-        });
+    this.movieService.getAll().subscribe((res: Response<Movie[]>) => {
+      this.allMovies = res.data;
+      this.subscribeToFiltering(res.data);
+      this.subscribeToPagination();
     });
+  }
+
+  subscribeToFiltering(movies) {
+    this.filteringService.init(movies, this.limitPerPage);
+    this.filteringService.filteredData
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(movies => {
+        this.allMovies = movies;
+        this.loading = false;
+      });
+  }
+
+  subscribeToPagination() {
+    this.filteringService.paginatedData
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(movies => {
+        this.movies = movies;
+      });
   }
 
   ngOnDestroy(): void {
@@ -48,8 +59,7 @@ export class MoviesPageComponent implements OnInit, OnDestroy {
     this.unsubscribe$.complete();
   }
 
-  onMoviesSetChanged(moviesSet) {
-    this.moviesSet = moviesSet;
-    this.changeDetector.detectChanges();
+  onPageChanged(page: CurrentPage) {
+    this.filteringService.getItemsForPage(page);
   }
 }

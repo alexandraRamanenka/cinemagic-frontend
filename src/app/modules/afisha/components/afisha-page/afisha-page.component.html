@@ -1,0 +1,16 @@
+<div class="container">
+  <app-loading-spinner [loading]="loading" class="spinner">
+    <h1 class="page-title">Afisha</h1>
+
+    <app-sessions-filters class="filters"></app-sessions-filters>
+
+    <app-sessions-list [sessions]="sessions"></app-sessions-list>
+
+    <app-pagination
+      class="pagination"
+      [limitPerPage]="limitPerPage"
+      [totalItems]="sessionsAmount"
+      (PageChanged)="onPageChanged($event)"
+    ></app-pagination>
+  </app-loading-spinner>
+</div>

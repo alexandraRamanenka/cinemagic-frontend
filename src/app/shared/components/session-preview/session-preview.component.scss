@@ -1,0 +1,57 @@
+@import 'variables.scss';
+
+.session-preview {
+  width: 240px;
+}
+.session-preview .image {
+  width: 240px;
+  height: 320px;
+  background: center / cover;
+  border-radius: 10px;
+}
+
+.session-preview .info {
+  text-align: center;
+}
+
+.session-preview {
+  .info {
+    .genres,
+    .datetime {
+      margin: 0.5rem auto;
+      overflow: hidden;
+    }
+
+    .genres {
+      height: 1rem;
+    }
+
+    .datetime {
+      margin-top: 1rem;
+      font-weight: 400;
+      font-size: 1.2rem;
+      color: $color-active;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: baseline;
+      height: 1.5rem;
+      margin-bottom: 0.5rem;
+
+      .restriction {
+        font-size: 1.2rem;
+        margin-left: 0.5rem;
+      }
+    }
+  }
+}
+
+.session-preview .reserve-btn {
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: center;
+  width: 240px;
+}

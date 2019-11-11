@@ -1,0 +1,47 @@
+<form [formGroup]="filtersForm" class="filters" (input)="filter()">
+  <input
+    formControlName="city"
+    class="filter-field"
+    type="text"
+    placeholder="city"
+  />
+  <input
+    formControlName="cinema"
+    class="filter-field"
+    type="text"
+    placeholder="cinema"
+  />
+  <input
+    formControlName="name"
+    class="filter-field"
+    type="text"
+    placeholder="name"
+  />
+  <input
+    formControlName="genre"
+    class="filter-field"
+    type="text"
+    placeholder="genre"
+  />
+  <input
+    formControlName="restriction"
+    class="filter-field"
+    type="text"
+    placeholder="restrition"
+  />
+  <input
+    formControlName="date"
+    class="filter-field date uk-text-meta"
+    type="date"
+    placeholder="date"
+  />
+  <select
+    class="filter-field time-select uk-text-meta"
+    formControlName="time"
+    (change)="setInterval($event)"
+  >
+    <option [value]="interval" *ngFor="let interval of sessionIntervals">{{
+      interval
+    }}</option>
+  </select>
+</form>

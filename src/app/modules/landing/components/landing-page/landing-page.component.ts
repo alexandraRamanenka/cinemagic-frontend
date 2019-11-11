@@ -1,4 +1,4 @@
-import { MovieService } from './../../../../shared/services/movie.service';
+import { MovieService } from '@shared/services/movie.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { Movie } from '@shared/models/movie';
 import { Response } from '@shared/models/response';
@@ -14,8 +14,8 @@ export class LandingPageComponent implements OnInit {
   constructor(private movieService: MovieService) {}
 
   ngOnInit() {
-    this.movieService.getAll().subscribe((res: Response) => {
-      const movies = res.data as any[];
+    this.movieService.getAll().subscribe((res: Response<Movie[]>) => {
+      const movies = res.data;
       this.movieSlides = this.splitDataIntoSlides(movies, this.itemsPerSlide);
     });
   }

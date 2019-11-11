@@ -11,6 +11,7 @@ import { SlideDirective } from './components/slider/slide.directive';
 import { AlertService } from './services/alert.service';
 import { MovieGenresPipe } from './pipes/movie-genres.pipe';
 import { PaginationComponent } from './components/pagination/pagination.component';
+import { SessionPreviewComponent } from './components/session-preview/session-preview.component';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 
 @NgModule({
@@ -21,6 +22,7 @@ import { LoadingSpinnerComponent } from './components/loading-spinner/loading-sp
     ReserveTicketButtonComponent,
     MovieGenresPipe,
     PaginationComponent,
+    SessionPreviewComponent,
     LoadingSpinnerComponent
   ],
   imports: [CommonModule, ReactiveFormsModule, RouterModule, HttpClientModule],
@@ -35,6 +37,7 @@ import { LoadingSpinnerComponent } from './components/loading-spinner/loading-sp
     SlideDirective,
     CommonModule,
     PaginationComponent,
+    SessionPreviewComponent,
     LoadingSpinnerComponent
   ]
 })

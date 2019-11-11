@@ -1,6 +1,5 @@
 import { FormsModule } from '@angular/forms';
 import { FilteringService } from '@shared/services/filtering.service';
-import { httpInterceptorProviders } from '@shared/interceptors';
 import { SharedModule } from '@shared/shared.module';
 import { NgModule } from '@angular/core';
 import { MoviesPageComponent } from './components/movies-page/movies-page.component';
@@ -15,6 +14,6 @@ import { MoviesListComponent } from './components/movies-list/movies-list.compon
     MoviesListComponent
   ],
   imports: [MoviesRoutingModule, SharedModule, FormsModule],
-  providers: [httpInterceptorProviders, FilteringService]
+  providers: [FilteringService]
 })
 export class MoviesModule {}
