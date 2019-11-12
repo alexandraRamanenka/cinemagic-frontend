@@ -17,7 +17,7 @@
       <div class="info">
         <h3 class="movie-name">{{ reservation.session.film.name }}</h3>
         <p class="session-date">
-          {{ reservation.session.dateTime | date: "MMMM dd, yyyy HH:MM" }}
+          {{ reservation.session.dateTime | date: 'MMMM dd, yyyy HH:MM' }}
         </p>
         <span class="subheader">Seats:</span>
         <span class="seat-number" *ngFor="let seat of reservation.seats">
@@ -30,10 +30,12 @@
             <span class="name">
               {{ serviceOrder.service.name }}
             </span>
-            <span class="details"
-              >{{ " x" + serviceOrder.amount }}
+            <span class="details">
               {{
-                serviceOrder.amount * serviceOrder.service.price + " BYN"
+                ' x' +
+                  serviceOrder.amount +
+                  serviceOrder.amount * serviceOrder.service.price +
+                  ' BYN'
               }}</span
             >
           </p>
