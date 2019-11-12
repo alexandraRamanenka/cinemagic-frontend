@@ -1,0 +1,9 @@
+<form [formGroup]="filtersForm" class="filters">
+  <input
+    formControlName="showPast"
+    class="filter-field uk-checkbox"
+    type="checkbox"
+    (change)="filter()"
+  />
+  <label class="show-past-label" for="showPast">show past reservations</label>
+</form>

@@ -2,5 +2,9 @@ $color-danger: #ff6347;
 $color-success: #3cb371;
 $color-stroke: #bbbbbb;
 $color-active: #000000;
+$color-shadow: rgba(
+  $color: #000000,
+  $alpha: 0.1
+);
 
 $max-width: 1276px;
