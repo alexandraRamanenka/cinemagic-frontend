@@ -134,19 +134,7 @@ export class FilteringService {
     return this;
   }
 
-  past(key: string, term: Date): FilteringService {
-    if (term) {
-      this.filteredItems.next(
-        this.filteredItems.value.filter(el => {
-          const date = new Date(this.getKeyValue(el, key));
-          return date < term;
-        })
-      );
-    }
-    return this;
-  }
-
-  future(key: string, term: Date): FilteringService {
+  inFuture(key: string, term: Date): FilteringService {
     if (term) {
       this.filteredItems.next(
         this.filteredItems.value.filter(el => {

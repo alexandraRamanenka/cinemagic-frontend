@@ -1,9 +1,9 @@
-<form [formGroup]="filtersForm" class="filters" (input)="filter()">
+<form [formGroup]="filtersForm" class="filters">
   <input
-    formControlName="period"
+    formControlName="showPast"
     class="filter-field uk-checkbox"
     type="checkbox"
     (change)="filter()"
   />
-  <label class="period-label" for="period">show past reservations</label>
+  <label class="showPast-label" for="showPast">show past reservations</label>
 </form>

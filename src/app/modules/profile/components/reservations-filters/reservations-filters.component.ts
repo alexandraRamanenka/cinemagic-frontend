@@ -1,7 +1,7 @@
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { FilteringService } from '@shared/services/filtering.service';
 import { Component, OnInit } from '@angular/core';
-import { take } from 'rxjs/operators';
+
 @Component({
   selector: 'app-reservations-filters',
   templateUrl: './reservations-filters.component.html',
@@ -15,7 +15,7 @@ export class ReservationsFiltersComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.filtersForm = this.fb.group({
-      period: false
+      showPast: false
     });
   }
 
@@ -25,10 +25,10 @@ export class ReservationsFiltersComponent implements OnInit {
 
   filter() {
     this.filteringService.reset();
-    const { period } = this.filtersForm.value;
-    console.log(period);
-    if (!period) {
-      this.filteringService.future('session.dateTime', new Date());
+    const { showPast } = this.filtersForm.value;
+
+    if (!showPast) {
+      this.filteringService.inFuture('session.dateTime', new Date());
     }
   }
 }
