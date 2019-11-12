@@ -41,7 +41,8 @@ import { PhonePipe } from './pipes/phone.pipe';
     PaginationComponent,
     SessionPreviewComponent,
     LoadingSpinnerComponent,
-    PhonePipe
+    PhonePipe,
+    MovieGenresPipe
   ]
 })
 export class SharedModule {}

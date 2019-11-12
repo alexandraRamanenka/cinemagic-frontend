@@ -1,4 +1,5 @@
 export interface Movie {
+  _id: string;
   name: string;
   country: string;
   genre: string[];
