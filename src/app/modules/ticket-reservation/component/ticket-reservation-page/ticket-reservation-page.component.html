@@ -1,0 +1,11 @@
+<app-loading-spinner [loading]="loading">
+  <div class="wrapper">
+    <div class="heading">
+      <h1 class="name">session.film.name</h1>
+      <p class="date">session.dateTime | date: 'dd MMM'</p>
+      <p class="time">session.dateTime | date: 'HH:MM'</p>
+      <p class="cinema">session.hall.cinema.name</p>
+    </div>
+  </div>
+  <router-outlet></router-outlet>
+</app-loading-spinner>
