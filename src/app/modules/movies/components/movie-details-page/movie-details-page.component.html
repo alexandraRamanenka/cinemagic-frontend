@@ -1,0 +1,26 @@
+<app-loading-spinner [loading]="loading">
+  <div class="wrapper" *ngIf="movie">
+    <div class="content-box">
+      <div
+        class="poster"
+        [ngStyle]="{ 'background-image': 'url(' + movie.poster + ')' }"
+      ></div>
+
+      <div class="info">
+        <div class="row">
+          <h2 class="name">{{ movie.name }}</h2>
+          <span class="restriction">{{ movie.restriction }}+</span>
+        </div>
+        <p class="genres">{{ movie.genre | movieGenres }}</p>
+        <p class="description">
+          {{ movie.description }}
+        </p>
+      </div>
+    </div>
+
+    <h2>Schedule</h2>
+    <hr class="uk-divider-icon" />
+
+    <app-movie-schedule [movieId]="movie._id"></app-movie-schedule>
+  </div>
+</app-loading-spinner>

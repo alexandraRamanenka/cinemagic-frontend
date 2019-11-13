@@ -1,0 +1,43 @@
+.content-box {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.poster {
+  width: 240px;
+  height: 320px;
+  background: center / cover;
+  border-radius: 10px;
+  margin-right: 1rem;
+  margin-top: 0.8rem;
+}
+
+.info {
+  width: 80%;
+
+  .name {
+    font-weight: 700;
+    display: inline-block;
+    margin-bottom: 0.2rem;
+    margin-top: 0.8rem;
+    font-size: 2.5rem;
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+
+    .restriction {
+      font-size: 1.6rem;
+      padding-left: 2rem;
+      margin-top: 1rem;
+    }
+
+    .genres {
+      font-weight: 300;
+      font-size: 1.2rem;
+      margin-top: 0;
+    }
+  }
+}

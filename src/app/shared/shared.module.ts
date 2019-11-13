@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { UserService } from './services/user.service';
 import { MovieCardComponent } from './components/movie-card/movie-card.component';
 import { ReserveTicketButtonComponent } from './components/reserve-ticket-button/reserve-ticket-button.component';
 import { SliderComponent } from './components/slider/slider.component';
@@ -41,7 +40,8 @@ import { PhonePipe } from './pipes/phone.pipe';
     PaginationComponent,
     SessionPreviewComponent,
     LoadingSpinnerComponent,
-    PhonePipe
+    PhonePipe,
+    MovieGenresPipe
   ]
 })
 export class SharedModule {}

@@ -1,0 +1,18 @@
+<app-loading-spinner [loading]="loading">
+  <a [routerLink]="'/'">
+    <div class="sessions">
+      <div *ngFor="let session of sessions" class="session">
+        <p class="time">
+          {{ session.dateTime | date: "HH:MM" }}
+        </p>
+        <p class="date">
+          {{ session.dateTime | date: "dd MMMM" }}
+        </p>
+        <p class="cinema">
+          {{ session.hall.cinema.name + ", " + session.hall.cinema.city }}
+        </p>
+        <p class="price">{{ session.price + " BYN" }}</p>
+      </div>
+    </div>
+  </a>
+</app-loading-spinner>
