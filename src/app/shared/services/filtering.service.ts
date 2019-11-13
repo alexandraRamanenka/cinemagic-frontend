@@ -10,6 +10,8 @@ export class FilteringService {
   private filteredItems: BehaviorSubject<any[]>;
   private paginatedItems: BehaviorSubject<any[]>;
 
+  afterInit = () => {};
+
   get filteredData(): Observable<any[]> {
     return this.filteredItems.asObservable();
   }
@@ -28,6 +30,8 @@ export class FilteringService {
     this.filteredData.subscribe(items =>
       this.paginatedItems.next(items.slice(0, this.limit))
     );
+
+    this.afterInit();
   }
 
   reset() {
@@ -124,6 +128,18 @@ export class FilteringService {
           const minutes = time.getHours() * 60 + time.getMinutes();
 
           return minutes <= term.to && minutes >= term.from;
+        })
+      );
+    }
+    return this;
+  }
+
+  inFuture(key: string, term: Date): FilteringService {
+    if (term) {
+      this.filteredItems.next(
+        this.filteredItems.value.filter(el => {
+          const date = new Date(this.getKeyValue(el, key));
+          return date >= term;
         })
       );
     }

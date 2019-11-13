@@ -13,6 +13,7 @@ import { MovieGenresPipe } from './pipes/movie-genres.pipe';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { SessionPreviewComponent } from './components/session-preview/session-preview.component';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
+import { PhonePipe } from './pipes/phone.pipe';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { LoadingSpinnerComponent } from './components/loading-spinner/loading-sp
     MovieGenresPipe,
     PaginationComponent,
     SessionPreviewComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    PhonePipe
   ],
   imports: [CommonModule, ReactiveFormsModule, RouterModule, HttpClientModule],
   providers: [AlertService],
@@ -38,7 +40,8 @@ import { LoadingSpinnerComponent } from './components/loading-spinner/loading-sp
     CommonModule,
     PaginationComponent,
     SessionPreviewComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    PhonePipe
   ]
 })
 export class SharedModule {}

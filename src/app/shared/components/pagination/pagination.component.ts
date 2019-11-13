@@ -24,12 +24,27 @@ export class PaginationComponent {
 
   get pages(): number[] {
     const pages = [];
-    for (
-      let i = 0;
-      i < this.pagesLimit && i + this.currentPage <= this.totalPages;
-      i++
-    ) {
-      pages.push(i + this.currentPage);
+
+    if (this.totalPages <= this.pagesLimit) {
+      return Array.from({ length: this.totalPages }, (v, i) => i + 1);
+    }
+
+    let half = Math.floor(this.pagesLimit / 2);
+    const evenness = this.pagesLimit % 2 === 0 ? 1 : 0;
+    let startIndex = this.currentPage - half;
+    let endIndex = this.currentPage + half - evenness;
+
+    if (startIndex <= 0) {
+      return Array.from({ length: this.pagesLimit }, (v, i) => i + 1);
+    }
+
+    if (endIndex > this.totalPages) {
+      startIndex -= endIndex - this.totalPages;
+      endIndex = this.totalPages;
+    }
+
+    for (let i = startIndex; i <= endIndex; i++) {
+      pages.push(i);
     }
 
     return pages;

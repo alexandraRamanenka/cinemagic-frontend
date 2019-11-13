@@ -9,7 +9,7 @@
     ></div>
     <p class="login">{{ user.login }}</p>
     <p class="email">{{ user.email }}</p>
-    <p class="phone">{{ user.phone }}</p>
+    <p class="phone">{{ user.phone | phone }}</p>
     <button
       class="uk-button uk-button-secondary edit-btn"
       (click)="editProfile()"
@@ -17,4 +17,5 @@
       Edit
     </button>
   </div>
+  <app-reservations-history></app-reservations-history>
 </div>
