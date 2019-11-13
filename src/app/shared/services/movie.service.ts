@@ -1,18 +1,22 @@
-import { AlertService } from './alert.service';
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { AlertService } from "./alert.service";
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class MovieService {
   constructor(private http: HttpClient, private alertService: AlertService) {}
 
   getAll() {
-    return this.http.get('films');
+    return this.http.get("films");
   }
 
   getById(id: string) {
     return this.http.get(`films/${id}`);
+  }
+
+  getMovieSessions(id: string) {
+    return this.http.get(`films/${id}/sessions`);
   }
 }

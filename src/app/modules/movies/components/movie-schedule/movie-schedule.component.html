@@ -1,1 +1,5 @@
-<p>movie-schedule works!</p>
+<app-loading-spinner [loading]="loading">
+  <div *ngFor="let session of sessions">
+    {{ session.dateTime | date: "dd MMMM, HH:MM" }}
+  </div>
+</app-loading-spinner>

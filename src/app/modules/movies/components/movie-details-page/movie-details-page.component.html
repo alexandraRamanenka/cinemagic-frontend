@@ -7,8 +7,10 @@
       ></div>
 
       <div class="info">
-        <h2 class="name">{{ movie.name }}</h2>
-        <span class="restriction">{{ movie.restriction }}+</span>
+        <div class="row">
+          <h2 class="name">{{ movie.name }}</h2>
+          <span class="restriction">{{ movie.restriction }}+</span>
+        </div>
         <p class="genres">{{ movie.genre | movieGenres }}</p>
         <p class="description">
           {{ movie.description }}
@@ -16,6 +18,6 @@
       </div>
     </div>
 
-    <app-movie-schedule></app-movie-schedule>
+    <app-movie-schedule [movieId]="movie._id"></app-movie-schedule>
   </div>
 </app-loading-spinner>
