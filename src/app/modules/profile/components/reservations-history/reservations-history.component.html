@@ -20,20 +20,24 @@
           {{ reservation.session.dateTime | date: 'MMMM dd, yyyy HH:MM' }}
         </p>
         <span class="subheader">Seats:</span>
-        <span class="seat-number" *ngFor="let seat of reservation.seats">{{
-          seat.seatNumber
-        }}</span>
+        <span class="seat-number" *ngFor="let seat of reservation.seats">
+          {{ seat.seatNumber }}
+        </span>
 
-        <div *ngIf="reservation.services.length !== 0">
+        <div *ngIf="!reservation.services.length">
           <p class="subheader services">Services</p>
           <p class="service" *ngFor="let serviceOrder of reservation.services">
             <span class="name">
               {{ serviceOrder.service.name }}
             </span>
-            <span class="amount">{{ ' x' + serviceOrder.amount }}</span>
-            <span class="price">{{
-              serviceOrder.amount * serviceOrder.service.price + ' BYN'
-            }}</span>
+            <span class="details">
+              {{
+                ' x' +
+                  serviceOrder.amount +
+                  serviceOrder.amount * serviceOrder.service.price +
+                  ' BYN'
+              }}</span
+            >
           </p>
         </div>
 
