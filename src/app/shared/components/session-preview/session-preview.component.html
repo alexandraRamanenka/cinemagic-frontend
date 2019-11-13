@@ -15,8 +15,11 @@
       {{ session.film.genre | movieGenres }}
     </p>
     <p class="datetime uk-text-meta">
-      {{ session.dateTime | date: 'MMMM d, H:mm' }}
+      {{ session.dateTime | date: "MMMM d, H:mm" }}
     </p>
   </div>
-  <app-reserve-ticket-button class="reserve-btn"></app-reserve-ticket-button>
+  <app-reserve-ticket-button
+    class="reserve-btn"
+    [link]="session._id"
+  ></app-reserve-ticket-button>
 </div>
