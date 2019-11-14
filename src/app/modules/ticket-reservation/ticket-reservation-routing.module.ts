@@ -1,7 +1,7 @@
-import { HallSchemaComponent } from './component/hall-schema/hall-schema.component';
+import { HallSchemaComponent } from './components/hall-schema/hall-schema.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { TicketReservationPageComponent } from './component/ticket-reservation-page/ticket-reservation-page.component';
+import { TicketReservationPageComponent } from './components/ticket-reservation-page/ticket-reservation-page.component';
 
 const routes: Routes = [
   {

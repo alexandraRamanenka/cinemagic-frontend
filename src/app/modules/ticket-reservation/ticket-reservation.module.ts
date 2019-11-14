@@ -3,11 +3,25 @@ import { CommonModule } from '@angular/common';
 
 import { TicketReservationRoutingModule } from './ticket-reservation-routing.module';
 import { SharedModule } from '@shared/index';
-import { HallSchemaComponent } from './component/hall-schema/hall-schema.component';
-import { TicketReservationPageComponent } from './component/ticket-reservation-page/ticket-reservation-page.component';
+import { HallSchemaComponent } from './components/hall-schema/hall-schema.component';
+import { TicketReservationPageComponent } from './components/ticket-reservation-page/ticket-reservation-page.component';
+import { httpInterceptorProviders } from '@shared/interceptors';
+import { ReservationService } from './services/reservation.service';
+import { SeatsSchemaComponent } from './components/seats-schema/seats-schema.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [HallSchemaComponent, TicketReservationPageComponent],
-  imports: [CommonModule, TicketReservationRoutingModule, SharedModule]
+  declarations: [
+    HallSchemaComponent,
+    TicketReservationPageComponent,
+    SeatsSchemaComponent
+  ],
+  imports: [
+    CommonModule,
+    TicketReservationRoutingModule,
+    SharedModule,
+    FormsModule
+  ],
+  providers: [httpInterceptorProviders, ReservationService]
 })
 export class TicketReservationModule {}

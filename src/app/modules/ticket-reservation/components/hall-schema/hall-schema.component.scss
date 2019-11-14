@@ -1,0 +1,30 @@
+@import 'variables.scss';
+
+.seats-schema {
+  display: flex;
+  flex-direction: column;
+
+  .line {
+    display: flex;
+    justify-content: center;
+
+    .seat {
+      height: 40px;
+      width: 60px;
+      border: 2px solid $color-stroke;
+      border-radius: 5px;
+      margin-right: 0.5rem;
+      margin-bottom: 1rem;
+      text-align: center;
+
+      &:hover {
+        border-color: $color-active;
+        color: $color-active;
+      }
+    }
+
+    .vip {
+      width: 100px;
+    }
+  }
+}

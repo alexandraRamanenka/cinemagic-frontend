@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { environment } from '@env/environment';
 
 @Component({
   selector: 'app-reserve-ticket-button',
@@ -13,7 +14,7 @@ export class ReserveTicketButtonComponent implements OnInit {
   ngOnInit() {}
 
   click() {
-    const url = 'ws://localhost:8080';
+    const url = environment.wsUrl;
     const ws = new WebSocket(url);
     ws.onopen = () => {
       console.log('ws connection');

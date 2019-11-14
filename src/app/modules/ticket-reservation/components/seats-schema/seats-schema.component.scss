@@ -1,0 +1,46 @@
+@import 'variables.scss';
+
+.seats-schema {
+  display: flex;
+  flex-direction: column;
+
+  .line {
+    display: flex;
+    justify-content: center;
+
+    .seat {
+      height: 40px;
+      width: 60px;
+      border: 2px solid $color-stroke;
+      border-radius: 5px;
+      margin-right: 0.5rem;
+      margin-bottom: 1rem;
+      text-align: center;
+
+      &:not(.selected):not(.choosen):not(.disabled):hover {
+        border-color: $color-active;
+        color: $color-active;
+        cursor: pointer;
+      }
+    }
+
+    .vip {
+      width: 100px;
+    }
+
+    .selected {
+      background-color: $color-selected;
+      border-color: $color-selected;
+    }
+
+    .choosen {
+      background-color: $color-choosen;
+      border-color: $color-choosen;
+    }
+
+    .disabled {
+      background-color: $color-stroke;
+      border-color: $color-stroke;
+    }
+  }
+}
