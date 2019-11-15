@@ -1,6 +1,7 @@
 import { Component, Input, Provider, forwardRef } from '@angular/core';
 import { Seat } from '@shared/models/seat';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { ReservationService } from '../../services/reservation.service';
 
 const VALUE_ACCESSOR: Provider = {
   provide: NG_VALUE_ACCESSOR,
@@ -21,14 +22,17 @@ export class SeatsSchemaComponent implements ControlValueAccessor {
   selectedSeat: Seat;
   seats: Seat[] = [];
 
+  constructor(private reservationService: ReservationService) {}
+
   setSeat(seat: Seat) {
     this.selectedSeat = seat.isBlocked ? this.selectedSeat : seat;
   }
 
   addSeat() {
     this.seats.push(this.selectedSeat);
-    this.selectedSeat = null;
     this.onChange(this.seats);
+    this.reservationService.addSeat(this.selectedSeat);
+    this.selectedSeat = null;
   }
 
   isChoosen(seat: Seat): boolean {

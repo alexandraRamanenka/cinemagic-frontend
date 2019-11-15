@@ -9,6 +9,8 @@ import { httpInterceptorProviders } from '@shared/interceptors';
 import { ReservationService } from './services/reservation.service';
 import { SeatsSchemaComponent } from './components/seats-schema/seats-schema.component';
 import { FormsModule } from '@angular/forms';
+import { WebSocketModule } from 'app/websocket/webSocket.module';
+import { environment } from '@env/environment';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,10 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     TicketReservationRoutingModule,
     SharedModule,
-    FormsModule
+    FormsModule,
+    WebSocketModule.config({
+      url: environment.wsUrl
+    })
   ],
   providers: [httpInterceptorProviders, ReservationService]
 })

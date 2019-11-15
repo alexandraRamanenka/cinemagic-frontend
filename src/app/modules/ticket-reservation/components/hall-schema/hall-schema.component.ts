@@ -27,13 +27,7 @@ export class HallSchemaComponent implements OnInit, OnDestroy {
 
     this.hall.seatsSchema.forEach((line, lineNumber) => {
       let lineSeats = Array.from({ length: line.numberOfSeats }, (v, i) => {
-        const isBlocked =
-          this.reserved.some(
-            s => s.line === lineNumber + 1 && s.seatNumber === i + 1
-          ) ||
-          this.blocked.some(
-            s => s.line === lineNumber + 1 && s.seatNumber === i + 1
-          );
+        const isBlocked = this.isBlocked(lineNumber + 1, i + 1);
 
         const seat = {
           number: i + currentSeat,
@@ -59,12 +53,24 @@ export class HallSchemaComponent implements OnInit, OnDestroy {
     return reserved;
   }
 
+  private isBlocked(lineNumber: number, seatNumber: number): boolean {
+    return (
+      this.reserved.some(
+        s => s.line === lineNumber && s.seatNumber === seatNumber
+      ) ||
+      this.blocked.some(
+        s => s.line === lineNumber && s.seatNumber === seatNumber
+      )
+    );
+  }
+
   constructor(private reservationService: ReservationService) {}
 
   ngOnInit() {
     this.reservationService.blockedSeats
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(blockedSeats => (this.blocked = blockedSeats));
+
     this.reservationService.session
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(session => {
