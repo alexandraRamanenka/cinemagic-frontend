@@ -1,0 +1,13 @@
+<app-loading-spinner [loading]="loading">
+  <h3 class="">Choose seats</h3>
+  <app-seats-schema
+    *ngIf="hall"
+    [schema]="seatsSchema"
+    [(ngModel)]="selectedSeats"
+  ></app-seats-schema>
+  <ul>
+    <li *ngFor="let selectedSeat of selectedSeats">
+      {{ selectedSeat.number }}
+    </li>
+  </ul>
+</app-loading-spinner>

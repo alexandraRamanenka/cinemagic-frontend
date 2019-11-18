@@ -1,0 +1,24 @@
+<div class="seats-schema" *ngIf="schema">
+  <div class="line" *ngFor="let line of schema; index as lineNumber">
+    <div
+      class="seat"
+      *ngFor="let seat of line; index as seatNumber"
+      [ngClass]="{
+        vip: seat.type === 'VIP',
+        selected: selectedSeat && seat.number === selectedSeat.number,
+        choosen: seats && isChoosen(seat),
+        disabled: seat.isBlocked
+      }"
+      (click)="setSeat(seat)"
+    >
+      {{ seat.number }}
+    </div>
+  </div>
+</div>
+<button
+  class="uk-button uk-button-secondary"
+  [disabled]="!selectedSeat"
+  (click)="addSeat()"
+>
+  Add
+</button>
