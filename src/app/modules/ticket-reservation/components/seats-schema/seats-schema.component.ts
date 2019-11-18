@@ -1,3 +1,4 @@
+import { BlockedSeat } from '@shared/models/blockedSeat';
 import { Component, Input, Provider, forwardRef } from '@angular/core';
 import { Seat } from '@shared/models/seat';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
@@ -16,16 +17,18 @@ const VALUE_ACCESSOR: Provider = {
   providers: [VALUE_ACCESSOR]
 })
 export class SeatsSchemaComponent implements ControlValueAccessor {
-  private onChange = (seats: Seat[]) => {};
+  private onChange = (seats: BlockedSeat[]) => {};
 
   @Input() schema: Seat[][];
-  selectedSeat: Seat;
-  seats: Seat[] = [];
+  selectedSeat: BlockedSeat;
+  seats: BlockedSeat[] = [];
 
   constructor(private reservationService: ReservationService) {}
 
-  setSeat(seat: Seat) {
-    this.selectedSeat = seat.isBlocked ? this.selectedSeat : seat;
+  setSeat(seat: Seat, line: number, seatNumber: number) {
+    this.selectedSeat = seat.isBlocked
+      ? this.selectedSeat
+      : { line, seatNumber, session: this.reservationService.sessionId };
   }
 
   addSeat() {
@@ -35,11 +38,11 @@ export class SeatsSchemaComponent implements ControlValueAccessor {
     this.selectedSeat = null;
   }
 
-  isChoosen(seat: Seat): boolean {
-    return this.seats.some(s => s.number === seat.number);
+  isChoosen(line: number, seatNumber: number): boolean {
+    return this.seats.some(s => s.seatNumber === seatNumber && s.line === line);
   }
 
-  writeValue(seats: Seat[]): void {
+  writeValue(seats: BlockedSeat[]): void {
     this.seats = seats;
   }
 
@@ -48,6 +51,4 @@ export class SeatsSchemaComponent implements ControlValueAccessor {
   }
 
   registerOnTouched(fn: any): void {}
-
-  setDisabledState?(isDisabled: boolean): void {}
 }

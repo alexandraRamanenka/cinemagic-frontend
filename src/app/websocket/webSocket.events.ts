@@ -6,6 +6,7 @@ export const WS_EVENTS = {
   },
 
   ON: {
-    BLOCKED_SEATS_CHANGED: 'blockedSeatsChanged'
+    SEAT_ADDED: 'seatAdded',
+    SEAT_REMOVED: 'seatRemoved'
   }
 };

@@ -3,23 +3,25 @@ import { HttpClient } from '@angular/common/http';
 import { Subject, Observable } from 'rxjs';
 import { Session } from '@shared/models/session';
 import { Response } from '@shared/models/response';
-import { Seat } from '@shared/models/seat';
 import { WebSocketService } from 'app/websocket/webSocket.service';
-import { WebSocketMessage } from 'app/websocket/webSocketMessage';
 import { WS_EVENTS } from 'app/websocket/webSocket.events';
 import { takeUntil } from 'rxjs/operators';
+import { BlockedSeat } from '@shared/models/blockedSeat';
 
 @Injectable()
 export class ReservationService implements OnDestroy {
+  private blockedSeatsValues: BlockedSeat[] = [];
   private sessionSubject: Subject<Session> = new Subject();
-  private blockedSeatsSubject: Subject<Seat[]> = new Subject();
+  private blockedSeatsSubject: Subject<BlockedSeat[]> = new Subject();
   private unsubscribe$ = new Subject<void>();
+
+  sessionId: string;
 
   get session(): Observable<Session> {
     return this.sessionSubject.asObservable();
   }
 
-  get blockedSeats(): Observable<Seat[]> {
+  get blockedSeats(): Observable<BlockedSeat[]> {
     return this.blockedSeatsSubject.asObservable();
   }
 
@@ -34,10 +36,27 @@ export class ReservationService implements OnDestroy {
     this.getBlockedSeats(id);
     this.ws.connect();
     this.ws
-      .on<Seat[]>(WS_EVENTS.ON.BLOCKED_SEATS_CHANGED)
+      .on<BlockedSeat>(WS_EVENTS.ON.SEAT_ADDED)
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(blockedSeats => {
-        this.blockedSeatsSubject.next(blockedSeats);
+      .subscribe(blockedSeat => {
+        this.blockedSeatsValues.push(blockedSeat);
+        console.log(this.blockedSeatsValues);
+        this.blockedSeatsSubject.next(this.blockedSeatsValues);
+      });
+
+    this.ws
+      .on<BlockedSeat>(WS_EVENTS.ON.SEAT_REMOVED)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(blockedSeat => {
+        let updated = this.blockedSeatsValues.filter(seat => {
+          return (
+            seat.seatNumber !== blockedSeat.seatNumber &&
+            seat.line !== blockedSeat.line
+          );
+        });
+        console.log(`updated`, updated);
+        this.blockedSeatsValues = updated;
+        this.blockedSeatsSubject.next(this.blockedSeatsValues);
       });
   }
 
@@ -48,6 +67,7 @@ export class ReservationService implements OnDestroy {
   }
 
   getSessionById(id: string) {
+    this.sessionId = id;
     this.http.get(`sessions/${id}`).subscribe((res: Response<Session>) => {
       this.sessionSubject.next(res.data);
     });
@@ -56,20 +76,21 @@ export class ReservationService implements OnDestroy {
   getBlockedSeats(sessionId: string) {
     this.http
       .get(`blocked_seats/?session=${sessionId}`)
-      .subscribe((res: Response<Seat[]>) => {
+      .subscribe((res: Response<BlockedSeat[]>) => {
+        this.blockedSeatsValues = res.data;
         this.blockedSeatsSubject.next(res.data);
       });
   }
 
-  addSeat(seat: Seat) {
+  addSeat(seat: BlockedSeat) {
     this.ws.send(WS_EVENTS.SEND.ADD_SEAT, seat);
   }
 
-  removeSeat(seat: Seat) {
+  removeSeat(seat: BlockedSeat) {
     this.ws.send(WS_EVENTS.SEND.REMOVE_SEAT, seat);
   }
 
-  reserve(seats: Seat[]) {
+  reserve(seats: BlockedSeat[]) {
     this.ws.send(WS_EVENTS.SEND.RESERVE, seats);
   }
 }

@@ -82,6 +82,7 @@ export class WebSocketService implements OnDestroy {
 
     this.socket$.subscribe(
       message => {
+        console.log(message);
         this.messagesSubject$.next(message);
       },
       error => {

@@ -5,6 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { Reservation } from '@shared/models/reservation';
 import { Seat } from '@shared/models/seat';
+import { BlockedSeat } from '@shared/models/blockedSeat';
 
 @Component({
   selector: 'app-hall-schema',
@@ -18,7 +19,7 @@ export class HallSchemaComponent implements OnInit, OnDestroy {
   hall: Hall;
   reserved: any[] = [];
   blocked: any[] = [];
-  selectedSeats: Seat[] = [];
+  selectedSeats: BlockedSeat[] = [];
   seats: Seat[] = [];
 
   get seatsSchema(): Seat[][] {
@@ -43,6 +44,13 @@ export class HallSchemaComponent implements OnInit, OnDestroy {
     });
 
     return schema;
+  }
+
+  getBlockedSeatNumber(blockedSeat: BlockedSeat) {
+    const seat = this.seatsSchema[blockedSeat.line - 1][
+      blockedSeat.seatNumber - 1
+    ];
+    return seat.number;
   }
 
   private getReservedSeats(reservations: Reservation[]) {
@@ -83,5 +91,16 @@ export class HallSchemaComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+  }
+
+  removeSeat(blockedSeat: BlockedSeat) {
+    const updated = this.selectedSeats.filter(seat => {
+      return (
+        seat.line !== blockedSeat.line ||
+        seat.seatNumber !== blockedSeat.seatNumber
+      );
+    });
+    this.selectedSeats = updated;
+    this.reservationService.removeSeat(blockedSeat);
   }
 }

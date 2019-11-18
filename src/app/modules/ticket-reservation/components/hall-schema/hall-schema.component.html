@@ -7,7 +7,13 @@
   ></app-seats-schema>
   <ul>
     <li *ngFor="let selectedSeat of selectedSeats">
-      {{ selectedSeat.number }}
+      {{ getBlockedSeatNumber(selectedSeat) }}
+      <button
+        class="uk-button uk-button-secondary"
+        (click)="removeSeat(selectedSeat)"
+      >
+        Remove
+      </button>
     </li>
   </ul>
 </app-loading-spinner>

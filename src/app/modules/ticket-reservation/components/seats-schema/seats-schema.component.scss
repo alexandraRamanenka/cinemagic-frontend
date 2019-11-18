@@ -34,8 +34,8 @@
     }
 
     .choosen {
-      background-color: $color-choosen;
-      border-color: $color-choosen;
+      background-color: $color-choosen !important;
+      border-color: $color-choosen !important;
     }
 
     .disabled {

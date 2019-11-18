@@ -5,11 +5,14 @@
       *ngFor="let seat of line; index as seatNumber"
       [ngClass]="{
         vip: seat.type === 'VIP',
-        selected: selectedSeat && seat.number === selectedSeat.number,
-        choosen: seats && isChoosen(seat),
-        disabled: seat.isBlocked
+        selected:
+          selectedSeat &&
+          lineNumber + 1 === selectedSeat.line &&
+          seatNumber + 1 === selectedSeat.seatNumber,
+        disabled: seat.isBlocked,
+        choosen: seats.length && isChoosen(lineNumber + 1, seatNumber + 1)
       }"
-      (click)="setSeat(seat)"
+      (click)="setSeat(seat, lineNumber + 1, seatNumber + 1)"
     >
       {{ seat.number }}
     </div>
