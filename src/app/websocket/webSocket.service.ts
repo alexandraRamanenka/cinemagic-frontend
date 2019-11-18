@@ -24,7 +24,7 @@ export class WebSocketService implements OnDestroy {
 
   private socket$: WebSocketSubject<WebSocketMessage<any>>;
   private connection$ = new Subject<boolean>();
-  private reconnection$: Observable<number>;
+  // private reconnection$: Observable<number>;
   private messagesSubject$ = new Subject<WebSocketMessage<any>>();
   private unsubscribe$ = new Subject<void>();
 
@@ -60,13 +60,16 @@ export class WebSocketService implements OnDestroy {
       },
       closeObserver: {
         next: (event: CloseEvent) => {
-          this.socket$ = null;
+          console.log('Close conection');
+          this.socket$.unsubscribe();
           this.connection$.next(false);
         }
       }
     };
 
-    this.connect();
+    this.messagesSubject$.subscribe(null, (error: ErrorEvent) => {
+      console.log('WebSocket error!', error);
+    });
   }
 
   ngOnDestroy() {
@@ -83,30 +86,30 @@ export class WebSocketService implements OnDestroy {
       },
       error => {
         console.log(error);
-        if (!this.socket$) {
-          this.reconnect();
-        }
+        // if (!this.socket$) {
+        //   this.reconnect();
+        // }
       }
     );
   }
 
-  private reconnect(): void {
-    this.reconnection$ = interval(this.reconnectInterval).pipe(
-      takeWhile((v, i) => i < this.reconnectAttempts && !this.socket$)
-    );
+  // private reconnect(): void {
+  //   this.reconnection$ = interval(this.reconnectInterval).pipe(
+  //     takeWhile((v, i) => i < this.reconnectAttempts && !this.socket$)
+  //   );
 
-    this.reconnection$.pipe(takeUntil(this.unsubscribe$)).subscribe(
-      () => this.connect(),
-      null,
-      () => {
-        this.reconnection$ = null;
-        if (!this.socket$) {
-          this.messagesSubject$.complete();
-          this.connection$.complete();
-        }
-      }
-    );
-  }
+  //   this.reconnection$.pipe(takeUntil(this.unsubscribe$)).subscribe(
+  //     () => this.connect(),
+  //     null,
+  //     () => {
+  //       this.reconnection$ = null;
+  //       if (!this.socket$) {
+  //         this.messagesSubject$.complete();
+  //         this.connection$.complete();
+  //       }
+  //     }
+  //   );
+  // }
 
   on<T>(event: string): Observable<T> {
     if (event) {
@@ -124,13 +127,8 @@ export class WebSocketService implements OnDestroy {
     }
   }
 
-  complete() {
+  closeConnection() {
     console.log('complete');
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
-    this.reconnection$ = null;
-    this.connection$.complete();
-    this.messagesSubject$.complete();
     if (this.socket$) {
       this.socket$.unsubscribe();
     }
