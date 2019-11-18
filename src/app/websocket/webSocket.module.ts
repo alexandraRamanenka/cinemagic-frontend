@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { config } from './webSocket.config';
 import { WebSocketConfig } from './webSocketConfig';
 import { WebSocketService } from './webSocket.service';
-import { AlertService } from '@shared/services/alert.service';
 
 @NgModule({
   declarations: [],

@@ -3,17 +3,15 @@
   <app-seats-schema
     *ngIf="hall"
     [schema]="seatsSchema"
-    [(ngModel)]="selectedSeats"
+    [(ngModel)]="choosedSeats"
   ></app-seats-schema>
-  <ul>
-    <li *ngFor="let selectedSeat of selectedSeats">
-      {{ getBlockedSeatNumber(selectedSeat) }}
-      <button
-        class="uk-button uk-button-secondary"
-        (click)="removeSeat(selectedSeat)"
-      >
-        Remove
-      </button>
+  <hr />
+  <h3>Choosed seats</h3>
+  <ul class="choosed-seats">
+    <li *ngFor="let choosedSeat of choosedSeats" class="item">
+      {{ getBlockedSeatNumber(choosedSeat) + ', line ' + choosedSeat.line }}
+      <button uk-icon="icon:close" (click)="removeSeat(choosedSeat)"></button>
     </li>
+    <li *ngIf="!choosedSeats.length" class="item">Add some seats</li>
   </ul>
 </app-loading-spinner>

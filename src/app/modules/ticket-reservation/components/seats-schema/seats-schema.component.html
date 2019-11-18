@@ -10,7 +10,10 @@
           lineNumber + 1 === selectedSeat.line &&
           seatNumber + 1 === selectedSeat.seatNumber,
         disabled: seat.isBlocked,
-        choosen: seats.length && isChoosen(lineNumber + 1, seatNumber + 1)
+        choosen:
+          choosedSeats &&
+          choosedSeats.length &&
+          isChoosen(lineNumber + 1, seatNumber + 1)
       }"
       (click)="setSeat(seat, lineNumber + 1, seatNumber + 1)"
     >
@@ -19,7 +22,7 @@
   </div>
 </div>
 <button
-  class="uk-button uk-button-secondary"
+  class="uk-button uk-button-secondary add-btn"
   [disabled]="!selectedSeat"
   (click)="addSeat()"
 >

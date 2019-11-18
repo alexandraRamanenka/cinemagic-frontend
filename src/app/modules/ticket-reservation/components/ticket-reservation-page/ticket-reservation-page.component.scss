@@ -1,0 +1,19 @@
+.heading {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+
+  .name {
+    margin-right: 3rem;
+    font-weight: 700;
+  }
+
+  .date,
+  .time,
+  .cinema {
+    font-weight: 500;
+    font-size: 1.2rem;
+    margin-right: 2rem;
+  }
+}

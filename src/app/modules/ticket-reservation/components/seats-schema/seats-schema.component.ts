@@ -21,7 +21,7 @@ export class SeatsSchemaComponent implements ControlValueAccessor {
 
   @Input() schema: Seat[][];
   selectedSeat: BlockedSeat;
-  seats: BlockedSeat[] = [];
+  choosedSeats: BlockedSeat[] = [];
 
   constructor(private reservationService: ReservationService) {}
 
@@ -32,18 +32,20 @@ export class SeatsSchemaComponent implements ControlValueAccessor {
   }
 
   addSeat() {
-    this.seats.push(this.selectedSeat);
-    this.onChange(this.seats);
+    this.choosedSeats.push(this.selectedSeat);
+    this.onChange(this.choosedSeats);
     this.reservationService.addSeat(this.selectedSeat);
     this.selectedSeat = null;
   }
 
   isChoosen(line: number, seatNumber: number): boolean {
-    return this.seats.some(s => s.seatNumber === seatNumber && s.line === line);
+    return this.choosedSeats.some(
+      s => s.seatNumber === seatNumber && s.line === line
+    );
   }
 
   writeValue(seats: BlockedSeat[]): void {
-    this.seats = seats;
+    this.choosedSeats = seats;
   }
 
   registerOnChange(fn: any): void {

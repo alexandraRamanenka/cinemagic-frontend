@@ -1,4 +1,5 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { UserService } from '@shared/services/user.service';
+import { Injectable, OnDestroy, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject, Observable } from 'rxjs';
 import { Session } from '@shared/models/session';
@@ -7,13 +8,16 @@ import { WebSocketService } from 'app/websocket/webSocket.service';
 import { WS_EVENTS } from 'app/websocket/webSocket.events';
 import { takeUntil } from 'rxjs/operators';
 import { BlockedSeat } from '@shared/models/blockedSeat';
+import { User } from '@shared/models/user';
 
 @Injectable()
 export class ReservationService implements OnDestroy {
   private blockedSeatsValues: BlockedSeat[] = [];
   private sessionSubject: Subject<Session> = new Subject();
   private blockedSeatsSubject: Subject<BlockedSeat[]> = new Subject();
+  private choosedSeatsSubject: Subject<BlockedSeat[]> = new Subject();
   private unsubscribe$ = new Subject<void>();
+  private currentUser: User;
 
   sessionId: string;
 
@@ -25,7 +29,21 @@ export class ReservationService implements OnDestroy {
     return this.blockedSeatsSubject.asObservable();
   }
 
-  constructor(private http: HttpClient, private ws: WebSocketService) {}
+  get choosedSeats(): Observable<BlockedSeat[]> {
+    return this.choosedSeatsSubject.asObservable();
+  }
+
+  constructor(
+    private http: HttpClient,
+    private ws: WebSocketService,
+    private userService: UserService
+  ) {
+    this.userService.currentUser
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(user => {
+        this.currentUser = user;
+      });
+  }
 
   ngOnDestroy() {
     this.closeReservationSession();
@@ -33,14 +51,16 @@ export class ReservationService implements OnDestroy {
 
   startReservationSession(id: string) {
     this.getSessionById(id);
-    this.getBlockedSeats(id);
+    this.getBlockedSeats();
+    this.getChoosedSeats();
+
     this.ws.connect();
+
     this.ws
       .on<BlockedSeat>(WS_EVENTS.ON.SEAT_ADDED)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(blockedSeat => {
         this.blockedSeatsValues.push(blockedSeat);
-        console.log(this.blockedSeatsValues);
         this.blockedSeatsSubject.next(this.blockedSeatsValues);
       });
 
@@ -48,14 +68,13 @@ export class ReservationService implements OnDestroy {
       .on<BlockedSeat>(WS_EVENTS.ON.SEAT_REMOVED)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(blockedSeat => {
-        let updated = this.blockedSeatsValues.filter(seat => {
+        this.blockedSeatsValues = this.blockedSeatsValues.filter(seat => {
           return (
-            seat.seatNumber !== blockedSeat.seatNumber &&
+            seat.seatNumber !== blockedSeat.seatNumber ||
             seat.line !== blockedSeat.line
           );
         });
-        console.log(`updated`, updated);
-        this.blockedSeatsValues = updated;
+
         this.blockedSeatsSubject.next(this.blockedSeatsValues);
       });
   }
@@ -73,12 +92,23 @@ export class ReservationService implements OnDestroy {
     });
   }
 
-  getBlockedSeats(sessionId: string) {
+  getBlockedSeats() {
     this.http
-      .get(`blocked_seats/?session=${sessionId}`)
+      .get(`blocked_seats/?session=${this.sessionId}`)
       .subscribe((res: Response<BlockedSeat[]>) => {
         this.blockedSeatsValues = res.data;
         this.blockedSeatsSubject.next(res.data);
+      });
+  }
+
+  getChoosedSeats() {
+    this.http
+      .get(
+        `blocked_seats/?session=${this.sessionId}&user=${this.currentUser._id}`
+      )
+      .subscribe((res: Response<BlockedSeat[]>) => {
+        console.log(res.data);
+        this.choosedSeatsSubject.next(res.data);
       });
   }
 

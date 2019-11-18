@@ -17,25 +17,20 @@ export class HallSchemaComponent implements OnInit, OnDestroy {
 
   loading = true;
   hall: Hall;
-  reserved: any[] = [];
-  blocked: any[] = [];
-  selectedSeats: BlockedSeat[] = [];
-  seats: Seat[] = [];
+  reserved: BlockedSeat[] = [];
+  blocked: BlockedSeat[] = [];
+  choosedSeats: BlockedSeat[] = [];
 
   get seatsSchema(): Seat[][] {
     let schema = [] as Seat[][];
     let currentSeat = 1;
 
-    this.hall.seatsSchema.forEach((line, lineNumber) => {
+    this.hall.seatsSchema.forEach(line => {
       let lineSeats = Array.from({ length: line.numberOfSeats }, (v, i) => {
-        const isBlocked = this.isBlocked(lineNumber + 1, i + 1);
-
         const seat = {
           number: i + currentSeat,
-          type: line.seatType.name,
-          isBlocked
+          type: line.seatType.name
         };
-
         return seat;
       });
 
@@ -43,14 +38,8 @@ export class HallSchemaComponent implements OnInit, OnDestroy {
       schema.push(lineSeats);
     });
 
+    this.mapBlockedSeats(schema);
     return schema;
-  }
-
-  getBlockedSeatNumber(blockedSeat: BlockedSeat) {
-    const seat = this.seatsSchema[blockedSeat.line - 1][
-      blockedSeat.seatNumber - 1
-    ];
-    return seat.number;
   }
 
   private getReservedSeats(reservations: Reservation[]) {
@@ -61,15 +50,13 @@ export class HallSchemaComponent implements OnInit, OnDestroy {
     return reserved;
   }
 
-  private isBlocked(lineNumber: number, seatNumber: number): boolean {
-    return (
-      this.reserved.some(
-        s => s.line === lineNumber && s.seatNumber === seatNumber
-      ) ||
-      this.blocked.some(
-        s => s.line === lineNumber && s.seatNumber === seatNumber
-      )
-    );
+  private mapBlockedSeats(schema: Seat[][]) {
+    this.reserved.forEach(seat => {
+      schema[seat.line - 1][seat.seatNumber - 1].isBlocked = true;
+    });
+    this.blocked.forEach(seat => {
+      schema[seat.line - 1][seat.seatNumber - 1].isBlocked = true;
+    });
   }
 
   constructor(private reservationService: ReservationService) {}
@@ -78,6 +65,10 @@ export class HallSchemaComponent implements OnInit, OnDestroy {
     this.reservationService.blockedSeats
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(blockedSeats => (this.blocked = blockedSeats));
+
+    this.reservationService.choosedSeats
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(choosedSeats => (this.choosedSeats = choosedSeats));
 
     this.reservationService.session
       .pipe(takeUntil(this.unsubscribe$))
@@ -94,13 +85,19 @@ export class HallSchemaComponent implements OnInit, OnDestroy {
   }
 
   removeSeat(blockedSeat: BlockedSeat) {
-    const updated = this.selectedSeats.filter(seat => {
+    this.choosedSeats = this.choosedSeats.filter(seat => {
       return (
         seat.line !== blockedSeat.line ||
         seat.seatNumber !== blockedSeat.seatNumber
       );
     });
-    this.selectedSeats = updated;
     this.reservationService.removeSeat(blockedSeat);
+  }
+
+  getBlockedSeatNumber(blockedSeat: BlockedSeat) {
+    const seat = this.seatsSchema[blockedSeat.line - 1][
+      blockedSeat.seatNumber - 1
+    ];
+    return seat.number;
   }
 }
