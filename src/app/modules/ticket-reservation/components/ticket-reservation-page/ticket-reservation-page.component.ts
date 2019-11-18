@@ -21,7 +21,6 @@ export class TicketReservationPageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.reservationService.connect();
     this.route.paramMap
       .pipe(
         switchMap((params: ParamMap) => {
@@ -40,6 +39,6 @@ export class TicketReservationPageComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
-    this.reservationService.complete();
+    this.reservationService.closeReservationSession();
   }
 }

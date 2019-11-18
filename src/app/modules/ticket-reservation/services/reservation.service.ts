@@ -23,7 +23,16 @@ export class ReservationService implements OnDestroy {
     return this.blockedSeatsSubject.asObservable();
   }
 
-  constructor(private http: HttpClient, private ws: WebSocketService) {
+  constructor(private http: HttpClient, private ws: WebSocketService) {}
+
+  ngOnDestroy() {
+    this.closeReservationSession();
+  }
+
+  startReservationSession(id: string) {
+    this.getSessionById(id);
+    this.getBlockedSeats(id);
+    this.ws.connect();
     this.ws
       .on<Seat[]>(WS_EVENTS.ON.BLOCKED_SEATS_CHANGED)
       .pipe(takeUntil(this.unsubscribe$))
@@ -32,22 +41,10 @@ export class ReservationService implements OnDestroy {
       });
   }
 
-  ngOnDestroy() {
+  closeReservationSession() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
-  }
-
-  connect() {
-    this.ws.connect();
-  }
-
-  complete() {
-    this.ws.complete();
-  }
-
-  startReservationSession(id: string) {
-    this.getSessionById(id);
-    this.getBlockedSeats(id);
+    this.ws.closeConnection();
   }
 
   getSessionById(id: string) {
