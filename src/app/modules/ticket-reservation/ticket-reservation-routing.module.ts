@@ -1,3 +1,4 @@
+import { ServicesCartComponent } from './components/services-cart/services-cart.component';
 import { HallSchemaComponent } from './components/hall-schema/hall-schema.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -15,6 +16,10 @@ const routes: Routes = [
       {
         path: 'seats-choose',
         component: HallSchemaComponent
+      },
+      {
+        path: 'services-choose',
+        component: ServicesCartComponent
       }
     ]
   }

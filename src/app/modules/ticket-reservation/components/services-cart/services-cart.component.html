@@ -1,0 +1,12 @@
+<app-loading-spinner [loading]="loading">
+  <h2>Choose services</h2>
+  <ul class="services-list">
+    <li *ngFor="let service of services" class="service">
+      <app-service-item [service]="service"></app-service-item>
+      <hr />
+    </li>
+    <li *ngIf="!services || !services.length">
+      Now services are available now...
+    </li>
+  </ul>
+</app-loading-spinner>

@@ -1,0 +1,15 @@
+<div class="service">
+  <div
+    class="image"
+    [ngStyle]="{ 'background-image': 'url(' + service.image + ')' }"
+  ></div>
+
+  <div class="info">
+    <h3 class="name">{{ service.name }}</h3>
+    <p class="description">{{ service.description }}</p>
+    <div class="row">
+      <p class="price">{{ service.price + ' BYN' }}</p>
+      <app-counter></app-counter>
+    </div>
+  </div>
+</div>

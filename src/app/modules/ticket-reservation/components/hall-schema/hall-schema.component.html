@@ -1,10 +1,11 @@
 <app-loading-spinner [loading]="loading">
-  <h3 class="">Choose seats</h3>
-  <app-seats-schema
-    *ngIf="hall"
-    [schema]="seatsSchema"
-    [(ngModel)]="choosedSeats"
-  ></app-seats-schema>
+  <h3>Choose seats</h3>
+  <ng-container *ngIf="hall">
+    <app-seats-schema
+      [schema]="seatsSchema"
+      [(ngModel)]="choosedSeats"
+    ></app-seats-schema>
+  </ng-container>
   <hr />
   <h3>Choosed seats</h3>
   <ul class="choosed-seats">
@@ -14,4 +15,13 @@
     </li>
     <li *ngIf="!choosedSeats.length" class="item">Add some seats</li>
   </ul>
+  <div class="row">
+    <button
+      [routerLink]="'../services-choose'"
+      class="uk-button uk-button-secondary next-btn"
+      [disabled]="!choosedSeats.length"
+    >
+      Next
+    </button>
+  </div>
 </app-loading-spinner>

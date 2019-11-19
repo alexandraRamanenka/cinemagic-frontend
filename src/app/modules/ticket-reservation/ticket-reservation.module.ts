@@ -11,12 +11,17 @@ import { SeatsSchemaComponent } from './components/seats-schema/seats-schema.com
 import { FormsModule } from '@angular/forms';
 import { WebSocketModule } from 'app/websocket/webSocket.module';
 import { environment } from '@env/environment';
+import { ServicesCartComponent } from './components/services-cart/services-cart.component';
+import { ServicesService } from './services/services.service';
+import { ServiceItemComponent } from './components/service-item/service-item.component';
 
 @NgModule({
   declarations: [
     HallSchemaComponent,
     TicketReservationPageComponent,
-    SeatsSchemaComponent
+    SeatsSchemaComponent,
+    ServicesCartComponent,
+    ServiceItemComponent
   ],
   imports: [
     CommonModule,
@@ -27,6 +32,6 @@ import { environment } from '@env/environment';
       url: environment.wsUrl
     })
   ],
-  providers: [httpInterceptorProviders, ReservationService]
+  providers: [httpInterceptorProviders, ReservationService, ServicesService]
 })
 export class TicketReservationModule {}

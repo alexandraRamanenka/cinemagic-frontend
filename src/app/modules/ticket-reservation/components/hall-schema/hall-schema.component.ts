@@ -39,6 +39,7 @@ export class HallSchemaComponent implements OnInit, OnDestroy {
     });
 
     this.mapBlockedSeats(schema);
+
     return schema;
   }
 
@@ -59,25 +60,27 @@ export class HallSchemaComponent implements OnInit, OnDestroy {
     });
   }
 
-  constructor(private reservationService: ReservationService) {}
+  constructor(private reservationService: ReservationService) {
+    this.reservationService.session
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(session => {
+        this.hall = session.hall;
+        this.reserved = this.getReservedSeats(session.reservations);
+      });
 
-  ngOnInit() {
     this.reservationService.blockedSeats
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(blockedSeats => (this.blocked = blockedSeats));
 
     this.reservationService.choosedSeats
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(choosedSeats => (this.choosedSeats = choosedSeats));
-
-    this.reservationService.session
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(session => {
-        this.hall = session.hall;
-        this.reserved = this.getReservedSeats(session.reservations);
+      .subscribe(choosedSeats => {
+        this.choosedSeats = choosedSeats;
         this.loading = false;
       });
   }
+
+  ngOnInit() {}
 
   ngOnDestroy() {
     this.unsubscribe$.next();

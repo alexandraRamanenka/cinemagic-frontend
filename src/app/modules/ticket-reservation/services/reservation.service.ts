@@ -107,7 +107,6 @@ export class ReservationService implements OnDestroy {
         `blocked_seats/?session=${this.sessionId}&user=${this.currentUser._id}`
       )
       .subscribe((res: Response<BlockedSeat[]>) => {
-        console.log(res.data);
         this.choosedSeatsSubject.next(res.data);
       });
   }

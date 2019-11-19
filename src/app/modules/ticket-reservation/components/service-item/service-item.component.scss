@@ -1,0 +1,42 @@
+@import 'variables.scss';
+
+.service {
+  display: flex;
+
+  .image {
+    width: 128px;
+    height: 128px;
+    border-radius: 10%;
+    border: 1px solid $color-stroke;
+    box-shadow: 1px 1px 5px $color-shadow;
+    background: center/cover;
+    margin-right: 3rem;
+  }
+
+  .price {
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .description {
+    margin-top: 0.5rem;
+  }
+
+  .name {
+    margin-bottom: 0;
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+}
