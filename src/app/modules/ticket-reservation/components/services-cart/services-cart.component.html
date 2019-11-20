@@ -5,6 +5,7 @@
       <app-service-item
         [service]="service"
         (serviceAdd)="onServiceAdd($event)"
+        [inCart]="isInCart(service._id)"
       ></app-service-item>
       <hr />
     </li>
@@ -13,12 +14,27 @@
     </li>
   </ul>
 
-  <h2>Your cart</h2>
+  <h2><span uk-icon="icon: cart; ratio: 1.2"></span> Your cart</h2>
   <ul class="cart">
-    <li *ngFor="let serviceOrder of serviceOrders">
-      <span>
-        {{ serviceOrder.service.name + ' x' + serviceOrder.amount }}
-      </span>
+    <li *ngFor="let serviceOrder of serviceOrders" class="item">
+      <div class="row">
+        <span clas="name">{{ serviceOrder.service.name }}</span>
+        <span clas="amount">{{ 'x' + serviceOrder.amount }}</span>
+        <span clas="price">{{
+          serviceOrder.amount * serviceOrder.service.price + ' BYN'
+        }}</span>
+        <button
+          class="uk-button uk-button-text remove-btn"
+          (click)="removeFromCart(serviceOrder.service._id)"
+        >
+          remove
+        </button>
+      </div>
+      <hr />
+    </li>
+
+    <li *ngIf="!serviceOrders.length">
+      You haven't any services in your cart...
     </li>
   </ul>
 </app-loading-spinner>

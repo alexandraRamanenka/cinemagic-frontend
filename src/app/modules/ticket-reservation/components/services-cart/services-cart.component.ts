@@ -1,10 +1,9 @@
-import { ServiceOrder } from './../../../../shared/models/serviceOrder';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ServiceOrder } from '@shared/models/serviceOrder';
+import { Component, OnDestroy } from '@angular/core';
 import { Service } from '@shared/models/service';
 import { ServicesService } from '../../services/services.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-services-cart',
@@ -47,5 +46,15 @@ export class ServicesCartComponent implements OnDestroy {
     } else {
       this.serviceOrders[orderIndex] = serviceOrder;
     }
+  }
+
+  removeFromCart(orderId: string) {
+    this.serviceOrders = this.serviceOrders.filter(
+      order => order.service._id !== orderId
+    );
+  }
+
+  isInCart(serviceId: string) {
+    return this.serviceOrders.some(order => order.service._id === serviceId);
   }
 }
