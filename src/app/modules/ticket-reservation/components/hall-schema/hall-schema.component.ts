@@ -70,7 +70,9 @@ export class HallSchemaComponent implements OnInit, OnDestroy {
 
     this.reservationService.blockedSeats
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(blockedSeats => (this.blocked = blockedSeats));
+      .subscribe(blockedSeats => {
+        this.blocked = blockedSeats;
+      });
 
     this.reservationService.choosedSeats
       .pipe(takeUntil(this.unsubscribe$))

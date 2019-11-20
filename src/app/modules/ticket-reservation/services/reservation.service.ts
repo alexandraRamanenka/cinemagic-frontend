@@ -13,6 +13,7 @@ import { User } from '@shared/models/user';
 @Injectable()
 export class ReservationService implements OnDestroy {
   private blockedSeatsValues: BlockedSeat[] = [];
+  private choosedSeatsValues: BlockedSeat[] = [];
   private sessionSubject: Subject<Session> = new Subject();
   private blockedSeatsSubject: Subject<BlockedSeat[]> = new Subject();
   private choosedSeatsSubject: Subject<BlockedSeat[]> = new Subject();
@@ -75,6 +76,18 @@ export class ReservationService implements OnDestroy {
           );
         });
 
+        if (
+          blockedSeat.session === this.sessionId &&
+          blockedSeat.user === this.currentUser._id
+        ) {
+          this.choosedSeatsValues = this.choosedSeatsValues.filter(
+            seat =>
+              seat.line !== blockedSeat.line ||
+              seat.seatNumber !== blockedSeat.seatNumber
+          );
+          this.choosedSeatsSubject.next(this.choosedSeatsValues);
+        }
+
         this.blockedSeatsSubject.next(this.blockedSeatsValues);
       });
   }
@@ -107,6 +120,7 @@ export class ReservationService implements OnDestroy {
         `blocked_seats/?session=${this.sessionId}&user=${this.currentUser._id}`
       )
       .subscribe((res: Response<BlockedSeat[]>) => {
+        this.choosedSeatsValues = res.data;
         this.choosedSeatsSubject.next(res.data);
       });
   }
