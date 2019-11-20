@@ -46,12 +46,14 @@ export class ServicesCartComponent implements OnDestroy {
     } else {
       this.serviceOrders[orderIndex] = serviceOrder;
     }
+    this.servicesService.changeCart(this.serviceOrders);
   }
 
   removeFromCart(orderId: string) {
     this.serviceOrders = this.serviceOrders.filter(
       order => order.service._id !== orderId
     );
+    this.servicesService.changeCart(this.serviceOrders);
   }
 
   isInCart(serviceId: string) {

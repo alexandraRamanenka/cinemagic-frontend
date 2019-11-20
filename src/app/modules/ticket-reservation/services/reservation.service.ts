@@ -96,6 +96,8 @@ export class ReservationService implements OnDestroy {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
     this.ws.closeConnection();
+    sessionStorage.removeItem('seats');
+    sessionStorage.removeItem('serviceOrders');
   }
 
   getSessionById(id: string) {
@@ -126,10 +128,12 @@ export class ReservationService implements OnDestroy {
   }
 
   addSeat(seat: BlockedSeat) {
+    sessionStorage.setItem('seats', JSON.stringify(this.choosedSeatsValues));
     this.ws.send(WS_EVENTS.SEND.ADD_SEAT, seat);
   }
 
   removeSeat(seat: BlockedSeat) {
+    sessionStorage.setItem('seats', JSON.stringify(this.choosedSeatsValues));
     this.ws.send(WS_EVENTS.SEND.REMOVE_SEAT, seat);
   }
 

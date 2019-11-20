@@ -4,6 +4,7 @@ import { map, distinctUntilChanged } from 'rxjs/operators';
 import { Service } from '@shared/models/service';
 import { Subject, Observable } from 'rxjs';
 import { Response } from '@shared/models/response';
+import { ServiceOrder } from '@shared/models/serviceOrder';
 
 @Injectable({
   providedIn: 'root'
@@ -21,5 +22,9 @@ export class ServicesService {
     return this.http.get('services').subscribe((res: Response<Service[]>) => {
       this.servicesSubject.next(res.data);
     });
+  }
+
+  changeCart(services: ServiceOrder[]) {
+    sessionStorage.setItem('serviceOrders', JSON.stringify(services));
   }
 }
