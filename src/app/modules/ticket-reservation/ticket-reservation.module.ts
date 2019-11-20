@@ -14,6 +14,7 @@ import { environment } from '@env/environment';
 import { ServicesCartComponent } from './components/services-cart/services-cart.component';
 import { ServicesService } from './services/services.service';
 import { ServiceItemComponent } from './components/service-item/service-item.component';
+import { CheckoutComponent } from './components/checkout/checkout.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ServiceItemComponent } from './components/service-item/service-item.com
     TicketReservationPageComponent,
     SeatsSchemaComponent,
     ServicesCartComponent,
-    ServiceItemComponent
+    ServiceItemComponent,
+    CheckoutComponent
   ],
   imports: [
     CommonModule,
