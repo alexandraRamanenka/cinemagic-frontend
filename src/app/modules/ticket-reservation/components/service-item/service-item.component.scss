@@ -13,24 +13,38 @@
     margin-right: 3rem;
   }
 
-  .price {
-    font-weight: 600;
-    margin: 0;
-  }
-
-  .description {
-    margin-top: 0.5rem;
-  }
-
-  .name {
-    margin-bottom: 0;
-  }
-
   .info {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     width: 100%;
+
+    .price {
+      font-weight: 600;
+      margin: 0;
+      white-space: pre-wrap;
+      width: 6rem;
+    }
+
+    .description {
+      margin-top: 0.5rem;
+    }
+
+    .name {
+      margin-bottom: 0;
+    }
+
+    .add-btn {
+      font-weight: 400;
+      font-size: 1rem;
+      width: 4rem;
+      text-align: right;
+    }
+
+    .counter {
+      margin-right: 2rem;
+      width: 6rem;
+    }
   }
 
   .row {
@@ -38,5 +52,14 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
+  }
+
+  .group {
+    display: flex;
+    justify-content: flex-end;
+
+    .price {
+      text-align: center;
+    }
   }
 }

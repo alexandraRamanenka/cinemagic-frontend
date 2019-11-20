@@ -46,6 +46,7 @@ export class SeatsSchemaComponent implements ControlValueAccessor {
 
   writeValue(seats: BlockedSeat[]): void {
     this.choosedSeats = seats;
+    this.onChange(this.choosedSeats);
   }
 
   registerOnChange(fn: any): void {

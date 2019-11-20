@@ -9,7 +9,18 @@
     <p class="description">{{ service.description }}</p>
     <div class="row">
       <p class="price">{{ service.price + ' BYN' }}</p>
-      <app-counter></app-counter>
+
+      <div class="row group">
+        <app-counter [(ngModel)]="amount" class="counter"></app-counter>
+        <p class="price">{{ service.price * amount + ' BYN' }}</p>
+        <button
+          class="uk-button uk-button-text add-btn"
+          (click)="addService()"
+          [disabled]="!amount && state === 'add'"
+        >
+          {{ state }}
+        </button>
+      </div>
     </div>
   </div>
 </div>

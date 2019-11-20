@@ -1,8 +1,10 @@
+import { ServiceOrder } from './../../../../shared/models/serviceOrder';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Service } from '@shared/models/service';
 import { ServicesService } from '../../services/services.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-services-cart',
@@ -13,6 +15,7 @@ export class ServicesCartComponent implements OnDestroy {
   private unsubscribe$ = new Subject<void>();
   loading = true;
   services: Service[];
+  serviceOrders: ServiceOrder[] = [];
 
   constructor(private servicesService: ServicesService) {
     this.servicesService.getServices();
@@ -27,5 +30,22 @@ export class ServicesCartComponent implements OnDestroy {
   ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+  }
+
+  onServiceAdd(serviceOrder: ServiceOrder) {
+    if (serviceOrder.amount === 0) {
+      this.serviceOrders = this.serviceOrders.filter(
+        order => order.service._id !== serviceOrder.service._id
+      );
+      return;
+    }
+    const orderIndex = this.serviceOrders.findIndex(
+      order => order.service._id === serviceOrder.service._id
+    );
+    if (orderIndex === -1) {
+      this.serviceOrders.push(serviceOrder);
+    } else {
+      this.serviceOrders[orderIndex] = serviceOrder;
+    }
   }
 }

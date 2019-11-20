@@ -2,11 +2,23 @@
   <h2>Choose services</h2>
   <ul class="services-list">
     <li *ngFor="let service of services" class="service">
-      <app-service-item [service]="service"></app-service-item>
+      <app-service-item
+        [service]="service"
+        (serviceAdd)="onServiceAdd($event)"
+      ></app-service-item>
       <hr />
     </li>
     <li *ngIf="!services || !services.length">
       Now services are available now...
+    </li>
+  </ul>
+
+  <h2>Your cart</h2>
+  <ul class="cart">
+    <li *ngFor="let serviceOrder of serviceOrders">
+      <span>
+        {{ serviceOrder.service.name + ' x' + serviceOrder.amount }}
+      </span>
     </li>
   </ul>
 </app-loading-spinner>
