@@ -13,10 +13,10 @@ import { User } from '@shared/models/user';
 @Injectable()
 export class ReservationService implements OnDestroy {
   private blockedSeatsValues: BlockedSeat[] = [];
-  private choosedSeatsValues: BlockedSeat[] = [];
-  private sessionSubject: Subject<Session> = new Subject();
+  private chosenSeatsValues: BlockedSeat[] = [];
+  private sessionSubject = new Subject<Session>();
   private blockedSeatsSubject: Subject<BlockedSeat[]> = new Subject();
-  private choosedSeatsSubject: Subject<BlockedSeat[]> = new Subject();
+  private chosenSeatsSubject: Subject<BlockedSeat[]> = new Subject();
   private unsubscribe$ = new Subject<void>();
   private currentUser: User;
 
@@ -30,8 +30,8 @@ export class ReservationService implements OnDestroy {
     return this.blockedSeatsSubject.asObservable();
   }
 
-  get choosedSeats(): Observable<BlockedSeat[]> {
-    return this.choosedSeatsSubject.asObservable();
+  get chosenSeats(): Observable<BlockedSeat[]> {
+    return this.chosenSeatsSubject.asObservable();
   }
 
   constructor(
@@ -53,7 +53,7 @@ export class ReservationService implements OnDestroy {
   startReservationSession(id: string) {
     this.getSessionById(id);
     this.getBlockedSeats();
-    this.getChoosedSeats();
+    this.getChosenSeats();
 
     this.ws.connect();
 
@@ -80,12 +80,12 @@ export class ReservationService implements OnDestroy {
           blockedSeat.session === this.sessionId &&
           blockedSeat.user === this.currentUser._id
         ) {
-          this.choosedSeatsValues = this.choosedSeatsValues.filter(
+          this.chosenSeatsValues = this.chosenSeatsValues.filter(
             seat =>
               seat.line !== blockedSeat.line ||
               seat.seatNumber !== blockedSeat.seatNumber
           );
-          this.choosedSeatsSubject.next(this.choosedSeatsValues);
+          this.chosenSeatsSubject.next(this.chosenSeatsValues);
         }
 
         this.blockedSeatsSubject.next(this.blockedSeatsValues);
@@ -116,24 +116,24 @@ export class ReservationService implements OnDestroy {
       });
   }
 
-  getChoosedSeats() {
+  getChosenSeats() {
     this.http
       .get(
         `blocked_seats/?session=${this.sessionId}&user=${this.currentUser._id}`
       )
       .subscribe((res: Response<BlockedSeat[]>) => {
-        this.choosedSeatsValues = res.data;
-        this.choosedSeatsSubject.next(res.data);
+        this.chosenSeatsValues = res.data;
+        this.chosenSeatsSubject.next(res.data);
       });
   }
 
   addSeat(seat: BlockedSeat) {
-    sessionStorage.setItem('seats', JSON.stringify(this.choosedSeatsValues));
+    sessionStorage.setItem('seats', JSON.stringify(this.chosenSeatsValues));
     this.ws.send(WS_EVENTS.SEND.ADD_SEAT, seat);
   }
 
   removeSeat(seat: BlockedSeat) {
-    sessionStorage.setItem('seats', JSON.stringify(this.choosedSeatsValues));
+    sessionStorage.setItem('seats', JSON.stringify(this.chosenSeatsValues));
     this.ws.send(WS_EVENTS.SEND.REMOVE_SEAT, seat);
   }
 

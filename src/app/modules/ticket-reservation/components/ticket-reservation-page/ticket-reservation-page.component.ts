@@ -12,7 +12,7 @@ import { switchMap, takeUntil } from 'rxjs/operators';
 })
 export class TicketReservationPageComponent implements OnInit, OnDestroy {
   private unsubscribe$ = new Subject<void>();
-  loading = false;
+  loading = true;
   session: Session;
 
   constructor(

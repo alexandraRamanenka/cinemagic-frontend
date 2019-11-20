@@ -10,10 +10,10 @@
           lineNumber + 1 === selectedSeat.line &&
           seatNumber + 1 === selectedSeat.seatNumber,
         disabled: seat.isBlocked,
-        choosen:
-          choosedSeats &&
-          choosedSeats.length &&
-          isChoosen(lineNumber + 1, seatNumber + 1)
+        chosen:
+          chosenSeats &&
+          chosenSeats.length &&
+          isChosen(lineNumber + 1, seatNumber + 1)
       }"
       (click)="setSeat(seat, lineNumber + 1, seatNumber + 1)"
     >

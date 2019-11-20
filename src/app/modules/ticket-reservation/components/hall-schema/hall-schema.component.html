@@ -3,23 +3,23 @@
   <ng-container *ngIf="hall">
     <app-seats-schema
       [schema]="seatsSchema"
-      [(ngModel)]="choosedSeats"
+      [(ngModel)]="chosenSeats"
     ></app-seats-schema>
   </ng-container>
   <hr />
-  <h3>Choosed seats</h3>
-  <ul class="choosed-seats">
-    <li *ngFor="let choosedSeat of choosedSeats" class="item">
-      {{ getBlockedSeatNumber(choosedSeat) + ', line ' + choosedSeat.line }}
-      <button uk-icon="icon:close" (click)="removeSeat(choosedSeat)"></button>
+  <h3>Chosen seats</h3>
+  <ul class="chosen-seats">
+    <li *ngFor="let chosenSeat of chosenSeats" class="item">
+      {{ getBlockedSeatNumber(chosenSeat) + ', line ' + chosenSeat.line }}
+      <button uk-icon="icon:close" (click)="removeSeat(chosenSeat)"></button>
     </li>
-    <li *ngIf="!choosedSeats.length" class="item">Add some seats</li>
+    <li *ngIf="!chosenSeats.length" class="item">Add some seats</li>
   </ul>
   <div class="row">
     <button
       [routerLink]="'../services-choose'"
       class="uk-button uk-button-secondary next-btn"
-      [disabled]="!choosedSeats.length"
+      [disabled]="!chosenSeats.length"
     >
       Next
     </button>
