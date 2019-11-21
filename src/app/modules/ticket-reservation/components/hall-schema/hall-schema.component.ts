@@ -26,7 +26,6 @@ export class HallSchemaComponent implements OnInit, OnDestroy {
   private getSeatsSchema(): Seat[][] {
     let schema = [] as Seat[][];
 
-    console.log('schma rendering');
     schema = [...this.seatsShemaGenerator(this.hall.seatsSchema)];
     schema = this.mapSeatsStates(schema, this.blockedSeats);
     schema = this.mapSeatsStates(schema, this.reservedSeats);
@@ -80,6 +79,7 @@ export class HallSchemaComponent implements OnInit, OnDestroy {
       .subscribe(blockedSeats => {
         this.blockedSeats = blockedSeats;
         this.seatsSchema = this.getSeatsSchema();
+        this.loading = false;
       });
   }
 
@@ -89,7 +89,6 @@ export class HallSchemaComponent implements OnInit, OnDestroy {
       .subscribe(chosenSeats => {
         this.chosenSeats = chosenSeats;
         this.seatsSchema = this.getSeatsSchema();
-        this.loading = false;
       });
   }
 

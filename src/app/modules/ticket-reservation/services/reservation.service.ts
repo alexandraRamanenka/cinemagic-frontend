@@ -71,11 +71,18 @@ export class ReservationService implements OnDestroy {
   }
 
   closeReservationSession() {
+    this.blockedSeatsValues = [];
+    this.chosenSeatsValues = [];
+    this.loadingSubject.next(true);
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
     this.ws.closeConnection();
-    sessionStorage.removeItem('seats');
-    sessionStorage.removeItem('serviceOrders');
+    sessionStorage.removeItem(
+      `${this.session._id}_${SessionStorageKeys.Seats}`
+    );
+    sessionStorage.removeItem(
+      `${this.session._id}_${SessionStorageKeys.Services}`
+    );
   }
 
   getSessionById(id: string) {
@@ -93,7 +100,7 @@ export class ReservationService implements OnDestroy {
 
   getChosenSeats() {
     const chosenSeats = JSON.parse(
-      sessionStorage.getItem(`${this.session._id}_${SessionStorageKeys.SEATS}`)
+      sessionStorage.getItem(`${this.session._id}_${SessionStorageKeys.Seats}`)
     );
 
     if (chosenSeats) {
@@ -168,11 +175,26 @@ export class ReservationService implements OnDestroy {
     this.chosenSeatsValues = this.chosenSeatsValues.filter(seat =>
       this.isNotRemoved(seat, removedSeat)
     );
+
+    if (this.chosenSeatsValues.length) {
+      sessionStorage.setItem(
+        `${this.session._id}_${SessionStorageKeys.Seats}`,
+        JSON.stringify(this.chosenSeatsValues)
+      );
+    } else {
+      sessionStorage.removeItem(
+        `${this.session._id}_${SessionStorageKeys.Seats}`
+      );
+    }
     this.chosenSeatsSubject.next(this.chosenSeatsValues);
   }
 
   private addSeatToCart(seat: BlockedSeat) {
     this.chosenSeatsValues.push(seat);
+    sessionStorage.setItem(
+      `${this.session._id}_${SessionStorageKeys.Seats}`,
+      JSON.stringify(this.chosenSeatsValues)
+    );
     this.chosenSeatsSubject.next(this.chosenSeatsValues);
   }
 

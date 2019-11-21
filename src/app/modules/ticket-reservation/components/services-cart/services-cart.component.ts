@@ -17,13 +17,14 @@ export class ServicesCartComponent implements OnDestroy {
   serviceOrders: ServiceOrder[] = [];
 
   constructor(private servicesService: ServicesService) {
-    this.servicesService.getServices();
-    this.servicesService.services
+    this.servicesService.getServices().subscribe(services => {
+      this.services = services;
+      this.loading = false;
+    });
+
+    this.servicesService.serviceOrders
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(services => {
-        this.services = services;
-        this.loading = false;
-      });
+      .subscribe(services => (this.serviceOrders = services));
   }
 
   ngOnDestroy() {
@@ -32,28 +33,11 @@ export class ServicesCartComponent implements OnDestroy {
   }
 
   onServiceAdd(serviceOrder: ServiceOrder) {
-    if (serviceOrder.amount === 0) {
-      this.serviceOrders = this.serviceOrders.filter(
-        order => order.service._id !== serviceOrder.service._id
-      );
-      return;
-    }
-    const orderIndex = this.serviceOrders.findIndex(
-      order => order.service._id === serviceOrder.service._id
-    );
-    if (orderIndex === -1) {
-      this.serviceOrders.push(serviceOrder);
-    } else {
-      this.serviceOrders[orderIndex] = serviceOrder;
-    }
-    this.servicesService.changeCart(this.serviceOrders);
+    this.servicesService.addToCart(serviceOrder);
   }
 
-  removeFromCart(orderId: string) {
-    this.serviceOrders = this.serviceOrders.filter(
-      order => order.service._id !== orderId
-    );
-    this.servicesService.changeCart(this.serviceOrders);
+  removeFromCart(serviceOrder: ServiceOrder) {
+    this.servicesService.removeFromCart(serviceOrder);
   }
 
   isInCart(serviceId: string) {

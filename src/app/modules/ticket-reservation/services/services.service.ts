@@ -1,7 +1,7 @@
 import { ReservationService } from './reservation.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { distinctUntilChanged } from 'rxjs/operators';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 import { Service } from '@shared/models/service';
 import { Subject, Observable } from 'rxjs';
 import { Response } from '@shared/models/response';
@@ -12,10 +12,11 @@ import { SessionStorageKeys } from '@shared/enums/sessionStorageKeys';
   providedIn: 'root'
 })
 export class ServicesService {
-  private servicesSubject = new Subject<Service[]>();
+  services: ServiceOrder[] = [];
+  private servicesSubject = new Subject<ServiceOrder[]>();
 
-  get services(): Observable<Service[]> {
-    return this.servicesSubject.asObservable().pipe(distinctUntilChanged());
+  get serviceOrders(): Observable<ServiceOrder[]> {
+    return this.servicesSubject.asObservable();
   }
 
   constructor(
@@ -24,15 +25,49 @@ export class ServicesService {
   ) {}
 
   getServices() {
-    return this.http.get('services').subscribe((res: Response<Service[]>) => {
-      this.servicesSubject.next(res.data);
-    });
+    return this.http
+      .get('services')
+      .pipe(map((res: Response<Service[]>) => res.data));
   }
 
-  changeCart(services: ServiceOrder[]) {
-    sessionStorage.setItem(
-      `${this.reservationService.session._id}_${SessionStorageKeys.SERVICES}`,
-      JSON.stringify(services)
+  addToCart(serviceOrder: ServiceOrder) {
+    if (serviceOrder.amount === 0) {
+      this.removeFromCart(serviceOrder);
+      return;
+    }
+
+    const orderIndex = this.services.findIndex(
+      order => order.service._id === serviceOrder.service._id
     );
+
+    if (orderIndex === -1) {
+      this.services.push(serviceOrder);
+    } else {
+      this.services[orderIndex] = serviceOrder;
+    }
+
+    this.servicesSubject.next(this.services);
+    this.changeCart(this.services);
+  }
+
+  removeFromCart(serviceOrder: ServiceOrder) {
+    this.services = this.services.filter(
+      order => order.service._id !== serviceOrder.service._id
+    );
+    this.servicesSubject.next(this.services);
+    this.changeCart(this.services);
+  }
+
+  private changeCart(services: ServiceOrder[]) {
+    if (services.length) {
+      sessionStorage.setItem(
+        `${this.reservationService.session._id}_${SessionStorageKeys.Services}`,
+        JSON.stringify(services)
+      );
+    } else {
+      sessionStorage.removeItem(
+        `${this.reservationService.session._id}_${SessionStorageKeys.Services}`
+      );
+    }
   }
 }

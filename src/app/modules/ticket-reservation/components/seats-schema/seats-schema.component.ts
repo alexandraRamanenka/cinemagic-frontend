@@ -3,7 +3,6 @@ import { Component, Input, OnDestroy } from '@angular/core';
 import { Seat } from '@shared/models/seat';
 import { ReservationService } from '../../services/reservation.service';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-seats-schema',
@@ -12,17 +11,12 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class SeatsSchemaComponent implements OnDestroy {
   @Input() schema: Seat[][];
-
+  @Input() chosenSeats: BlockedSeat[] = [];
   selectedSeat: BlockedSeat;
-  chosenSeats: BlockedSeat[] = [];
 
   private unsubscribe$ = new Subject<void>();
 
-  constructor(private reservationService: ReservationService) {
-    this.reservationService.chosenSeats
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(seats => (this.chosenSeats = seats));
-  }
+  constructor(private reservationService: ReservationService) {}
 
   ngOnDestroy() {
     this.unsubscribe$.next();
