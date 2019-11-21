@@ -1,22 +1,26 @@
 import { UserService } from '@shared/services/user.service';
-import { Injectable, OnDestroy, OnInit } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject, Observable } from 'rxjs';
 import { Session } from '@shared/models/session';
 import { Response } from '@shared/models/response';
 import { WebSocketService } from 'app/websocket/webSocket.service';
-import { WS_EVENTS } from 'app/websocket/webSocket.events';
-import { takeUntil } from 'rxjs/operators';
+import { WebSocketOnEvents } from '@shared/enums/webSocketOnEvents';
+import { WebSocketSendEvents } from '@shared/enums/webSocketSendEvents';
+import { takeUntil, filter } from 'rxjs/operators';
 import { BlockedSeat } from '@shared/models/blockedSeat';
 import { User } from '@shared/models/user';
+import { SessionStorageKeys } from '@shared/enums/sessionStorageKeys';
 
 @Injectable()
 export class ReservationService implements OnDestroy {
   private blockedSeatsValues: BlockedSeat[] = [];
   private chosenSeatsValues: BlockedSeat[] = [];
+
   private sessionSubject = new Subject<Session>();
   private blockedSeatsSubject: Subject<BlockedSeat[]> = new Subject();
   private chosenSeatsSubject: Subject<BlockedSeat[]> = new Subject();
+
   private unsubscribe$ = new Subject<void>();
   private currentUser: User;
 
@@ -53,43 +57,11 @@ export class ReservationService implements OnDestroy {
   startReservationSession(id: string) {
     this.getSessionById(id);
     this.getBlockedSeats();
-    this.getChosenSeats();
 
     this.ws.connect();
 
-    this.ws
-      .on<BlockedSeat>(WS_EVENTS.ON.SEAT_ADDED)
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(blockedSeat => {
-        this.blockedSeatsValues.push(blockedSeat);
-        this.blockedSeatsSubject.next(this.blockedSeatsValues);
-      });
-
-    this.ws
-      .on<BlockedSeat>(WS_EVENTS.ON.SEAT_REMOVED)
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(blockedSeat => {
-        this.blockedSeatsValues = this.blockedSeatsValues.filter(seat => {
-          return (
-            seat.seatNumber !== blockedSeat.seatNumber ||
-            seat.line !== blockedSeat.line
-          );
-        });
-
-        if (
-          blockedSeat.session === this.sessionId &&
-          blockedSeat.user === this.currentUser._id
-        ) {
-          this.chosenSeatsValues = this.chosenSeatsValues.filter(
-            seat =>
-              seat.line !== blockedSeat.line ||
-              seat.seatNumber !== blockedSeat.seatNumber
-          );
-          this.chosenSeatsSubject.next(this.chosenSeatsValues);
-        }
-
-        this.blockedSeatsSubject.next(this.blockedSeatsValues);
-      });
+    this.listenSeatAddedEvent();
+    this.listenSeatRemovedEvent();
   }
 
   closeReservationSession() {
@@ -117,6 +89,33 @@ export class ReservationService implements OnDestroy {
   }
 
   getChosenSeats() {
+    const chosenSeats = JSON.parse(
+      sessionStorage.getItem(`${this.sessionId}_${SessionStorageKeys.SEATS}`)
+    );
+
+    if (chosenSeats) {
+      this.chosenSeatsValues = chosenSeats;
+      this.chosenSeatsSubject.next(chosenSeats);
+    } else {
+      this.getUsersChosenSeatsFromApi();
+    }
+  }
+
+  addSeat(seat: BlockedSeat) {
+    this.addSeatToCart(seat);
+    this.ws.send(WebSocketSendEvents.AddSeat, seat);
+  }
+
+  removeSeat(seat: BlockedSeat) {
+    this.removeSeatFromCart(seat);
+    this.ws.send(WebSocketSendEvents.RemoveSeat, seat);
+  }
+
+  reserve(seats: BlockedSeat[]) {
+    this.ws.send(WebSocketSendEvents.Reserve, seats);
+  }
+
+  private getUsersChosenSeatsFromApi() {
     this.http
       .get(
         `blocked_seats/?session=${this.sessionId}&user=${this.currentUser._id}`
@@ -127,17 +126,57 @@ export class ReservationService implements OnDestroy {
       });
   }
 
-  addSeat(seat: BlockedSeat) {
-    sessionStorage.setItem('seats', JSON.stringify(this.chosenSeatsValues));
-    this.ws.send(WS_EVENTS.SEND.ADD_SEAT, seat);
+  private listenSeatAddedEvent() {
+    this.ws
+      .on<BlockedSeat>(WebSocketOnEvents.SeatAdded)
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        filter((seat, i) => seat.session === this.sessionId)
+      )
+      .subscribe(blockedSeat => {
+        this.blockedSeatsValues.push(blockedSeat);
+        this.blockedSeatsSubject.next(this.blockedSeatsValues);
+      });
   }
 
-  removeSeat(seat: BlockedSeat) {
-    sessionStorage.setItem('seats', JSON.stringify(this.chosenSeatsValues));
-    this.ws.send(WS_EVENTS.SEND.REMOVE_SEAT, seat);
+  private listenSeatRemovedEvent() {
+    this.ws
+      .on<BlockedSeat>(WebSocketOnEvents.SeatRemoved)
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        filter((seat, i) => seat.session === this.sessionId)
+      )
+      .subscribe(this.seatRemovedHandler);
   }
 
-  reserve(seats: BlockedSeat[]) {
-    this.ws.send(WS_EVENTS.SEND.RESERVE, seats);
+  private seatRemovedHandler = (removedSeat: BlockedSeat) => {
+    this.blockedSeatsValues = this.blockedSeatsValues.filter(seat =>
+      this.isNotRemoved(seat, removedSeat)
+    );
+
+    if (removedSeat.user === this.currentUser._id) {
+      this.removeSeatFromCart(removedSeat);
+    }
+
+    this.blockedSeatsSubject.next(this.blockedSeatsValues);
+  };
+
+  private removeSeatFromCart(removedSeat: BlockedSeat) {
+    this.chosenSeatsValues = this.chosenSeatsValues.filter(seat =>
+      this.isNotRemoved(seat, removedSeat)
+    );
+    this.chosenSeatsSubject.next(this.chosenSeatsValues);
+  }
+
+  private addSeatToCart(seat: BlockedSeat) {
+    this.chosenSeatsValues.push(seat);
+    this.chosenSeatsSubject.next(this.chosenSeatsValues);
+  }
+
+  private isNotRemoved(seat: BlockedSeat, removedSeat: BlockedSeat): boolean {
+    return (
+      seat.seatNumber !== removedSeat.seatNumber ||
+      seat.line !== removedSeat.line
+    );
   }
 }

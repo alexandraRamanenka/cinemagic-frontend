@@ -1,10 +1,12 @@
+import { ReservationService } from './reservation.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, distinctUntilChanged } from 'rxjs/operators';
+import { distinctUntilChanged } from 'rxjs/operators';
 import { Service } from '@shared/models/service';
 import { Subject, Observable } from 'rxjs';
 import { Response } from '@shared/models/response';
 import { ServiceOrder } from '@shared/models/serviceOrder';
+import { SessionStorageKeys } from '@shared/enums/sessionStorageKeys';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +18,10 @@ export class ServicesService {
     return this.servicesSubject.asObservable().pipe(distinctUntilChanged());
   }
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private reservationService: ReservationService
+  ) {}
 
   getServices() {
     return this.http.get('services').subscribe((res: Response<Service[]>) => {
@@ -25,6 +30,9 @@ export class ServicesService {
   }
 
   changeCart(services: ServiceOrder[]) {
-    sessionStorage.setItem('serviceOrders', JSON.stringify(services));
+    sessionStorage.setItem(
+      `${this.reservationService.sessionId}_${SessionStorageKeys.SERVICES}`,
+      JSON.stringify(services)
+    );
   }
 }

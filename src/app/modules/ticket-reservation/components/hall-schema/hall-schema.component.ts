@@ -1,4 +1,4 @@
-import { SeatsLine } from './../../../../shared/models/seatsLine';
+import { SeatsLine } from '@shared/models/seatsLine';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ReservationService } from '../../services/reservation.service';
 import { Hall } from '@shared/models/hall';
@@ -21,21 +21,22 @@ export class HallSchemaComponent implements OnInit, OnDestroy {
   loading = true;
   hall: Hall;
   chosenSeats: BlockedSeat[] = [];
+  seatsSchema: Seat[][];
 
-  get seatsSchema(): Seat[][] {
+  private getSeatsSchema(): Seat[][] {
     let schema = [] as Seat[][];
-    let currentSeat = 1;
 
-    schema = [...this.seatsShemaGenerator(this.hall.seatsSchema)];
-    this.mapBlockedSeats(schema);
-
-    return schema;
+    if (this.hall) {
+      schema = [...this.seatsShemaGenerator(this.hall.seatsSchema)];
+      schema = this.mapBlockedSeats(schema);
+      return schema;
+    }
   }
 
   private *seatsShemaGenerator(lines: SeatsLine[]) {
     let currentNumber = 1;
 
-    for (let line of lines) {
+    for (const line of lines) {
       yield [
         ...this.generateLineSeats(
           currentNumber,
@@ -59,17 +60,40 @@ export class HallSchemaComponent implements OnInit, OnDestroy {
   }
 
   private getReservedSeats(reservations: Reservation[]) {
-    let reservedSeats = reservations.flatMap(reservation => reservation.seats);
+    const reservedSeats = reservations.flatMap(
+      reservation => reservation.seats
+    );
     return reservedSeats;
   }
 
   private mapBlockedSeats(schema: Seat[][]) {
+    const completeSchema = [...schema];
     this.reservedSeats.forEach(seat => {
-      schema[seat.line - 1][seat.seatNumber - 1].isBlocked = true;
+      completeSchema[seat.line - 1][seat.seatNumber - 1].isBlocked = true;
     });
     this.blockedSeats.forEach(seat => {
-      schema[seat.line - 1][seat.seatNumber - 1].isBlocked = true;
+      completeSchema[seat.line - 1][seat.seatNumber - 1].isBlocked = true;
     });
+
+    return completeSchema;
+  }
+
+  private subscribeToBlockedSeats() {
+    this.reservationService.blockedSeats
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(blockedSeats => {
+        this.blockedSeats = blockedSeats;
+        if (this.hall) this.seatsSchema = this.getSeatsSchema();
+      });
+  }
+
+  private subscribeToChosenSeats() {
+    this.reservationService.chosenSeats
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(chosenSeats => {
+        this.chosenSeats = chosenSeats;
+        if (this.hall) this.seatsSchema = this.getSeatsSchema();
+      });
   }
 
   constructor(private reservationService: ReservationService) {
@@ -78,20 +102,13 @@ export class HallSchemaComponent implements OnInit, OnDestroy {
       .subscribe(session => {
         this.hall = session.hall;
         this.reservedSeats = this.getReservedSeats(session.reservations);
-      });
+        this.reservationService.getChosenSeats();
 
-    this.reservationService.blockedSeats
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(blockedSeats => {
-        this.blockedSeats = blockedSeats;
-      });
-
-    this.reservationService.chosenSeats
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(chosenSeats => {
-        this.chosenSeats = chosenSeats;
+        this.seatsSchema = this.getSeatsSchema();
         this.loading = false;
       });
+    this.subscribeToBlockedSeats();
+    this.subscribeToChosenSeats();
   }
 
   ngOnInit() {}
@@ -102,12 +119,6 @@ export class HallSchemaComponent implements OnInit, OnDestroy {
   }
 
   removeSeat(blockedSeat: BlockedSeat) {
-    this.chosenSeats = this.chosenSeats.filter(seat => {
-      return (
-        seat.line !== blockedSeat.line ||
-        seat.seatNumber !== blockedSeat.seatNumber
-      );
-    });
     this.reservationService.removeSeat(blockedSeat);
   }
 
