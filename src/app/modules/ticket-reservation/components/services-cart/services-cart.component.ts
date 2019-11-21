@@ -1,5 +1,5 @@
 import { ServiceOrder } from '@shared/models/serviceOrder';
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, AfterViewInit } from '@angular/core';
 import { Service } from '@shared/models/service';
 import { ServicesService } from '../../services/services.service';
 import { Subject } from 'rxjs';

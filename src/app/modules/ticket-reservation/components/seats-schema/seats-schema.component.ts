@@ -1,3 +1,4 @@
+import { SeatTypes } from './../../../../shared/enums/seatTypes';
 import { BlockedSeat } from '@shared/models/blockedSeat';
 import { Component, Input, OnDestroy } from '@angular/core';
 import { Seat } from '@shared/models/seat';
@@ -13,6 +14,7 @@ export class SeatsSchemaComponent implements OnDestroy {
   @Input() schema: Seat[][];
   @Input() chosenSeats: BlockedSeat[] = [];
   selectedSeat: BlockedSeat;
+  SeatTypes = SeatTypes;
 
   private unsubscribe$ = new Subject<void>();
 
@@ -23,7 +25,9 @@ export class SeatsSchemaComponent implements OnDestroy {
     this.unsubscribe$.complete();
   }
 
-  setSeat(seat: Seat, line: number, seatNumber: number) {
+  setSeat(seat: Seat, lineIndex: number, seatIndex: number) {
+    const line = lineIndex + 1;
+    const seatNumber = seatIndex + 1;
     this.selectedSeat = seat.isBlocked
       ? this.selectedSeat
       : { line, seatNumber, session: this.reservationService.session._id };
@@ -34,9 +38,18 @@ export class SeatsSchemaComponent implements OnDestroy {
     this.selectedSeat = null;
   }
 
-  isChosen(line: number, seatNumber: number): boolean {
+  isChosen(lineIndex: number, seatIndex: number): boolean {
+    const line = lineIndex + 1;
+    const seatNumber = seatIndex + 1;
     return this.chosenSeats.some(
       s => s.seatNumber === seatNumber && s.line === line
+    );
+  }
+
+  isSelected(lineIndex: number, seatIndex: number): boolean {
+    return (
+      this.selectedSeat.line === lineIndex + 1 &&
+      this.selectedSeat.seatNumber === seatIndex + 1
     );
   }
 }

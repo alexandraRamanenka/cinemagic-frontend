@@ -1,3 +1,4 @@
+import { ServicesService } from './../../services/services.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Session } from '@shared/models/session';
 import { Subject } from 'rxjs';

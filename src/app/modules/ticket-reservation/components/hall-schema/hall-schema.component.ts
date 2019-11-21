@@ -18,10 +18,35 @@ export class HallSchemaComponent implements OnInit, OnDestroy {
   private reservedSeats: BlockedSeat[] = [];
   private blockedSeats: BlockedSeat[] = [];
 
-  loading = true;
   hall: Hall;
   chosenSeats: BlockedSeat[] = [];
   seatsSchema: Seat[][];
+
+  constructor(private reservationService: ReservationService) {
+    this.hall = this.reservationService.session.hall;
+    this.reservedSeats = this.getReservedSeats(
+      this.reservationService.session.reservations
+    );
+    this.subscribeToBlockedSeats();
+    this.subscribeToChosenSeats();
+    this.reservationService.getChosenSeats();
+  }
+
+  ngOnInit() {}
+
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+
+  removeSeat(blockedSeat: BlockedSeat) {
+    this.reservationService.removeSeat(blockedSeat);
+  }
+
+  getBlockedSeatNumber({ line, seatNumber }: BlockedSeat) {
+    const seat = this.seatsSchema[line - 1][seatNumber - 1];
+    return seat.number;
+  }
 
   private getSeatsSchema(): Seat[][] {
     let schema = [] as Seat[][];
@@ -79,7 +104,6 @@ export class HallSchemaComponent implements OnInit, OnDestroy {
       .subscribe(blockedSeats => {
         this.blockedSeats = blockedSeats;
         this.seatsSchema = this.getSeatsSchema();
-        this.loading = false;
       });
   }
 
@@ -90,33 +114,5 @@ export class HallSchemaComponent implements OnInit, OnDestroy {
         this.chosenSeats = chosenSeats;
         this.seatsSchema = this.getSeatsSchema();
       });
-  }
-
-  constructor(private reservationService: ReservationService) {
-    this.hall = this.reservationService.session.hall;
-    this.reservedSeats = this.getReservedSeats(
-      this.reservationService.session.reservations
-    );
-    this.subscribeToBlockedSeats();
-    this.subscribeToChosenSeats();
-    this.reservationService.getChosenSeats();
-  }
-
-  ngOnInit() {}
-
-  ngOnDestroy() {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
-  }
-
-  removeSeat(blockedSeat: BlockedSeat) {
-    this.reservationService.removeSeat(blockedSeat);
-  }
-
-  getBlockedSeatNumber(blockedSeat: BlockedSeat) {
-    const seat = this.seatsSchema[blockedSeat.line - 1][
-      blockedSeat.seatNumber - 1
-    ];
-    return seat.number;
   }
 }

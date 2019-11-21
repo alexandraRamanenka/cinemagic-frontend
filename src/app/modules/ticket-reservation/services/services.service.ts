@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { Service } from '@shared/models/service';
-import { Subject, Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { Response } from '@shared/models/response';
 import { ServiceOrder } from '@shared/models/serviceOrder';
 import { SessionStorageKeys } from '@shared/enums/sessionStorageKeys';
@@ -13,16 +13,18 @@ import { SessionStorageKeys } from '@shared/enums/sessionStorageKeys';
 })
 export class ServicesService {
   services: ServiceOrder[] = [];
-  private servicesSubject = new Subject<ServiceOrder[]>();
+  private servicesSubject: BehaviorSubject<ServiceOrder[]>;
 
   get serviceOrders(): Observable<ServiceOrder[]> {
-    return this.servicesSubject.asObservable();
+    return this.servicesSubject.asObservable().pipe(distinctUntilChanged());
   }
 
   constructor(
     private http: HttpClient,
     private reservationService: ReservationService
-  ) {}
+  ) {
+    this.servicesSubject = new BehaviorSubject(this.getServicesOrders());
+  }
 
   getServices() {
     return this.http
@@ -69,5 +71,13 @@ export class ServicesService {
         `${this.reservationService.session._id}_${SessionStorageKeys.Services}`
       );
     }
+  }
+
+  private getServicesOrders(): ServiceOrder[] {
+    const saved = sessionStorage.getItem(
+      `${this.reservationService.session._id}_${SessionStorageKeys.Services}`
+    );
+    const servicesOrders = saved ? JSON.parse(saved) : [];
+    return servicesOrders;
   }
 }
