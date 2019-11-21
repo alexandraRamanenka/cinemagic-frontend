@@ -25,14 +25,16 @@ export class TicketReservationPageComponent implements OnInit, OnDestroy {
       .pipe(
         switchMap((params: ParamMap) => {
           const id = params.get('id');
-          this.reservationService.startReservationSession(id);
-          return this.reservationService.session;
+          this.reservationService.init(id);
+          return this.reservationService.loading;
         })
       )
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(session => {
-        this.session = session;
-        this.loading = false;
+      .subscribe(loading => {
+        this.loading = loading;
+        if (!loading) {
+          this.session = this.reservationService.session;
+        }
       });
   }
 

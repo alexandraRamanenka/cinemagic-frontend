@@ -31,7 +31,7 @@ export class ServicesService {
 
   changeCart(services: ServiceOrder[]) {
     sessionStorage.setItem(
-      `${this.reservationService.sessionId}_${SessionStorageKeys.SERVICES}`,
+      `${this.reservationService.session._id}_${SessionStorageKeys.SERVICES}`,
       JSON.stringify(services)
     );
   }

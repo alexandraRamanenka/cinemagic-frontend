@@ -7,5 +7,5 @@
     <p class="cinema">{{ session.hall.cinema.name }}</p>
   </div>
   <hr class="uk-divider-icon" />
-  <router-outlet></router-outlet>
+  <router-outlet *ngIf="session"></router-outlet>
 </app-loading-spinner>

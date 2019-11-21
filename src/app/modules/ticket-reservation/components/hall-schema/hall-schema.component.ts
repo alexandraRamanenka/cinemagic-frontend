@@ -26,11 +26,11 @@ export class HallSchemaComponent implements OnInit, OnDestroy {
   private getSeatsSchema(): Seat[][] {
     let schema = [] as Seat[][];
 
-    if (this.hall) {
-      schema = [...this.seatsShemaGenerator(this.hall.seatsSchema)];
-      schema = this.mapBlockedSeats(schema);
-      return schema;
-    }
+    console.log('schma rendering');
+    schema = [...this.seatsShemaGenerator(this.hall.seatsSchema)];
+    schema = this.mapSeatsStates(schema, this.blockedSeats);
+    schema = this.mapSeatsStates(schema, this.reservedSeats);
+    return schema;
   }
 
   private *seatsShemaGenerator(lines: SeatsLine[]) {
@@ -66,15 +66,11 @@ export class HallSchemaComponent implements OnInit, OnDestroy {
     return reservedSeats;
   }
 
-  private mapBlockedSeats(schema: Seat[][]) {
+  private mapSeatsStates(schema: Seat[][], seatsToMap: BlockedSeat[]) {
     const completeSchema = [...schema];
-    this.reservedSeats.forEach(seat => {
+    seatsToMap.forEach(seat => {
       completeSchema[seat.line - 1][seat.seatNumber - 1].isBlocked = true;
     });
-    this.blockedSeats.forEach(seat => {
-      completeSchema[seat.line - 1][seat.seatNumber - 1].isBlocked = true;
-    });
-
     return completeSchema;
   }
 
@@ -83,7 +79,7 @@ export class HallSchemaComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(blockedSeats => {
         this.blockedSeats = blockedSeats;
-        if (this.hall) this.seatsSchema = this.getSeatsSchema();
+        this.seatsSchema = this.getSeatsSchema();
       });
   }
 
@@ -92,23 +88,19 @@ export class HallSchemaComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(chosenSeats => {
         this.chosenSeats = chosenSeats;
-        if (this.hall) this.seatsSchema = this.getSeatsSchema();
+        this.seatsSchema = this.getSeatsSchema();
+        this.loading = false;
       });
   }
 
   constructor(private reservationService: ReservationService) {
-    this.reservationService.session
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(session => {
-        this.hall = session.hall;
-        this.reservedSeats = this.getReservedSeats(session.reservations);
-        this.reservationService.getChosenSeats();
-
-        this.seatsSchema = this.getSeatsSchema();
-        this.loading = false;
-      });
+    this.hall = this.reservationService.session.hall;
+    this.reservedSeats = this.getReservedSeats(
+      this.reservationService.session.reservations
+    );
     this.subscribeToBlockedSeats();
     this.subscribeToChosenSeats();
+    this.reservationService.getChosenSeats();
   }
 
   ngOnInit() {}

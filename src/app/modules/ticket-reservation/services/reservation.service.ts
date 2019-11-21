@@ -1,7 +1,7 @@
 import { UserService } from '@shared/services/user.service';
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Subject, Observable } from 'rxjs';
+import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import { Session } from '@shared/models/session';
 import { Response } from '@shared/models/response';
 import { WebSocketService } from 'app/websocket/webSocket.service';
@@ -17,18 +17,14 @@ export class ReservationService implements OnDestroy {
   private blockedSeatsValues: BlockedSeat[] = [];
   private chosenSeatsValues: BlockedSeat[] = [];
 
-  private sessionSubject = new Subject<Session>();
   private blockedSeatsSubject: Subject<BlockedSeat[]> = new Subject();
   private chosenSeatsSubject: Subject<BlockedSeat[]> = new Subject();
+  private loadingSubject = new BehaviorSubject<boolean>(true);
 
   private unsubscribe$ = new Subject<void>();
   private currentUser: User;
 
-  sessionId: string;
-
-  get session(): Observable<Session> {
-    return this.sessionSubject.asObservable();
-  }
+  session: Session;
 
   get blockedSeats(): Observable<BlockedSeat[]> {
     return this.blockedSeatsSubject.asObservable();
@@ -38,30 +34,40 @@ export class ReservationService implements OnDestroy {
     return this.chosenSeatsSubject.asObservable();
   }
 
+  get loading(): Observable<boolean> {
+    return this.loadingSubject.asObservable();
+  }
+
   constructor(
     private http: HttpClient,
     private ws: WebSocketService,
     private userService: UserService
-  ) {
+  ) {}
+
+  init(sessionId: string) {
     this.userService.currentUser
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(user => {
         this.currentUser = user;
       });
+    this.getSessionById(sessionId).subscribe((res: Response<Session>) => {
+      this.session = res.data;
+      this.startReservationSession();
+    });
   }
 
   ngOnDestroy() {
     this.closeReservationSession();
   }
 
-  startReservationSession(id: string) {
-    this.getSessionById(id);
+  startReservationSession() {
     this.getBlockedSeats();
 
     this.ws.connect();
 
     this.listenSeatAddedEvent();
     this.listenSeatRemovedEvent();
+    this.loadingSubject.next(false);
   }
 
   closeReservationSession() {
@@ -73,15 +79,12 @@ export class ReservationService implements OnDestroy {
   }
 
   getSessionById(id: string) {
-    this.sessionId = id;
-    this.http.get(`sessions/${id}`).subscribe((res: Response<Session>) => {
-      this.sessionSubject.next(res.data);
-    });
+    return this.http.get(`sessions/${id}`);
   }
 
   getBlockedSeats() {
     this.http
-      .get(`blocked_seats/?session=${this.sessionId}`)
+      .get(`blocked_seats/?session=${this.session._id}`)
       .subscribe((res: Response<BlockedSeat[]>) => {
         this.blockedSeatsValues = res.data;
         this.blockedSeatsSubject.next(res.data);
@@ -90,7 +93,7 @@ export class ReservationService implements OnDestroy {
 
   getChosenSeats() {
     const chosenSeats = JSON.parse(
-      sessionStorage.getItem(`${this.sessionId}_${SessionStorageKeys.SEATS}`)
+      sessionStorage.getItem(`${this.session._id}_${SessionStorageKeys.SEATS}`)
     );
 
     if (chosenSeats) {
@@ -118,7 +121,7 @@ export class ReservationService implements OnDestroy {
   private getUsersChosenSeatsFromApi() {
     this.http
       .get(
-        `blocked_seats/?session=${this.sessionId}&user=${this.currentUser._id}`
+        `blocked_seats/?session=${this.session._id}&user=${this.currentUser._id}`
       )
       .subscribe((res: Response<BlockedSeat[]>) => {
         this.chosenSeatsValues = res.data;
@@ -131,7 +134,7 @@ export class ReservationService implements OnDestroy {
       .on<BlockedSeat>(WebSocketOnEvents.SeatAdded)
       .pipe(
         takeUntil(this.unsubscribe$),
-        filter((seat, i) => seat.session === this.sessionId)
+        filter((seat, i) => seat.session === this.session._id)
       )
       .subscribe(blockedSeat => {
         this.blockedSeatsValues.push(blockedSeat);
@@ -144,7 +147,7 @@ export class ReservationService implements OnDestroy {
       .on<BlockedSeat>(WebSocketOnEvents.SeatRemoved)
       .pipe(
         takeUntil(this.unsubscribe$),
-        filter((seat, i) => seat.session === this.sessionId)
+        filter((seat, i) => seat.session === this.session._id)
       )
       .subscribe(this.seatRemovedHandler);
   }

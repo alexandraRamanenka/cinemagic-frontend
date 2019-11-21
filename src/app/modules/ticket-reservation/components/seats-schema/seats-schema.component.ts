@@ -1,29 +1,38 @@
 import { BlockedSeat } from '@shared/models/blockedSeat';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { Seat } from '@shared/models/seat';
 import { ReservationService } from '../../services/reservation.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-seats-schema',
   templateUrl: './seats-schema.component.html',
   styleUrls: ['./seats-schema.component.scss']
 })
-export class SeatsSchemaComponent {
+export class SeatsSchemaComponent implements OnDestroy {
   @Input() schema: Seat[][];
 
   selectedSeat: BlockedSeat;
   chosenSeats: BlockedSeat[] = [];
 
+  private unsubscribe$ = new Subject<void>();
+
   constructor(private reservationService: ReservationService) {
-    this.reservationService.chosenSeats.subscribe(
-      seats => (this.chosenSeats = seats)
-    );
+    this.reservationService.chosenSeats
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(seats => (this.chosenSeats = seats));
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   setSeat(seat: Seat, line: number, seatNumber: number) {
     this.selectedSeat = seat.isBlocked
       ? this.selectedSeat
-      : { line, seatNumber, session: this.reservationService.sessionId };
+      : { line, seatNumber, session: this.reservationService.session._id };
   }
 
   addSeat() {
