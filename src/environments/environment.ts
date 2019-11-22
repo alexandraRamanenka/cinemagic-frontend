@@ -7,7 +7,8 @@ export const environment = {
   url: 'http://localhost:5000/',
   wsUrl: 'ws://localhost:5000/',
   wsDefaultReconnectInterval: 5000,
-  wsDefaultReconnectAttempts: 5
+  wsDefaultReconnectAttempts: 5,
+  seatBlockingTimeMinutes: 15
 };
 
 /*

@@ -1,5 +1,4 @@
 import { FormsModule } from '@angular/forms';
-import { FilteringService } from '@shared/services/filtering.service';
 import { SharedModule } from '@shared/shared.module';
 import { NgModule } from '@angular/core';
 import { MoviesPageComponent } from './components/movies-page/movies-page.component';
@@ -18,6 +17,6 @@ import { MovieScheduleComponent } from './components/movie-schedule/movie-schedu
     MovieScheduleComponent
   ],
   imports: [MoviesRoutingModule, SharedModule, FormsModule],
-  providers: [FilteringService]
+  providers: []
 })
 export class MoviesModule {}
