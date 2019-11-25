@@ -7,8 +7,10 @@ import {
   EventEmitter
 } from '@angular/core';
 import { timer, Observable, Subscription } from 'rxjs';
-import { take, map } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 import { TimerEvents } from '@shared/enums/timerEvents';
+import { SessionStorageKeys } from '@shared/enums/sessionStorageKeys';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-timer',
@@ -19,8 +21,10 @@ export class TimerComponent implements OnInit, OnDestroy {
   @Input() set timerDuration(value: string) {
     this.duration = this.parseTime(value);
     this.restTime = this.duration;
+    this.seconds = this.duration;
   }
   @Input() ignoreRestart = false;
+  @Input() autoStart = false;
   @Output() timerEvent = new EventEmitter<TimerEvents>();
   timer$: Observable<number>;
   seconds: number;
@@ -28,23 +32,30 @@ export class TimerComponent implements OnInit, OnDestroy {
   private duration: number;
   private restTime: number;
 
-  constructor() {}
+  get isStarted(): boolean {
+    return this.timerSubscription && !this.timerSubscription.closed;
+  }
+
   ngOnInit() {
     this.init();
+    if (this.autoStart) {
+      this.start();
+    }
   }
 
   ngOnDestroy(): void {
     this.clearTimer();
   }
+
   init() {
     this.timer$ = timer(0, 1000).pipe(
-      take(this.restTime),
+      takeUntil(timer(this.restTime)),
       map(v => this.restTime - v * 1000)
     );
   }
 
   start() {
-    if (this.ignoreRestart && this.timerSubscription) {
+    if (this.ignoreRestart && this.isStarted) {
       return;
     }
     if (this.timerSubscription) {
@@ -52,9 +63,12 @@ export class TimerComponent implements OnInit, OnDestroy {
       this.timerEvent.emit(TimerEvents.Reset);
     }
     this.init();
-    this.timerSubscription = this.timer$.subscribe(
-      seconds => (this.seconds = seconds)
-    );
+    this.timerSubscription = this.timer$.subscribe({
+      next: seconds => (this.seconds = seconds),
+      complete: () => {
+        this.timerEvent.emit(TimerEvents.Complete);
+      }
+    });
     this.timerEvent.emit(TimerEvents.Started);
   }
 
@@ -74,24 +88,26 @@ export class TimerComponent implements OnInit, OnDestroy {
     this.timerEvent.emit(TimerEvents.Reset);
   }
 
+  parseTime(time: string): number {
+    const timeValue = parseInt(time, 10);
+    const units = /([smh])/i.exec(time);
+    if (units) {
+      switch (units[1]) {
+        case 'm':
+          return timeValue * 60 * 1000;
+        case 'h':
+          return timeValue * 60 * 60 * 1000;
+        case 's':
+          return timeValue * 1000;
+      }
+    }
+    return timeValue;
+  }
+
   private clearTimer() {
     if (this.timerSubscription) {
       this.timerSubscription.unsubscribe();
     }
     this.timer$ = null;
-  }
-  private parseTime(time: string): number {
-    const timeValue = parseInt(time, 10);
-    const units = /([smh])/i.exec(time);
-    switch (units[1]) {
-      case 'm':
-        return timeValue * 60 * 1000;
-      case 'h':
-        return timeValue * 60 * 60 * 1000;
-      case 's':
-        return timeValue * 1000;
-    }
-
-    return timeValue * 1000;
   }
 }

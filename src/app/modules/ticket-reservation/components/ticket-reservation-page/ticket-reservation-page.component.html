@@ -5,6 +5,12 @@
     <p class="date">{{ session.dateTime | date: 'dd MMM' }}</p>
     <p class="time">{{ session.dateTime | date: 'HH:MM' }}</p>
     <p class="cinema">{{ session.hall.cinema.name }}</p>
+    <app-timer
+      class="timer"
+      [timerDuration]="seatBlockingTime"
+      [ignoreRestart]="true"
+      (timerEvent)="timeIsOver($event)"
+    ></app-timer>
   </div>
   <hr class="uk-divider-icon" />
   <router-outlet *ngIf="session"></router-outlet>

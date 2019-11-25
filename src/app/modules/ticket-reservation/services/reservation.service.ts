@@ -1,4 +1,3 @@
-import { ServicesService } from './services.service';
 import { UserService } from '@shared/services/user.service';
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -12,6 +11,7 @@ import { takeUntil, filter } from 'rxjs/operators';
 import { BlockedSeat } from '@shared/models/blockedSeat';
 import { User } from '@shared/models/user';
 import { SessionStorageKeys } from '@shared/enums/sessionStorageKeys';
+import { TimerCommands } from '@shared/enums/timerCommands';
 
 @Injectable()
 export class ReservationService implements OnDestroy {
@@ -21,11 +21,16 @@ export class ReservationService implements OnDestroy {
   private blockedSeatsSubject: Subject<BlockedSeat[]> = new Subject();
   private chosenSeatsSubject: Subject<BlockedSeat[]> = new Subject();
   private loadingSubject = new BehaviorSubject<boolean>(true);
+  private timerSubject = new Subject<TimerCommands>();
 
   private unsubscribe$ = new Subject<void>();
   private currentUser: User;
 
   session: Session;
+
+  get timerCommands(): Observable<TimerCommands> {
+    return this.timerSubject.asObservable();
+  }
 
   get blockedSeats(): Observable<BlockedSeat[]> {
     return this.blockedSeatsSubject.asObservable();
@@ -73,6 +78,7 @@ export class ReservationService implements OnDestroy {
 
   closeReservationSession() {
     this.blockedSeatsValues = [];
+    this.chosenSeatsValues.forEach(seat => this.removeSeat(seat));
     this.chosenSeatsValues = [];
     this.loadingSubject.next(true);
     this.unsubscribe$.next();
@@ -84,6 +90,7 @@ export class ReservationService implements OnDestroy {
     sessionStorage.removeItem(
       `${this.session._id}_${SessionStorageKeys.Services}`
     );
+    sessionStorage.removeItem(`${this.session._id}_${SessionStorageKeys.Time}`);
   }
 
   getSessionById(id: string) {
@@ -186,6 +193,7 @@ export class ReservationService implements OnDestroy {
       sessionStorage.removeItem(
         `${this.session._id}_${SessionStorageKeys.Seats}`
       );
+      this.timerSubject.next(TimerCommands.Reset);
     }
     this.chosenSeatsSubject.next(this.chosenSeatsValues);
   }
@@ -196,6 +204,7 @@ export class ReservationService implements OnDestroy {
       `${this.session._id}_${SessionStorageKeys.Seats}`,
       JSON.stringify(this.chosenSeatsValues)
     );
+    this.timerSubject.next(TimerCommands.Start);
     this.chosenSeatsSubject.next(this.chosenSeatsValues);
   }
 

@@ -1,3 +1,5 @@
+@import 'variables.scss';
+
 .heading {
   margin-top: 2rem;
   display: flex;
@@ -15,5 +17,14 @@
     font-weight: 500;
     font-size: 1.2rem;
     margin-right: 2rem;
+  }
+
+  .timer {
+    font-weight: 500;
+    font-size: 1.5rem;
+    color: $color-active;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: auto;
   }
 }
