@@ -16,7 +16,6 @@ import { SessionPreviewComponent } from './components/session-preview/session-pr
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 import { PhonePipe } from './pipes/phone.pipe';
 import { CounterComponent } from './components/counter/counter.component';
-import { TimerDirective } from './directives/timer.directive';
 import { TimerComponent } from './components/timer/timer.component';
 
 @NgModule({
@@ -31,7 +30,6 @@ import { TimerComponent } from './components/timer/timer.component';
     LoadingSpinnerComponent,
     PhonePipe,
     CounterComponent,
-    TimerDirective,
     TimerComponent
   ],
   imports: [CommonModule, ReactiveFormsModule, RouterModule, HttpClientModule],
