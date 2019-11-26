@@ -11,7 +11,7 @@ import {
 import { Session } from '@shared/models/session';
 import { Subject } from 'rxjs';
 import { ReservationService } from '../../services/reservation.service';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { switchMap, takeUntil } from 'rxjs/operators';
 import { environment } from '@env/environment';
 import { TimerComponent } from '@shared/components/timer/timer.component';
@@ -26,14 +26,14 @@ export class TicketReservationPageComponent implements OnInit, OnDestroy {
   session: Session;
   timeKey: string;
   seatBlockingTime = environment.seatBlockingTime;
-  timerRest = environment.seatBlockingTime;
 
   @ViewChild(TimerComponent, { static: false }) private timer: TimerComponent;
   private unsubscribe$ = new Subject<void>();
 
   constructor(
     private reservationService: ReservationService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   @HostListener('window:beforeunload', ['$event']) beforeUnload(e) {
@@ -62,8 +62,6 @@ export class TicketReservationPageComponent implements OnInit, OnDestroy {
         this.loading = loading;
         if (!loading) {
           this.session = this.reservationService.session;
-          this.timeKey = `${this.session._id}_${SessionStorageKeys.Time}`;
-          this.timerRest = sessionStorage.getItem(this.timeKey);
           this.subscribeToTimerCommands();
         }
       });
@@ -78,9 +76,7 @@ export class TicketReservationPageComponent implements OnInit, OnDestroy {
   timeIsOver(eventType: TimerEvents) {
     if (eventType === TimerEvents.Complete) {
       alert('Time for reservation is over!');
-      console.log(
-        'Time for reservation is over, return and choose seats again'
-      );
+      this.router.navigateByUrl('/afisha');
     }
   }
 
@@ -90,9 +86,9 @@ export class TicketReservationPageComponent implements OnInit, OnDestroy {
       .subscribe(command => {
         switch (command) {
           case TimerCommands.Start:
-            console.log('start timer');
             this.timer.start();
             break;
+
           case TimerCommands.Reset:
             this.timer.reset();
             break;

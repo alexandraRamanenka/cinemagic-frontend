@@ -9,8 +9,6 @@ import {
 import { timer, Observable, Subscription } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { TimerEvents } from '@shared/enums/timerEvents';
-import { SessionStorageKeys } from '@shared/enums/sessionStorageKeys';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-timer',
@@ -26,8 +24,10 @@ export class TimerComponent implements OnInit, OnDestroy {
   @Input() ignoreRestart = false;
   @Input() autoStart = false;
   @Output() timerEvent = new EventEmitter<TimerEvents>();
+
   timer$: Observable<number>;
   seconds: number;
+
   private timerSubscription: Subscription;
   private duration: number;
   private restTime: number;
@@ -58,10 +58,12 @@ export class TimerComponent implements OnInit, OnDestroy {
     if (this.ignoreRestart && this.isStarted) {
       return;
     }
+
     if (this.timerSubscription) {
       this.timerSubscription.unsubscribe();
       this.timerEvent.emit(TimerEvents.Reset);
     }
+
     this.init();
     this.timerSubscription = this.timer$.subscribe({
       next: seconds => (this.seconds = seconds),
@@ -69,6 +71,7 @@ export class TimerComponent implements OnInit, OnDestroy {
         this.timerEvent.emit(TimerEvents.Complete);
       }
     });
+
     this.timerEvent.emit(TimerEvents.Started);
   }
 
