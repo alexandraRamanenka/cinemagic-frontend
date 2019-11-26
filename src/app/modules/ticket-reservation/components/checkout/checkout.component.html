@@ -1,1 +1,9 @@
-<p>checkout works!</p>
+<div class="checkout">
+  <h3>Seats</h3>
+  <ul class="seats">
+    <li *ngFor="let seat of seats">
+      line {{ seat.line }}, seat {{ seat.seatNumber }}
+      <hr />
+    </li>
+  </ul>
+</div>
