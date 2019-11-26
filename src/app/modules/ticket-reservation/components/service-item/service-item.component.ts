@@ -9,8 +9,6 @@ import { Service } from '@shared/models/service';
   styleUrls: ['./service-item.component.scss']
 })
 export class ServiceItemComponent implements OnInit {
-  private defaultImage = '/assets/defaultServiceImage.png';
-
   @Input() service: Service;
   @Input() set inCart(value: boolean) {
     if (!value) {
@@ -19,10 +17,16 @@ export class ServiceItemComponent implements OnInit {
     }
   }
   @Output() serviceAdd = new EventEmitter<ServiceOrder>();
-  amount: number;
-  state: AddButtonStates = AddButtonStates.Add;
 
-  constructor() {}
+  get buttonState(): AddButtonStates {
+    return this.state;
+  }
+
+  AddButtonStates = AddButtonStates;
+  amount: number;
+
+  private defaultImage = '/assets/defaultServiceImage.png';
+  private state: AddButtonStates = AddButtonStates.Add;
 
   ngOnInit() {
     if (!this.service.image) {

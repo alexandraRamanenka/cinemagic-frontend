@@ -4,7 +4,7 @@
     <li *ngFor="let service of services" class="service">
       <app-service-item
         [service]="service"
-        (serviceAdd)="onServiceAdd($event)"
+        (serviceAdd)="addToCart($event)"
         [inCart]="isInCart(service._id)"
       ></app-service-item>
       <hr />
@@ -41,7 +41,7 @@
   <div class="row full">
     <button
       class="uk-button uk-button-secondary back-btn"
-      [routerLink]="'../seats-choose'"
+      [routerLink]="'../seats'"
     >
       Back
     </button>

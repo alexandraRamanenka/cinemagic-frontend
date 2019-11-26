@@ -8,15 +8,15 @@
     <h3 class="name">{{ service.name }}</h3>
     <p class="description">{{ service.description }}</p>
     <div class="row">
-      <p class="price">{{ service.price + ' BYN' }}</p>
+      <p class="price">{{ service.price }} BYN</p>
 
       <div class="row group">
         <app-counter [(ngModel)]="amount" class="counter"></app-counter>
-        <p class="price">{{ service.price * amount + ' BYN' }}</p>
+        <p class="price">{{ service.price * amount }} BYN</p>
         <button
           class="uk-button uk-button-text add-btn"
           (click)="addService()"
-          [disabled]="!amount && state === 'add'"
+          [disabled]="amount === 0 && buttonState === AddButtonStates.Add"
         >
           {{ state }}
         </button>

@@ -1,6 +1,5 @@
-import { ServicesService } from './services.service';
 import { UserService } from '@shared/services/user.service';
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import { Session } from '@shared/models/session';
@@ -11,15 +10,15 @@ import { WebSocketSendEvents } from '@shared/enums/webSocketSendEvents';
 import { takeUntil, filter } from 'rxjs/operators';
 import { BlockedSeat } from '@shared/models/blockedSeat';
 import { User } from '@shared/models/user';
-import { SessionStorageKeys } from '@shared/enums/sessionStorageKeys';
+import { StorageKeys } from '@shared/enums/storageKeys';
 
 @Injectable()
-export class ReservationService implements OnDestroy {
+export class ReservationService {
   private blockedSeatsValues: BlockedSeat[] = [];
   private chosenSeatsValues: BlockedSeat[] = [];
 
-  private blockedSeatsSubject: Subject<BlockedSeat[]> = new Subject();
-  private chosenSeatsSubject: Subject<BlockedSeat[]> = new Subject();
+  private blockedSeatsSubject = new Subject<BlockedSeat[]>();
+  private chosenSeatsSubject = new Subject<BlockedSeat[]>();
   private loadingSubject = new BehaviorSubject<boolean>(true);
 
   private unsubscribe$ = new Subject<void>();
@@ -57,10 +56,6 @@ export class ReservationService implements OnDestroy {
     });
   }
 
-  ngOnDestroy() {
-    this.closeReservationSession();
-  }
-
   startReservationSession() {
     this.getBlockedSeats();
 
@@ -78,12 +73,8 @@ export class ReservationService implements OnDestroy {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
     this.ws.closeConnection();
-    sessionStorage.removeItem(
-      `${this.session._id}_${SessionStorageKeys.Seats}`
-    );
-    sessionStorage.removeItem(
-      `${this.session._id}_${SessionStorageKeys.Services}`
-    );
+    localStorage.removeItem(`${this.session._id}_${StorageKeys.Seats}`);
+    localStorage.removeItem(`${this.session._id}_${StorageKeys.Services}`);
   }
 
   getSessionById(id: string) {
@@ -101,7 +92,7 @@ export class ReservationService implements OnDestroy {
 
   getChosenSeats() {
     const chosenSeats = JSON.parse(
-      sessionStorage.getItem(`${this.session._id}_${SessionStorageKeys.Seats}`)
+      localStorage.getItem(`${this.session._id}_${StorageKeys.Seats}`)
     );
 
     if (chosenSeats) {
@@ -178,22 +169,20 @@ export class ReservationService implements OnDestroy {
     );
 
     if (this.chosenSeatsValues.length) {
-      sessionStorage.setItem(
-        `${this.session._id}_${SessionStorageKeys.Seats}`,
+      localStorage.setItem(
+        `${this.session._id}_${StorageKeys.Seats}`,
         JSON.stringify(this.chosenSeatsValues)
       );
     } else {
-      sessionStorage.removeItem(
-        `${this.session._id}_${SessionStorageKeys.Seats}`
-      );
+      localStorage.removeItem(`${this.session._id}_${StorageKeys.Seats}`);
     }
     this.chosenSeatsSubject.next(this.chosenSeatsValues);
   }
 
   private addSeatToCart(seat: BlockedSeat) {
     this.chosenSeatsValues.push(seat);
-    sessionStorage.setItem(
-      `${this.session._id}_${SessionStorageKeys.Seats}`,
+    localStorage.setItem(
+      `${this.session._id}_${StorageKeys.Seats}`,
       JSON.stringify(this.chosenSeatsValues)
     );
     this.chosenSeatsSubject.next(this.chosenSeatsValues);

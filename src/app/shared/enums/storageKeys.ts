@@ -1,4 +1,4 @@
-export enum SessionStorageKeys {
+export enum StorageKeys {
   Seats = 'seats',
   Services = 'services'
 }
