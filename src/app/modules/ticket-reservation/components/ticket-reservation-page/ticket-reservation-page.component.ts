@@ -1,4 +1,3 @@
-import { SessionStorageKeys } from '@shared/enums/sessionStorageKeys';
 import { TimerCommands } from '@shared/enums/timerCommands';
 import { TimerEvents } from '@shared/enums/timerEvents';
 import {

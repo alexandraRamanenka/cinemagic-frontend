@@ -1,4 +1,4 @@
-import { SeatTypes } from './../../../../shared/enums/seatTypes';
+import { SeatTypes } from '@shared/enums/seatTypes';
 import { BlockedSeat } from '@shared/models/blockedSeat';
 import { Component, Input, OnDestroy } from '@angular/core';
 import { Seat } from '@shared/models/seat';
