@@ -1,20 +1,44 @@
-<div class="checkout">
+<div class="ticket">
   <h3>Seats</h3>
   <ul class="seats">
-    <li *ngFor="let seat of seats">
-      line {{ seat.line }}, seat {{ seat.seatNumber }}
+    <li *ngFor="let seat of seats" class="seat">
+      <div class="details">
+        <span>line {{ seat.line }}, seat {{ seat.seatNumber }}</span>
+      </div>
       <hr />
     </li>
   </ul>
 
-  <h3>Services</h3>
-  <ul class="services">
-    <li *ngFor="let serviceOrder of services">
-      {{ serviceOrder.service.name }} amount x{{ serviceOrder.amount }}
-      {{ serviceOrder.service.price * serviceOrder.amount }} BYN
-      <hr />
-    </li>
-  </ul>
+  <ng-container *ngIf="services.length">
+    <h3>Services</h3>
+    <ul class="services">
+      <li *ngFor="let serviceOrder of services" class="service-order">
+        <div class="details">
+          <span class="name">
+            {{ serviceOrder.service.name }}
+          </span>
+          <span class="amount"> x{{ serviceOrder.amount }} </span>
+          <span class="price">
+            {{ serviceOrder.service.price * serviceOrder.amount }} BYN
+          </span>
+        </div>
+        <hr />
+      </li>
+    </ul>
+  </ng-container>
 
-  <p>{{ totalPrice }}</p>
+  <p class="total-price">{{ totalPrice }} BYN</p>
+
+  <div class="row">
+    <button
+      [routerLink]="'../services'"
+      class="uk-button uk-button-secondary next-btn"
+    >
+      Back
+    </button>
+
+    <button class="uk-button uk-button-primary next-btn">
+      Reserve
+    </button>
+  </div>
 </div>

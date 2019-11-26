@@ -15,6 +15,7 @@ import { ServicesCartComponent } from './components/services-cart/services-cart.
 import { ServicesService } from './services/services.service';
 import { ServiceItemComponent } from './components/service-item/service-item.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
+import { ReservationGuard } from './reservation.guard';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,11 @@ import { CheckoutComponent } from './components/checkout/checkout.component';
       url: environment.wsUrl
     })
   ],
-  providers: [httpInterceptorProviders, ReservationService, ServicesService]
+  providers: [
+    httpInterceptorProviders,
+    ReservationService,
+    ServicesService,
+    ReservationGuard
+  ]
 })
 export class TicketReservationModule {}

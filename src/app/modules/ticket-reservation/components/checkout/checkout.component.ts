@@ -3,7 +3,6 @@ import { ServiceOrder } from '@shared/models/serviceOrder';
 import { ReservationService } from './../../services/reservation.service';
 import { BlockedSeat } from '@shared/models/blockedSeat';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-checkout',
@@ -27,26 +26,20 @@ export class CheckoutComponent implements OnInit {
     return (price += this.reservationService.session.price);
   }
 
-  constructor(
-    private reservationService: ReservationService,
-    private router: Router
-  ) {
-    this.seats = JSON.parse(
-      sessionStorage.getItem(
+  constructor(private reservationService: ReservationService) {
+    const seats = JSON.parse(
+      localStorage.getItem(
         `${this.reservationService.session._id}_${StorageKeys.Seats}`
       )
     );
+    this.seats = Object.values(seats);
 
-    if (!this.seats) {
-      this.router.navigateByUrl(
-        `/reserve-ticket/${this.reservationService.session._id}/seats-choose`
-      );
-    }
-    this.services = JSON.parse(
-      sessionStorage.getItem(
+    const services = JSON.parse(
+      localStorage.getItem(
         `${this.reservationService.session._id}_${StorageKeys.Services}`
       )
     );
+    this.services = services ? Object.values(services) : [];
   }
 
   ngOnInit() {}

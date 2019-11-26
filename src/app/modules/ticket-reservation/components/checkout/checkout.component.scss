@@ -1,0 +1,43 @@
+@import 'variables.scss';
+
+.ticket {
+  max-width: 800px;
+  margin-right: auto;
+  margin-left: auto;
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  h3 {
+    color: $color-active;
+  }
+
+  .seat,
+  .service-order {
+    font-size: 1.2rem;
+  }
+
+  .total-price {
+    text-align: right;
+    font-size: 1.5rem;
+    color: $color-active;
+    font-weight: 500;
+  }
+
+  .price {
+    font-weight: 500;
+  }
+
+  .details {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
