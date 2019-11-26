@@ -14,6 +14,19 @@ export class CheckoutComponent implements OnInit {
   seats: BlockedSeat[];
   services: ServiceOrder[];
 
+  get totalPrice(): number {
+    const seatsSchema = this.reservationService.session.hall.seatsSchema;
+    let price = this.seats.reduce((acc, seat) => {
+      return acc + seatsSchema[seat.line].seatType.price;
+    }, 0);
+
+    price += this.services.reduce((acc, order) => {
+      return acc + order.service.price * order.amount;
+    }, 0);
+
+    return (price += this.reservationService.session.price);
+  }
+
   constructor(
     private reservationService: ReservationService,
     private router: Router
