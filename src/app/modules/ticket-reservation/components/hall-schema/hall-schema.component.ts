@@ -51,13 +51,13 @@ export class HallSchemaComponent implements OnInit, OnDestroy {
   private getSeatsSchema(): Seat[][] {
     let schema = [] as Seat[][];
 
-    schema = [...this.seatsShemaGenerator(this.hall.seatsSchema)];
-    schema = this.mapSeatsStates(schema, this.blockedSeats);
-    schema = this.mapSeatsStates(schema, this.reservedSeats);
+    schema = [...this.generateSeatsShema(this.hall.seatsSchema)];
+    schema = this.blockSeats(schema, this.blockedSeats);
+    schema = this.blockSeats(schema, this.reservedSeats);
     return schema;
   }
 
-  private *seatsShemaGenerator(lines: SeatsLine[]) {
+  private *generateSeatsShema(lines: SeatsLine[]) {
     let currentNumber = 1;
 
     for (const line of lines) {
@@ -90,7 +90,7 @@ export class HallSchemaComponent implements OnInit, OnDestroy {
     return reservedSeats;
   }
 
-  private mapSeatsStates(schema: Seat[][], seatsToMap: BlockedSeat[]) {
+  private blockSeats(schema: Seat[][], seatsToMap: BlockedSeat[]) {
     const completeSchema = [...schema];
     seatsToMap.forEach(seat => {
       completeSchema[seat.line - 1][seat.seatNumber - 1].isBlocked = true;
