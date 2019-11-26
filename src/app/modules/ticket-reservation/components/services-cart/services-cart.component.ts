@@ -1,9 +1,10 @@
 import { ServiceOrder } from '@shared/models/serviceOrder';
-import { Component, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Service } from '@shared/models/service';
 import { ServicesService } from '../../services/services.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Cart } from '@shared/models/cart';
 
 @Component({
   selector: 'app-services-cart',
@@ -12,9 +13,14 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class ServicesCartComponent implements OnDestroy {
   private unsubscribe$ = new Subject<void>();
+  private servicesCart: Cart<ServiceOrder> = {};
+
+  get serviceOrders(): ServiceOrder[] {
+    return Object.values(this.servicesCart);
+  }
+
   loading = true;
   services: Service[];
-  serviceOrders: ServiceOrder[] = [];
 
   constructor(private servicesService: ServicesService) {
     this.servicesService.getServices().subscribe(services => {
@@ -24,7 +30,7 @@ export class ServicesCartComponent implements OnDestroy {
 
     this.servicesService.serviceOrders
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(services => (this.serviceOrders = services));
+      .subscribe(services => (this.servicesCart = services));
   }
 
   ngOnDestroy() {
@@ -32,7 +38,7 @@ export class ServicesCartComponent implements OnDestroy {
     this.unsubscribe$.complete();
   }
 
-  onServiceAdd(serviceOrder: ServiceOrder) {
+  addToCart(serviceOrder: ServiceOrder) {
     this.servicesService.addToCart(serviceOrder);
   }
 
@@ -41,6 +47,6 @@ export class ServicesCartComponent implements OnDestroy {
   }
 
   isInCart(serviceId: string) {
-    return this.serviceOrders.some(order => order.service._id === serviceId);
+    return this.servicesCart[serviceId];
   }
 }

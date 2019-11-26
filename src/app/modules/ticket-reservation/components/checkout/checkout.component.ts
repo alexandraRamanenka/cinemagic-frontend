@@ -1,4 +1,4 @@
-import { SessionStorageKeys } from '@shared/enums/sessionStorageKeys';
+import { StorageKeys } from '@shared/enums/storageKeys';
 import { ServiceOrder } from '@shared/models/serviceOrder';
 import { ReservationService } from './../../services/reservation.service';
 import { BlockedSeat } from '@shared/models/blockedSeat';
@@ -33,7 +33,7 @@ export class CheckoutComponent implements OnInit {
   ) {
     this.seats = JSON.parse(
       sessionStorage.getItem(
-        `${this.reservationService.session._id}_${SessionStorageKeys.Seats}`
+        `${this.reservationService.session._id}_${StorageKeys.Seats}`
       )
     );
 
@@ -44,7 +44,7 @@ export class CheckoutComponent implements OnInit {
     }
     this.services = JSON.parse(
       sessionStorage.getItem(
-        `${this.reservationService.session._id}_${SessionStorageKeys.Services}`
+        `${this.reservationService.session._id}_${StorageKeys.Services}`
       )
     );
   }

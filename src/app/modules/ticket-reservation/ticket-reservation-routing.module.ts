@@ -14,13 +14,13 @@ const routes: Routes = [
     canActivateChild: [AuthGuard],
     component: TicketReservationPageComponent,
     children: [
-      { path: '', redirectTo: 'seats-choose' },
+      { path: '', redirectTo: 'seats' },
       {
-        path: 'seats-choose',
+        path: 'seats',
         component: HallSchemaComponent
       },
       {
-        path: 'services-choose',
+        path: 'services',
         component: ServicesCartComponent,
         canActivate: [ReservationGuard]
       },

@@ -9,14 +9,14 @@
 <h3>Chosen seats</h3>
 <ul class="chosen-seats">
   <li *ngFor="let chosenSeat of chosenSeats" class="item">
-    {{ getBlockedSeatNumber(chosenSeat) + ', line ' + chosenSeat.line }}
+    {{ getBlockedSeatNumber(chosenSeat) }}, line {{ chosenSeat.line }}
     <button uk-icon="icon:close" (click)="removeSeat(chosenSeat)"></button>
   </li>
   <li *ngIf="!chosenSeats.length" class="item">Add some seats</li>
 </ul>
 <div class="row">
   <button
-    [routerLink]="'../services-choose'"
+    [routerLink]="'../services'"
     class="uk-button uk-button-secondary next-btn"
     [disabled]="!chosenSeats.length"
   >
