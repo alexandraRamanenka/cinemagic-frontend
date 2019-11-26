@@ -6,4 +6,13 @@
       <hr />
     </li>
   </ul>
+
+  <h3>Services</h3>
+  <ul class="services">
+    <li *ngFor="let serviceOrder of services">
+      {{ serviceOrder.service.name }} amount x{{ serviceOrder.amount }}
+      {{ serviceOrder.service.price * serviceOrder.amount }} BYN
+      <hr />
+    </li>
+  </ul>
 </div>

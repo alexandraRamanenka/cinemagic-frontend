@@ -5,6 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { TicketReservationPageComponent } from './components/ticket-reservation-page/ticket-reservation-page.component';
 import { AuthGuard } from '@shared/guards/auth.guard';
 import { CheckoutComponent } from './components/checkout/checkout.component';
+import { ReservationGuard } from './reservation.guard';
 
 const routes: Routes = [
   {
@@ -20,11 +21,13 @@ const routes: Routes = [
       },
       {
         path: 'services-choose',
-        component: ServicesCartComponent
+        component: ServicesCartComponent,
+        canActivate: [ReservationGuard]
       },
       {
         path: 'checkout',
-        component: CheckoutComponent
+        component: CheckoutComponent,
+        canActivate: [ReservationGuard]
       }
     ]
   }
