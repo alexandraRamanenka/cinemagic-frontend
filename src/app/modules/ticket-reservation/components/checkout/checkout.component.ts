@@ -1,3 +1,5 @@
+import { ResponseStatusTypes } from '@shared/enums/responseStatusTypes';
+import { AlertService } from '@shared/services/alert.service';
 import { ServiceOrder } from '@shared/models/serviceOrder';
 import { Response } from '@shared/models/response';
 import { ReservationService } from './../../services/reservation.service';
@@ -21,6 +23,7 @@ export class CheckoutComponent implements OnInit {
 
   constructor(
     private reservationService: ReservationService,
+    private alertService: AlertService,
     private router: Router
   ) {
     this.seats = this.reservationService.seats;
@@ -30,11 +33,20 @@ export class CheckoutComponent implements OnInit {
   ngOnInit() {}
 
   reserve() {
-    this.reservationService
-      .reserve()
-      .subscribe((res: Response<Reservation>) => {
-        alert('Tickets succesfully reserved!');
+    this.reservationService.reserve().subscribe(
+      (res: Response<Reservation>) => {
+        this.alertService.sendAlert(
+          `Ticketes was successfully reserved!`,
+          ResponseStatusTypes.Success
+        );
         this.router.navigateByUrl('/me');
-      });
+      },
+      err => {
+        this.alertService.sendAlert(
+          err.error.message,
+          ResponseStatusTypes.Error
+        );
+      }
+    );
   }
 }

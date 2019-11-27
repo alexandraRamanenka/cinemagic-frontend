@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { AlertService } from './alert.service';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { ResponseStatusTypes } from '@shared/enums/responseStatusTypes';
 
 @Injectable({
   providedIn: 'root'
@@ -43,7 +44,7 @@ export class UserService {
         this.setCurrentUser(res.data);
       },
       error: err => {
-        this.alertService.sendAlert(err.message, 'error');
+        this.alertService.sendAlert(err.message, ResponseStatusTypes.Error);
       }
     });
   }
@@ -55,7 +56,7 @@ export class UserService {
         this.router.navigateByUrl('me');
       },
       error: err => {
-        this.alertService.sendAlert(err.message, 'error');
+        this.alertService.sendAlert(err.message, ResponseStatusTypes.Error);
       }
     });
   }

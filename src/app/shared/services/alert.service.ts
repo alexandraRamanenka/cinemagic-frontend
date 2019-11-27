@@ -15,18 +15,18 @@ export class AlertService {
 
   constructor() {}
 
-  private assignAlert(message: string, type: string) {
+  private assignAlert(message: string, type: ResponseStatusTypes) {
     const alert = {
       message,
       type:
-        type === ResponseStatusTypes.Fail || ResponseStatusTypes.Error
+        type === ResponseStatusTypes.Error
           ? AlertTypes.Error
           : AlertTypes.Success
     };
     return alert;
   }
 
-  sendAlert(message: string, type: string) {
+  sendAlert(message: string, type: ResponseStatusTypes) {
     this.alertSubject.next(this.assignAlert(message, type));
   }
 }
