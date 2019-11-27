@@ -1,4 +1,5 @@
 export enum WebSocketOnEvents {
   SeatAdded = 'seatAdded',
-  SeatRemoved = 'seatRemoved'
+  SeatRemoved = 'seatRemoved',
+  Reserved = 'reserved'
 }

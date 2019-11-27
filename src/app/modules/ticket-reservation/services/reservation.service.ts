@@ -12,6 +12,8 @@ import { BlockedSeat } from '@shared/models/blockedSeat';
 import { User } from '@shared/models/user';
 import { StorageKeys } from '@shared/enums/storageKeys';
 import { TimerCommands } from '@shared/enums/timerCommands';
+import { ServiceOrder } from '@shared/models/serviceOrder';
+import { Reservation } from '@shared/models/reservation';
 
 @Injectable()
 export class ReservationService {
@@ -42,6 +44,44 @@ export class ReservationService {
 
   get loading(): Observable<boolean> {
     return this.loadingSubject.asObservable();
+  }
+
+  get seats(): BlockedSeat[] {
+    let seats = this.loadFromLocalStorage(
+      `${this.session._id}_${StorageKeys.Seats}`,
+      Object.values,
+      null
+    );
+    return seats;
+  }
+
+  get services(): ServiceOrder[] {
+    let services = this.loadFromLocalStorage(
+      `${this.session._id}_${StorageKeys.Services}`,
+      Object.values,
+      []
+    );
+    return services;
+  }
+
+  get totalPrice(): number {
+    const seatsSchema = this.session.hall.seatsSchema;
+    let seats = this.seats;
+
+    let services = JSON.parse(
+      localStorage.getItem(`${this.session._id}_${StorageKeys.Services}`)
+    );
+    services = services ? Object.values(services) : [];
+
+    let price = seats.reduce((acc, seat) => {
+      return acc + seatsSchema[seat.line].seatType.price;
+    }, 0);
+
+    price += services.reduce((acc, order) => {
+      return acc + order.service.price * order.amount;
+    }, 0);
+
+    return (price += this.session.price);
   }
 
   constructor(
@@ -120,8 +160,28 @@ export class ReservationService {
     this.ws.send(WebSocketSendEvents.RemoveSeat, seat);
   }
 
-  reserve(seats: BlockedSeat[]) {
-    this.ws.send(WebSocketSendEvents.Reserve, seats);
+  reserve() {
+    return this.http.post('reservations', this.buildReservation());
+  }
+
+  private buildReservation(): Reservation {
+    let reservation: Reservation = {
+      user: this.currentUser._id,
+      session: this.session._id,
+      seats: this.seats,
+      services: this.services
+    };
+
+    return reservation;
+  }
+
+  private loadFromLocalStorage(key: string, parser: any, defaultValue?: any) {
+    let item = JSON.parse(localStorage.getItem(key));
+    if (parser && item) {
+      return parser(item);
+    }
+    item = item ? item : defaultValue ? defaultValue : null;
+    return item;
   }
 
   private getUsersChosenSeatsFromApi() {

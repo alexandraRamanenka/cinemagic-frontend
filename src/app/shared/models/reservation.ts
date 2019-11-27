@@ -1,11 +1,13 @@
 import { Session } from './session';
+import { BlockedSeat } from './blockedSeat';
+import { ServiceOrder } from './serviceOrder';
 
 export interface Reservation {
-  _id: string;
-  date: Date;
-  session: Session;
+  _id?: string;
+  date?: Date;
+  session: Session | string;
   user: string;
-  seats: [];
-  services: [];
-  price: number;
+  seats: BlockedSeat[];
+  services?: ServiceOrder[];
+  price?: number;
 }
