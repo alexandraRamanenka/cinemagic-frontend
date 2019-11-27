@@ -27,8 +27,11 @@ export class ReservationService {
 
   private unsubscribe$ = new Subject<void>();
   private currentUser: User;
+  private movieSession: Session;
 
-  session: Session;
+  get session(): Session {
+    return this.movieSession;
+  }
 
   get timerCommands(): Observable<TimerCommands> {
     return this.timerSubject.asObservable();
@@ -47,7 +50,7 @@ export class ReservationService {
   }
 
   get seats(): BlockedSeat[] {
-    let seats = this.loadFromLocalStorage(
+    const seats = this.loadFromLocalStorage(
       `${this.session._id}_${StorageKeys.Seats}`,
       Object.values,
       null
@@ -56,7 +59,7 @@ export class ReservationService {
   }
 
   get services(): ServiceOrder[] {
-    let services = this.loadFromLocalStorage(
+    const services = this.loadFromLocalStorage(
       `${this.session._id}_${StorageKeys.Services}`,
       Object.values,
       []
@@ -66,12 +69,8 @@ export class ReservationService {
 
   get totalPrice(): number {
     const seatsSchema = this.session.hall.seatsSchema;
-    let seats = this.seats;
-
-    let services = JSON.parse(
-      localStorage.getItem(`${this.session._id}_${StorageKeys.Services}`)
-    );
-    services = services ? Object.values(services) : [];
+    const seats = this.seats;
+    const services = this.services;
 
     let price = seats.reduce((acc, seat) => {
       return acc + seatsSchema[seat.line].seatType.price;
@@ -97,7 +96,7 @@ export class ReservationService {
         this.currentUser = user;
       });
     this.getSessionById(sessionId).subscribe((res: Response<Session>) => {
-      this.session = res.data;
+      this.movieSession = res.data;
       this.startReservationSession();
     });
   }
@@ -165,7 +164,7 @@ export class ReservationService {
   }
 
   private buildReservation(): Reservation {
-    let reservation: Reservation = {
+    const reservation: Reservation = {
       user: this.currentUser._id,
       session: this.session._id,
       seats: this.seats,

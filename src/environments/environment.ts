@@ -9,7 +9,7 @@ export const environment = {
   wsDefaultReconnectInterval: 5000,
   wsDefaultReconnectAttempts: 5,
   seatBlockingTimeMinutes: 15,
-  seatBlockingTime: '9000s'
+  seatBlockingTime: '15m'
 };
 
 /*
