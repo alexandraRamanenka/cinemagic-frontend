@@ -37,9 +37,8 @@ export class TicketReservationPageComponent implements OnInit, OnDestroy {
 
   @HostListener('window:beforeunload', ['$event']) beforeUnload(e) {
     if (this.timer.isStarted) {
-      const message = 'Would you really want to restart reservation?';
-      e.returnValue = message;
-      return message;
+      e.perventDefault();
+      e.returnValue = '';
     }
   }
 

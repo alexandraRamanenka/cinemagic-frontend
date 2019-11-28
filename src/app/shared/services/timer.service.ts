@@ -1,55 +1,28 @@
-import { TimerService } from './../../services/timer.service';
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  Input,
-  Output,
-  EventEmitter
-} from '@angular/core';
-import { timer, Observable, Subscription } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
 import { TimerEvents } from '@shared/enums/timerEvents';
+import { Observable, Subject, timer, Subscription } from 'rxjs';
+import { takeUntil, map } from 'rxjs/operators';
 
-@Component({
-  selector: 'app-timer',
-  templateUrl: './timer.component.html',
-  styleUrls: ['./timer.component.scss'],
-  providers: [TimerService]
-})
-export class TimerComponent implements OnInit, OnDestroy {
-  @Input() set timerDuration(value: string) {
+@Injectable()
+export class TimerService {
+  set timerDuration(value: string) {
     this.duration = this.parseTime(value);
     this.restTime = this.duration;
-    this.seconds = this.duration;
+    this.secondsValue = this.duration;
   }
-  @Input() ignoreRestart = false;
-  @Input() autoStart = false;
-  @Output() timerComplete = new EventEmitter<TimerEvents>();
 
-  timer$: Observable<number>;
-  seconds: number;
-
-  private timerSubscription: Subscription;
   private duration: number;
   private restTime: number;
+  private secondsValue: number;
+  private secondsSubject: Subject<number>;
+  private timer$: Observable<number>;
+  private timerSubscription: Subscription;
 
-  get isStarted(): boolean {
-    return this.timerSubscription && !this.timerSubscription.closed;
+  get seconds(): Observable<number> {
+    return this.secondsSubject.asObservable();
   }
 
-  constructor(private timerService: TimerService) {}
-
-  ngOnInit() {
-    this.init();
-    if (this.autoStart) {
-      this.start();
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.clearTimer();
-  }
+  constructor() {}
 
   init() {
     this.timer$ = timer(0, 1000).pipe(
@@ -69,7 +42,7 @@ export class TimerComponent implements OnInit, OnDestroy {
 
     this.init();
     this.timerSubscription = this.timer$.subscribe({
-      next: seconds => (this.seconds = seconds),
+      next: seconds => this.secondsSubject.next(seconds),
       complete: () => {
         this.timerComplete.emit(TimerEvents.Complete);
       }
@@ -79,13 +52,13 @@ export class TimerComponent implements OnInit, OnDestroy {
   stop() {
     if (this.timerSubscription) {
       this.timerSubscription.unsubscribe();
-      this.restTime = this.seconds;
+      this.restTime = this.secondsValue;
       this.timer$ = null;
     }
   }
 
   reset() {
-    this.seconds = this.duration;
+    this.secondsValue = this.duration;
     this.restTime = this.duration;
     this.clearTimer();
   }
