@@ -10,12 +10,16 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService {
+  private autoLogoutTimer: any;
+
   constructor(
     private http: HttpClient,
     private userService: UserService,
     private alertService: AlertService,
     private router: Router
-  ) {}
+  ) {
+    this.userService.currentUser.subscribe(user => {});
+  }
 
   login(credentials) {
     this.http.post('auth/login', credentials).subscribe(
@@ -42,8 +46,17 @@ export class AuthService {
       res => {
         this.userService.deleteCurrentUser();
         this.router.navigateByUrl('');
+        localStorage.clear();
+        if (this.autoLogoutTimer) {
+          clearTimeout(this.autoLogoutTimer);
+        }
+        this.autoLogoutTimer = null;
       },
       err => this.alertService.sendAlert(err.error.message, err.error.status)
     );
+  }
+
+  autoLogout(expireTime: number) {
+    this.autoLogoutTimer = setTimeout(() => this.logout(), expireTime);
   }
 }
