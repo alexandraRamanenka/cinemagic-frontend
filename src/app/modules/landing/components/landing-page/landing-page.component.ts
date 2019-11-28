@@ -28,12 +28,6 @@ export class LandingPageComponent implements OnInit {
       result.push(results.slice(i * limit, i * limit + limit));
     }
 
-    const rest = results.length % limit;
-
-    if (rest !== 0) {
-      result.push(results.slice(results.length - rest));
-    }
-
     return result;
   }
 }
