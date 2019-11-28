@@ -1,0 +1,22 @@
+<app-loading-spinner [loading]="loading">
+  <div class="sessions">
+    <a
+      [routerLink]="'/reserve-ticket/' + session._id"
+      *ngFor="let session of sessions"
+      class="session"
+    >
+      <div>
+        <p class="time">
+          {{ session.dateTime | date: 'HH:MM' }}
+        </p>
+        <p class="date">
+          {{ session.dateTime | date: 'dd MMMM' }}
+        </p>
+        <p class="cinema">
+          {{ session.hall.cinema.name + ', ' + session.hall.cinema.city }}
+        </p>
+        <p class="price">{{ session.price + ' BYN' }}</p>
+      </div>
+    </a>
+  </div>
+</app-loading-spinner>

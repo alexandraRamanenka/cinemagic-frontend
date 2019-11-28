@@ -7,6 +7,7 @@ import { SettingsFormComponent } from './components/settings-form/settings-form.
 import { ReservationsHistoryComponent } from './components/reservations-history/reservations-history.component';
 import { ReservationsFiltersComponent } from './components/reservations-filters/reservations-filters.component';
 import { ProfileService } from './services/profile.service';
+import { httpInterceptorProviders } from '@shared/interceptors';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,6 @@ import { ProfileService } from './services/profile.service';
     ReservationsFiltersComponent
   ],
   imports: [SharedModule, ProfileRoutingModule],
-  providers: [FilteringService, ProfileService]
+  providers: [httpInterceptorProviders, FilteringService, ProfileService]
 })
 export class ProfileModule {}

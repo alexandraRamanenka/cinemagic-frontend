@@ -1,4 +1,6 @@
+import { SeatType } from './seatType';
+
 export interface SeatsLine {
-  type: string;
+  seatType: SeatType;
   numberOfSeats: number;
 }

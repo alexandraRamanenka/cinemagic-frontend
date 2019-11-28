@@ -10,5 +10,8 @@
     </p>
     <p class="restriction uk-text-meta">{{ movie.restriction }}+</p>
   </div>
-  <app-reserve-ticket-button class="reserve-btn"></app-reserve-ticket-button>
+  <app-reserve-ticket-button
+    class="reserve-btn"
+    [link]="movie._id"
+  ></app-reserve-ticket-button>
 </div>

@@ -1,0 +1,65 @@
+@import 'variables.scss';
+
+.service {
+  display: flex;
+
+  .image {
+    width: 128px;
+    height: 128px;
+    border-radius: 10%;
+    border: 1px solid $color-stroke;
+    box-shadow: 1px 1px 5px $color-shadow;
+    background: center/cover;
+    margin-right: 3rem;
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+
+    .price {
+      font-weight: 600;
+      margin: 0;
+      white-space: pre-wrap;
+      width: 6rem;
+    }
+
+    .description {
+      margin-top: 0.5rem;
+    }
+
+    .name {
+      margin-bottom: 0;
+    }
+
+    .add-btn {
+      font-weight: 400;
+      font-size: 1rem;
+      text-align: right;
+      margin-left: 2rem;
+    }
+
+    .counter {
+      margin-right: 2rem;
+      width: 6rem;
+    }
+  }
+
+  .row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .group {
+    display: flex;
+    justify-content: flex-end;
+
+    .price {
+      text-align: center;
+    }
+  }
+}

@@ -1,0 +1,25 @@
+@import 'variables.scss';
+
+.counter {
+  display: flex;
+
+  .amount {
+    width: 5rem;
+    text-align: center;
+    border-bottom: 2px solid $color-secondary;
+    margin: 0;
+  }
+
+  .inc-btn {
+    margin-left: 0.5rem;
+  }
+
+  .dec-btn {
+    margin-right: 0.5rem;
+  }
+
+  button {
+    outline: none;
+    margin: 0;
+  }
+}

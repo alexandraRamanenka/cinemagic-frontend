@@ -1,0 +1,51 @@
+@import 'variables.scss';
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.row {
+  max-width: 800px;
+  margin-right: auto;
+  display: flex;
+  justify-content: space-between;
+
+  &.full {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+.services-list {
+  margin-top: 3rem;
+
+  .service {
+    margin-bottom: 1rem;
+  }
+}
+
+.cart {
+  .item {
+    color: $color-active;
+    font-size: 1.2rem;
+
+    .price,
+    .amount {
+      font-weight: 400;
+    }
+
+    .remove-btn {
+      font-size: 1rem;
+    }
+  }
+}
+
+.next-btn {
+  margin-left: auto;
+  display: block;
+}
+.back-btn {
+  margin-right: auto;
+  display: block;
+}

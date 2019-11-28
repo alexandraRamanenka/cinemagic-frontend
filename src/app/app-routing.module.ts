@@ -36,6 +36,13 @@ const routes: Routes = [
       import('./modules/afisha/afisha.module').then(
         module => module.AfishaModule
       )
+  },
+  {
+    path: 'reserve-ticket',
+    loadChildren: () =>
+      import('./modules/ticket-reservation/ticket-reservation.module').then(
+        module => module.TicketReservationModule
+      )
   }
 ];
 

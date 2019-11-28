@@ -11,4 +11,12 @@ export class MovieService {
   getAll() {
     return this.http.get('films');
   }
+
+  getById(id: string) {
+    return this.http.get(`films/${id}`);
+  }
+
+  getMovieSessions(id: string) {
+    return this.http.get(`films/${id}/sessions`);
+  }
 }

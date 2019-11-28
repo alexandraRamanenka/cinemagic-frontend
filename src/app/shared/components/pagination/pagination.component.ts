@@ -29,7 +29,7 @@ export class PaginationComponent {
       return Array.from({ length: this.totalPages }, (v, i) => i + 1);
     }
 
-    let half = Math.floor(this.pagesLimit / 2);
+    const half = Math.floor(this.pagesLimit / 2);
     const evenness = this.pagesLimit % 2 === 0 ? 1 : 0;
     let startIndex = this.currentPage - half;
     let endIndex = this.currentPage + half - evenness;

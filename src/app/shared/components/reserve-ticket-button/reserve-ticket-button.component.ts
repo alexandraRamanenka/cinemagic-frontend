@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { environment } from '@env/environment';
 
 @Component({
   selector: 'app-reserve-ticket-button',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./reserve-ticket-button.component.scss']
 })
 export class ReserveTicketButtonComponent implements OnInit {
+  @Input() link;
+
   constructor() {}
 
   ngOnInit() {}

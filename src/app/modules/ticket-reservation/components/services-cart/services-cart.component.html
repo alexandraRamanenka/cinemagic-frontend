@@ -1,0 +1,55 @@
+<app-loading-spinner [loading]="loading">
+  <h2>Choose services</h2>
+  <ul class="services-list">
+    <li *ngFor="let service of services" class="service">
+      <app-service-item
+        [service]="service"
+        (serviceAdd)="addToCart($event)"
+        [inCart]="isInCart(service._id)"
+      ></app-service-item>
+      <hr />
+    </li>
+    <li *ngIf="!services || !services.length">
+      Now services are available now...
+    </li>
+  </ul>
+
+  <h2><span uk-icon="icon: cart; ratio: 1.2"></span> Your cart</h2>
+  <ul class="cart">
+    <li *ngFor="let serviceOrder of serviceOrders" class="item">
+      <div class="row">
+        <span clas="name">{{ serviceOrder.service.name }}</span>
+        <span clas="amount"> x{{ serviceOrder.amount }}</span>
+        <span clas="price"
+          >{{ serviceOrder.amount * serviceOrder.service.price }}BYN</span
+        >
+        <button
+          class="uk-button uk-button-text remove-btn"
+          (click)="removeFromCart(serviceOrder)"
+        >
+          remove
+        </button>
+      </div>
+      <hr />
+    </li>
+
+    <li *ngIf="!serviceOrders.length">
+      You haven't any services in your cart...
+    </li>
+  </ul>
+
+  <div class="row full">
+    <button
+      class="uk-button uk-button-secondary back-btn"
+      [routerLink]="'../seats'"
+    >
+      Back
+    </button>
+    <button
+      class="uk-button uk-button-secondary next-btn"
+      [routerLink]="'../checkout'"
+    >
+      Next
+    </button>
+  </div>
+</app-loading-spinner>
