@@ -17,14 +17,13 @@ export class AuthService {
     private userService: UserService,
     private alertService: AlertService,
     private router: Router
-  ) {
-    this.userService.currentUser.subscribe(user => {});
-  }
+  ) {}
 
   login(credentials) {
     this.http.post('auth/login', credentials).subscribe(
       (res: Response<User>) => {
         this.userService.setCurrentUser(res.data);
+        this.autoLogout(res.token.expire);
         this.router.navigateByUrl('me');
       },
       err => this.alertService.sendAlert(err.error.message, err.error.status)
@@ -35,6 +34,7 @@ export class AuthService {
     this.http.post('auth/signup', credentials).subscribe(
       (res: Response<User>) => {
         this.userService.setCurrentUser(res.data);
+        this.autoLogout(res.token.expire);
         this.router.navigateByUrl('me');
       },
       err => this.alertService.sendAlert(err.error.message, err.error.status)

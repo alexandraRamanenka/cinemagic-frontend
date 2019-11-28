@@ -1,5 +1,8 @@
 export interface Response<T> {
   status: string;
   data: T;
-  token?: string;
+  token?: {
+    expire: number;
+    token: string;
+  };
 }
