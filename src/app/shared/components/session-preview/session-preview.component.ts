@@ -8,6 +8,10 @@ import { Session } from '@shared/models/session';
 })
 export class SessionPreviewComponent implements OnInit {
   @Input() session: Session;
+  get movieInfoLink(): string[] {
+    return [`/movies/${this.session.film._id}`];
+  }
+
   constructor() {}
 
   ngOnInit() {}

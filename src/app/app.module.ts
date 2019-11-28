@@ -1,3 +1,4 @@
+import { DropdownComponent } from './shared/components/dropdown/dropdown.component';
 import { AuthModule } from './modules/auth/auth.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -11,7 +12,12 @@ import { LandingModule } from './modules/landing/landing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, AlertComponent],
+  declarations: [
+    AppComponent,
+    HeaderComponent,
+    AlertComponent,
+    DropdownComponent
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,

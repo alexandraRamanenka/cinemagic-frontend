@@ -1,0 +1,10 @@
+<div class="container" (click)="showOptions(dropdown, container)" #container>
+  <span class="value">{{ value }}</span>
+  <span uk-icon="icon: triangle-down"></span>
+</div>
+
+<ng-template #dropdown>
+  <div class="options">
+    <p class="option" *ngFor="let option of options">{{ option }}</p>
+  </div>
+</ng-template>

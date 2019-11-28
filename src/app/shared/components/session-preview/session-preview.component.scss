@@ -8,6 +8,7 @@
   height: 320px;
   background: center / cover;
   border-radius: 10px;
+  cursor: pointer;
 }
 
 .session-preview .info {
@@ -18,21 +19,39 @@
   .info {
     .genres,
     .datetime {
-      margin: 0.5rem auto;
       overflow: hidden;
+    }
+
+    .title {
+      font-weight: 500;
+    }
+
+    .restriction {
+      font-weight: 500;
     }
 
     .genres {
       height: 1rem;
+      margin-top: 0.2rem;
+      margin-bottom: 0.5rem;
     }
 
     .datetime {
-      margin-top: 1rem;
+      margin-top: 0.5rem;
+      margin-bottom: 0;
       font-weight: 400;
       font-size: 1.2rem;
       color: $color-active;
     }
 
+    .cinema {
+      margin-bottom: 0.5rem;
+      margin-top: 0.2rem;
+    }
+
+    .language {
+      margin: 0;
+    }
     .container {
       display: flex;
       justify-content: center;

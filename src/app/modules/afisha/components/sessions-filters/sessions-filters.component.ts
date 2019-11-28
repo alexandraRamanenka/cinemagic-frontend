@@ -29,7 +29,7 @@ export class SessionsFiltersComponent implements OnInit {
       restriction: [''],
       genre: [''],
       language: [''],
-      date: [''],
+      date: [Date.now().toString()],
       time: ['']
     });
   }

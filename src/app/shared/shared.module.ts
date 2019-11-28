@@ -17,6 +17,7 @@ import { LoadingSpinnerComponent } from './components/loading-spinner/loading-sp
 import { PhonePipe } from './pipes/phone.pipe';
 import { CounterComponent } from './components/counter/counter.component';
 import { TimerComponent } from './components/timer/timer.component';
+import { DropdownComponent } from './components/dropdown/dropdown.component';
 
 @NgModule({
   declarations: [

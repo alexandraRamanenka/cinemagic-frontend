@@ -1,21 +1,26 @@
 <div class="session-preview">
-  <div
-    class="image"
-    [ngStyle]="{ 'background-image': 'url(' + session.film.poster + ')' }"
-  ></div>
+  <a [routerLink]="movieInfoLink"
+    ><div
+      class="image"
+      [ngStyle]="{ 'background-image': 'url(' + session.film.poster + ')' }"
+    ></div
+  ></a>
+
   <div class="info">
     <div class="container">
       <h2 class="title uk-text-lead">{{ session.film.name }}</h2>
-      <span class="restriction uk-text-meta"
-        >{{ session.film.restriction }}+</span
-      >
+      <span class="restriction">{{ session.film.restriction }}+</span>
     </div>
 
     <p class="genres uk-text-meta uk-text-lowercase">
       {{ session.film.genre | movieGenres }}
     </p>
+    <p class="language">{{ session.film.language }}</p>
     <p class="datetime uk-text-meta">
       {{ session.dateTime | date: 'MMMM d, H:mm' }}
+    </p>
+    <p class="cinema">
+      {{ session.hall.cinema.name }}, {{ session.hall.cinema.city }}
     </p>
   </div>
   <app-reserve-ticket-button

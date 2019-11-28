@@ -19,9 +19,9 @@ export class AlertService {
     const alert = {
       message,
       type:
-        type === ResponseStatusTypes.Error
-          ? AlertTypes.Error
-          : AlertTypes.Success
+        type === ResponseStatusTypes.Success
+          ? AlertTypes.Success
+          : AlertTypes.Error
     };
     return alert;
   }
