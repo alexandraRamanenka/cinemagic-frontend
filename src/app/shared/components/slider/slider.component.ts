@@ -78,24 +78,25 @@ export class SliderComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   private onNextClicked() {
-    let timing = this.animationTiming;
+    const timing = this.animationTiming;
 
     if (this.currentSlide === this.slidesItems.length - 1) {
       this.currentSlide = 0;
-      timing = '0ms';
+      this.createAnimation('0ms', (this.currentSlide + 1) * this.offset);
     } else {
       this.currentSlide++;
     }
+
     const offset = this.currentSlide * this.offset;
     this.createAnimation(timing, offset);
   }
 
   private onPrevClicked() {
-    let timing = this.animationTiming;
+    const timing = this.animationTiming;
 
     if (this.currentSlide === 0) {
       this.currentSlide = this.slidesItems.length - 1;
-      timing = '0ms';
+      this.createAnimation('0ms', (this.currentSlide + 1) * this.offset);
     } else {
       this.currentSlide--;
     }
