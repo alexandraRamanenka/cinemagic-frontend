@@ -9,9 +9,7 @@ import { ServiceOrder } from '@shared/models/serviceOrder';
 import { StorageKeys } from '@shared/enums/storageKeys';
 import { Cart } from '@shared/models/cart';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ServicesService {
   services: Cart<ServiceOrder> = {};
   private servicesSubject: BehaviorSubject<Cart<ServiceOrder>>;
