@@ -4,3 +4,10 @@ export enum AgeRates {
   ThirteenPlus = '13+',
   EighteenPlus = '18+'
 }
+
+export const AllAgeRates = [
+  AgeRates.Any,
+  AgeRates.SixPlus,
+  AgeRates.ThirteenPlus,
+  AgeRates.EighteenPlus
+];

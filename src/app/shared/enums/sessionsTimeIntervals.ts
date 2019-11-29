@@ -5,3 +5,11 @@ export enum SessionsTimeIntervals {
   Evening = '18:00 - 21:00',
   Night = '21:00 - 24:00'
 }
+
+export const AllTimeIntervals = [
+  SessionsTimeIntervals.Any,
+  SessionsTimeIntervals.Morning,
+  SessionsTimeIntervals.Day,
+  SessionsTimeIntervals.Evening,
+  SessionsTimeIntervals.Night
+];

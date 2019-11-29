@@ -25,6 +25,13 @@
   />
   <app-dropdown
     class="dropdown uk-text-meta"
+    [placeholder]="'language'"
+    [optionsList]="languages"
+    formControlName="language"
+    (ngModelChange)="filter()"
+  ></app-dropdown>
+  <app-dropdown
+    class="dropdown uk-text-meta"
     [placeholder]="'age rate'"
     [optionsList]="ageRates"
     formControlName="restriction"

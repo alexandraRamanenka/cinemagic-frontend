@@ -1,9 +1,16 @@
-import { SessionsTimeIntervals } from '@shared/enums/sessionsTimeIntervals';
+import {
+  SessionsTimeIntervals,
+  AllTimeIntervals
+} from '@shared/enums/sessionsTimeIntervals';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { FilteringService } from '@shared/services/filtering.service';
 import { Component, OnInit } from '@angular/core';
 import { Interval } from '@shared/models/interval';
-import { AgeRates } from '@shared/enums/ageRates';
+import { AgeRates, AllAgeRates } from '@shared/enums/ageRates';
+import {
+  MovieLanguages,
+  AllMovieLanguages
+} from '@shared/enums/movieLanguages';
 
 @Component({
   selector: 'app-sessions-filters',
@@ -12,19 +19,9 @@ import { AgeRates } from '@shared/enums/ageRates';
 })
 export class SessionsFiltersComponent implements OnInit {
   filtersForm: FormGroup;
-  sessionIntervals = [
-    SessionsTimeIntervals.Any,
-    SessionsTimeIntervals.Morning,
-    SessionsTimeIntervals.Day,
-    SessionsTimeIntervals.Evening,
-    SessionsTimeIntervals.Night
-  ];
-  ageRates = [
-    AgeRates.Any,
-    AgeRates.SixPlus,
-    AgeRates.ThirteenPlus,
-    AgeRates.EighteenPlus
-  ];
+  sessionIntervals = [...AllTimeIntervals];
+  languages = [...AllMovieLanguages];
+  ageRates = [...AllAgeRates];
 
   constructor(
     private filteringService: FilteringService,
@@ -58,10 +55,11 @@ export class SessionsFiltersComponent implements OnInit {
 
   filter() {
     this.filteringService.reset();
-    const { name, genre, city, cinema, language } = this.filtersForm.value;
+    const { name, genre, city, cinema } = this.filtersForm.value;
 
-    let { date, restriction, time } = this.filtersForm.value;
+    let { date, restriction, time, language } = this.filtersForm.value;
     restriction = restriction === AgeRates.Any ? null : parseInt(restriction);
+    language = language === MovieLanguages.Any ? null : language;
     date = date ? new Date(date) : null;
     time =
       time && time !== SessionsTimeIntervals.Any

@@ -1,7 +1,11 @@
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { FilteringService } from '@shared/services/filtering.service';
 import { Component, Input } from '@angular/core';
-import { AgeRates } from '@shared/enums/ageRates';
+import { AgeRates, AllAgeRates } from '@shared/enums/ageRates';
+import {
+  AllMovieLanguages,
+  MovieLanguages
+} from '@shared/enums/movieLanguages';
 
 @Component({
   selector: 'app-movies-filters',
@@ -10,12 +14,8 @@ import { AgeRates } from '@shared/enums/ageRates';
 })
 export class MoviesFiltersComponent {
   filtersForm: FormGroup;
-  ageRates = [
-    AgeRates.Any,
-    AgeRates.SixPlus,
-    AgeRates.ThirteenPlus,
-    AgeRates.EighteenPlus
-  ];
+  ageRates = [...AllAgeRates];
+  languages = [...AllMovieLanguages];
   @Input() ageRate;
 
   constructor(
@@ -26,15 +26,16 @@ export class MoviesFiltersComponent {
       name: [''],
       restriction: [AgeRates.Any],
       genre: [''],
-      language: [''],
+      language: [MovieLanguages.Any],
       year: ['']
     });
   }
 
   filter() {
     this.filteringService.reset();
-    const { name, genre, year, language } = this.filtersForm.value;
-    let { restriction } = this.filtersForm.value;
+    const { name, genre, year } = this.filtersForm.value;
+    let { restriction, language } = this.filtersForm.value;
+    language = language === MovieLanguages.Any ? null : language;
     restriction = restriction === AgeRates.Any ? null : parseInt(restriction);
 
     this.filteringService

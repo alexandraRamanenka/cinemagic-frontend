@@ -8,6 +8,9 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class MovieCardComponent implements OnInit {
   @Input() movie: Movie;
+  get movieInfoLink(): string[] {
+    return [`/movies/${this.movie._id}`];
+  }
 
   constructor() {}
 

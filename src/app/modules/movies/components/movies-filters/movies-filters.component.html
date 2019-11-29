@@ -25,10 +25,11 @@
     formControlName="restriction"
     (ngModelChange)="filter()"
   ></app-dropdown>
-  <input
+  <app-dropdown
+    class="dropdown uk-text-meta"
+    [placeholder]="'language'"
+    [optionsList]="languages"
     formControlName="language"
-    class="filter-field uk-input uk-text-meta"
-    type="text"
-    placeholder="language"
-  />
+    (ngModelChange)="filter()"
+  ></app-dropdown>
 </form>
