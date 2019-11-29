@@ -1,4 +1,5 @@
 export enum SessionsTimeIntervals {
+  Any = 'any time',
   Morning = '10:00 - 13:00',
   Day = '13:00 - 18:00',
   Evening = '18:00 - 21:00',

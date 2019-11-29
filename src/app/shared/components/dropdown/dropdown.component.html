@@ -1,10 +1,5 @@
-<div class="container">
-  <div
-    class="field"
-    [ngClass]="{ opened: isOpen }"
-    (click)="toggleOpen()"
-    appTabindexed
-  >
+<div class="container" (focus)="focused()" (blur)="unfocused()" tabindex="0">
+  <div class="field" [ngClass]="{ opened: isOpen }">
     <div class="value">{{ value }}</div>
     <span class="open-btn" uk-icon="icon: triangle-down"></span>
   </div>
@@ -17,6 +12,5 @@
     >
       {{ option }}
     </p>
-    >
   </div>
 </div>

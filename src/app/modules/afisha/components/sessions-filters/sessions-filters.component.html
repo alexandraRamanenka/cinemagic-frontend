@@ -1,47 +1,46 @@
 <form [formGroup]="filtersForm" class="filters" (input)="filter()">
   <input
     formControlName="city"
-    class="filter-field"
+    class="filter-field uk-input"
     type="text"
     placeholder="city"
   />
   <input
     formControlName="cinema"
-    class="filter-field"
+    class="filter-field uk-input"
     type="text"
     placeholder="cinema"
   />
   <input
     formControlName="name"
-    class="filter-field"
+    class="filter-field uk-input"
     type="text"
     placeholder="name"
   />
   <input
     formControlName="genre"
-    class="filter-field"
+    class="filter-field uk-input"
     type="text"
     placeholder="genre"
   />
-  <input
+  <app-dropdown
+    class="dropdown uk-text-meta"
+    [placeholder]="'age rate'"
+    [optionsList]="ageRates"
     formControlName="restriction"
-    class="filter-field"
-    type="text"
-    placeholder="age rate"
-  />
+    (ngModelChange)="filter()"
+  ></app-dropdown>
   <input
     formControlName="date"
-    class="filter-field date uk-text-meta"
+    class="filter-field date uk-text-meta uk-input"
     type="date"
     placeholder="date"
   />
-  <select
-    class="filter-field time-select uk-text-meta"
+  <app-dropdown
+    class="dropdown uk-text-meta"
+    [placeholder]="'session time'"
+    [optionsList]="sessionIntervals"
     formControlName="time"
-    (change)="setInterval($event)"
-  >
-    <option [value]="interval" *ngFor="let interval of sessionIntervals">{{
-      interval
-    }}</option>
-  </select>
+    (ngModelChange)="filter()"
+  ></app-dropdown>
 </form>

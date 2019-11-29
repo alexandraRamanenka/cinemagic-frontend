@@ -1,8 +1,9 @@
-import { SessionsTimeIntervals } from '../../../../shared/enums/sessionsTimeIntervals';
+import { SessionsTimeIntervals } from '@shared/enums/sessionsTimeIntervals';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { FilteringService } from '@shared/services/filtering.service';
 import { Component, OnInit } from '@angular/core';
 import { Interval } from '@shared/models/interval';
+import { AgeRates } from '@shared/enums/ageRates';
 
 @Component({
   selector: 'app-sessions-filters',
@@ -12,10 +13,17 @@ import { Interval } from '@shared/models/interval';
 export class SessionsFiltersComponent implements OnInit {
   filtersForm: FormGroup;
   sessionIntervals = [
+    SessionsTimeIntervals.Any,
     SessionsTimeIntervals.Morning,
     SessionsTimeIntervals.Day,
     SessionsTimeIntervals.Evening,
     SessionsTimeIntervals.Night
+  ];
+  ageRates = [
+    AgeRates.Any,
+    AgeRates.SixPlus,
+    AgeRates.ThirteenPlus,
+    AgeRates.EighteenPlus
   ];
 
   constructor(
@@ -26,11 +34,11 @@ export class SessionsFiltersComponent implements OnInit {
       city: [''],
       cinema: [''],
       name: [''],
-      restriction: [''],
+      restriction: [AgeRates.Any],
       genre: [''],
       language: [''],
-      date: [Date.now().toString()],
-      time: ['']
+      date: [''],
+      time: [SessionsTimeIntervals.Any]
     });
   }
 
@@ -50,18 +58,15 @@ export class SessionsFiltersComponent implements OnInit {
 
   filter() {
     this.filteringService.reset();
-    const {
-      name,
-      genre,
-      restriction,
-      city,
-      cinema,
-      language
-    } = this.filtersForm.value;
+    const { name, genre, city, cinema, language } = this.filtersForm.value;
 
-    let { date, time } = this.filtersForm.value;
+    let { date, restriction, time } = this.filtersForm.value;
+    restriction = restriction === AgeRates.Any ? null : parseInt(restriction);
     date = date ? new Date(date) : null;
-    time = time ? this.getTimeInterval(time) : null;
+    time =
+      time && time !== SessionsTimeIntervals.Any
+        ? this.getTimeInterval(time)
+        : null;
 
     this.filteringService
       .includesString('film.name', name)

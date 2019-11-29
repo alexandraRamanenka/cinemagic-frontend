@@ -1,6 +1,7 @@
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { FilteringService } from '@shared/services/filtering.service';
 import { Component, Input } from '@angular/core';
+import { AgeRates } from '@shared/enums/ageRates';
 
 @Component({
   selector: 'app-movies-filters',
@@ -9,7 +10,12 @@ import { Component, Input } from '@angular/core';
 })
 export class MoviesFiltersComponent {
   filtersForm: FormGroup;
-  ageRates = ['any age', '6+', '13+', '16+', '18+'];
+  ageRates = [
+    AgeRates.Any,
+    AgeRates.SixPlus,
+    AgeRates.ThirteenPlus,
+    AgeRates.EighteenPlus
+  ];
   @Input() ageRate;
 
   constructor(
@@ -18,7 +24,7 @@ export class MoviesFiltersComponent {
   ) {
     this.filtersForm = this.fb.group({
       name: [''],
-      restriction: ['any age'],
+      restriction: [AgeRates.Any],
       genre: [''],
       language: [''],
       year: ['']
@@ -29,8 +35,7 @@ export class MoviesFiltersComponent {
     this.filteringService.reset();
     const { name, genre, year, language } = this.filtersForm.value;
     let { restriction } = this.filtersForm.value;
-    restriction = restriction === 'any age' ? null : parseInt(restriction);
-    console.log(restriction);
+    restriction = restriction === AgeRates.Any ? null : parseInt(restriction);
 
     this.filteringService
       .includesString('name', name)

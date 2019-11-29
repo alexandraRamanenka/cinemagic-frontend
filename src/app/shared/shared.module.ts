@@ -18,7 +18,6 @@ import { PhonePipe } from './pipes/phone.pipe';
 import { CounterComponent } from './components/counter/counter.component';
 import { TimerComponent } from './components/timer/timer.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
-import { TabindexedDirective } from './directives/tabindexed.directive';
 
 @NgModule({
   declarations: [
@@ -33,8 +32,7 @@ import { TabindexedDirective } from './directives/tabindexed.directive';
     PhonePipe,
     CounterComponent,
     TimerComponent,
-    DropdownComponent,
-    TabindexedDirective
+    DropdownComponent
   ],
   imports: [CommonModule, ReactiveFormsModule, RouterModule, HttpClientModule],
   providers: [FilteringService],

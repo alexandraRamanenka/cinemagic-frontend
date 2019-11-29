@@ -1,15 +1,5 @@
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import {
-  Component,
-  Input,
-  forwardRef,
-  ViewContainerRef,
-  HostListener,
-  ElementRef,
-  ViewChild,
-  QueryList,
-  ViewChildren
-} from '@angular/core';
+import { Component, Input, forwardRef, ElementRef } from '@angular/core';
 
 const VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
@@ -33,36 +23,6 @@ export class DropdownComponent implements ControlValueAccessor {
   private open = false;
   private onChange: any = () => {};
   private onTouched: any = () => {};
-
-  @HostListener('keydown.arrowdown', ['$event']) onArrowDown(event) {
-    if (this.isOpen) {
-      event.preventDefault();
-      let el =
-        document.querySelector('.option.hovered') ||
-        document.querySelector('.option.selected');
-      el.classList.remove('hovered');
-      if (el.nextElementSibling) {
-        el.nextElementSibling.classList.add('hovered');
-      } else {
-        el.parentNode.firstElementChild.classList.add('hovered');
-      }
-    }
-  }
-
-  @HostListener('keydown.arrowup', ['$event']) onArrowUp(event) {
-    if (this.isOpen) {
-      event.preventDefault();
-      let el =
-        document.querySelector('.option.hovered') ||
-        document.querySelector('.option.selected');
-      el.classList.remove('hovered');
-      if (el.previousElementSibling) {
-        el.previousElementSibling.classList.add('hovered');
-      } else {
-        el.parentNode.firstElementChild.classList.add('hovered');
-      }
-    }
-  }
 
   get value(): string {
     if (this.selected) {
@@ -107,15 +67,15 @@ export class DropdownComponent implements ControlValueAccessor {
 
   select(option: any) {
     this.writeValue(option);
-    this.unfocus();
+    this.unfocused();
+    (document.activeElement as HTMLElement).blur();
   }
 
-  toggleOpen() {
-    this.open = !this.open;
-    console.log('toggle');
-  }
-
-  unfocus() {
+  unfocused() {
     this.open = false;
+  }
+
+  focused() {
+    this.open = true;
   }
 }
