@@ -1,32 +1,33 @@
 <form [formGroup]="filtersForm" class="filters" (input)="filter()">
   <input
     formControlName="name"
-    class="filter-field"
+    class="filter-field uk-input uk-text-meta"
     type="text"
     placeholder="name"
   />
   <input
     formControlName="genre"
-    class="filter-field"
+    class="filter-field uk-input uk-text-meta"
     type="text"
     placeholder="genre"
   />
   <input
+    tabIndex="0"
     formControlName="year"
-    class="filter-field"
+    class="filter-field uk-input uk-text-meta"
     type="text"
     placeholder="year"
   />
-  <input
+  <app-dropdown
+    class="dropdown uk-text-meta"
+    [placeholder]="'age rate'"
+    [optionsList]="ageRates"
     formControlName="restriction"
-    class="filter-field"
-    type="text"
-    placeholder="age rate"
-  />
-  <app-dropdown [placeholder]="'age rate'" [options]="ageRates"></app-dropdown>
+    (ngModelChange)="filter()"
+  ></app-dropdown>
   <input
     formControlName="language"
-    class="filter-field"
+    class="filter-field uk-input uk-text-meta"
     type="text"
     placeholder="language"
   />

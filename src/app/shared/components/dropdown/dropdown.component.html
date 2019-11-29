@@ -1,16 +1,22 @@
-<div class="container" (click)="toggleOpen()">
-  <div class="field" [ngClass]="{ opened: isOpen }">
+<div class="container">
+  <div
+    class="field"
+    [ngClass]="{ opened: isOpen }"
+    (click)="toggleOpen()"
+    appTabindexed
+  >
     <div class="value">{{ value }}</div>
     <span class="open-btn" uk-icon="icon: triangle-down"></span>
   </div>
   <div class="options" [ngClass]="{ hidden: !isOpen, show: isOpen }">
     <p
       class="option"
-      *ngFor="let option of options; index as i"
-      [ngClass]="{ selected: i === selected }"
-      (click)="select(i)"
+      [ngClass]="{ selected: isSelected(option) }"
+      (click)="select(option)"
+      *ngFor="let option of optionsList"
     >
       {{ option }}
     </p>
+    >
   </div>
 </div>

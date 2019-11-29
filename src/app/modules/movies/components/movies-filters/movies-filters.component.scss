@@ -8,6 +8,7 @@
 
   .filter-field {
     height: 32px;
+    width: 120px;
     margin-right: 1.6rem;
     margin-bottom: 0.5rem;
     padding-left: 1rem;
@@ -17,5 +18,13 @@
     &:focus {
       border-bottom: 2px solid $color-active;
     }
+  }
+
+  .dropdown {
+    z-index: 102;
+    height: 32px;
+    width: 100px;
+    margin-right: 1.6rem;
+    margin-bottom: 0.5rem;
   }
 }
