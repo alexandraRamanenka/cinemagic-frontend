@@ -1,6 +1,6 @@
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { FilteringService } from './../../../../shared/services/filtering.service';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-movies-filters',
@@ -9,6 +9,8 @@ import { Component } from '@angular/core';
 })
 export class MoviesFiltersComponent {
   filtersForm: FormGroup;
+  ageRates = ['6+', '13+', '16+', '18+'];
+  @Input() ageRate;
 
   constructor(
     private filteringService: FilteringService,

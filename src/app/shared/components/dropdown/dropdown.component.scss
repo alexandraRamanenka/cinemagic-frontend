@@ -1,7 +1,60 @@
+@import 'variables.scss';
+
 .option {
   margin: 0.1rem auto;
   text-align: center;
 }
 .container {
-  width: 100px;
+  width: 160px;
+}
+
+.field {
+  height: 32px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid $color-stroke;
+
+  &.opened {
+    border-bottom: 2px solid $color-active;
+  }
+}
+
+.open-btn {
+  display: flex;
+  align-items: center;
+}
+
+.value {
+  text-align: center;
+  width: 100%;
+}
+
+.options {
+  z-index: 101;
+  display: block;
+  position: absolute;
+  width: inherit;
+  background-color: $color-light;
+}
+
+.option {
+  cursor: pointer;
+}
+
+.option:hover {
+  background: $color-hover;
+}
+
+.option.selected {
+  background: $color-primary;
+  color: $color-light;
+}
+
+.hidden {
+  display: none;
+}
+
+.show {
+  display: block;
 }

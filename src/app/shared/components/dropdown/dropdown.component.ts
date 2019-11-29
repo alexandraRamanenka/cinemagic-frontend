@@ -1,17 +1,5 @@
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import {
-  Component,
-  OnInit,
-  Input,
-  forwardRef,
-  Output,
-  EventEmitter,
-  ViewContainerRef,
-  TemplateRef,
-  NgZone,
-  EmbeddedViewRef,
-  HostListener
-} from '@angular/core';
+import { Component, Input, forwardRef, ViewContainerRef } from '@angular/core';
 
 const VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
@@ -25,48 +13,44 @@ const VALUE_ACCESSOR = {
   styleUrls: ['./dropdown.component.scss'],
   providers: [VALUE_ACCESSOR]
 })
-export class DropdownComponent implements OnInit, ControlValueAccessor {
-  @Input() placeholder = '';
+export class DropdownComponent implements ControlValueAccessor {
   @Input() options = [];
+  @Input() placeholder = '';
   @Input() selected: number;
-  @Input() valueKey = 'value';
-  @Input() idKey = 'id';
 
-  @Output() selectChanged = new EventEmitter();
-  private onChange = () => {};
-  private optionsRef: EmbeddedViewRef<any>;
+  private open = false;
+  private onChange: any = () => {};
+  private onTouched: any = () => {};
 
   get value(): string {
-    return this.selected
-      ? this.valueKey
-        ? this.options[this.selected][this.valueKey]
-        : this.options[this.selected]
-      : this.placeholder;
+    return this.selected ? this.options[this.selected] : this.placeholder;
   }
 
-  constructor(private viewContainerRef: ViewContainerRef) {}
+  get isOpen(): boolean {
+    return this.open;
+  }
 
-  ngOnInit() {}
+  constructor(private vcr: ViewContainerRef) {}
 
   writeValue(index: number): void {
     this.selected = index;
+    this.onChange(index);
   }
 
   registerOnChange(fn: any): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: any): void {}
-
-  showOptions(dropdownTemplate: TemplateRef<any>, parent: HTMLElement) {
-    this.optionsRef = this.viewContainerRef.createEmbeddedView(
-      dropdownTemplate
-    );
-    const dropdown = this.optionsRef.rootNodes[0];
-
-    document.body.appendChild(dropdown);
-    dropdown.style.width = `${parent.offsetWidth}px`;
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
   }
 
-  select() {}
+  select(index: number) {
+    this.writeValue(index);
+    this.open = false;
+  }
+
+  toggleOpen() {
+    this.open = !this.open;
+  }
 }

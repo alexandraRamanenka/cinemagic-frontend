@@ -31,7 +31,8 @@ import { DropdownComponent } from './components/dropdown/dropdown.component';
     LoadingSpinnerComponent,
     PhonePipe,
     CounterComponent,
-    TimerComponent
+    TimerComponent,
+    DropdownComponent
   ],
   imports: [CommonModule, ReactiveFormsModule, RouterModule, HttpClientModule],
   providers: [FilteringService],
@@ -50,7 +51,8 @@ import { DropdownComponent } from './components/dropdown/dropdown.component';
     PhonePipe,
     MovieGenresPipe,
     CounterComponent,
-    TimerComponent
+    TimerComponent,
+    DropdownComponent
   ]
 })
 export class SharedModule {
