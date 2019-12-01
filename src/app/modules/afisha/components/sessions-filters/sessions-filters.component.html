@@ -1,4 +1,9 @@
-<form [formGroup]="filtersForm" class="filters" (input)="filter()">
+<form
+  [formGroup]="filtersForm"
+  class="filters"
+  (input)="filter()"
+  (keydown.escape)="reset()"
+>
   <input
     formControlName="city"
     class="filter-field uk-input"
@@ -27,6 +32,7 @@
     class="dropdown uk-text-meta"
     [placeholder]="'language'"
     [optionsList]="languages"
+    [default]="languages[0]"
     formControlName="language"
     (ngModelChange)="filter()"
   ></app-dropdown>
@@ -34,6 +40,7 @@
     class="dropdown uk-text-meta"
     [placeholder]="'age rate'"
     [optionsList]="ageRates"
+    [default]="ageRates[0]"
     formControlName="restriction"
     (ngModelChange)="filter()"
   ></app-dropdown>

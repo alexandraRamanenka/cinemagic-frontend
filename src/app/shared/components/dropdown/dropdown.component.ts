@@ -19,6 +19,8 @@ export class DropdownComponent implements ControlValueAccessor {
   @Input() valueKey: string;
   @Input() idKey: string;
   @Input() selected: any;
+  @Input() default: any;
+  hovered: any;
 
   private open = false;
   private onChange: any = () => {};
@@ -41,20 +43,28 @@ export class DropdownComponent implements ControlValueAccessor {
 
   isSelected(option: any): boolean {
     if (this.selected) {
-      if (this.idKey) {
-        return option[this.idKey] === this.selected[this.idKey];
-      } else if (this.valueKey) {
-        return option[this.valueKey] === this.selected[this.valueKey];
-      }
-      return option === this.selected;
+      return this.compareOptions(option, this.selected);
     }
   }
 
-  constructor(private er: ElementRef) {}
+  isHovered(option: any): boolean {
+    if (this.hovered) {
+      return this.compareOptions(option, this.hovered);
+    }
+  }
 
-  writeValue(index: number): void {
-    this.selected = index;
-    this.onChange(index);
+  constructor() {
+    if (this.default && !this.selected) {
+      this.selected = this.default;
+    }
+  }
+
+  writeValue(option: any): void {
+    if (!option) {
+      this.selected = this.default ? this.default : null;
+    }
+    this.selected = option;
+    this.onChange(this.selected);
   }
 
   registerOnChange(fn: any): void {
@@ -65,17 +75,60 @@ export class DropdownComponent implements ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  select(option: any) {
+  select(option?: any) {
+    if (!option) {
+      option = this.hovered;
+    }
     this.writeValue(option);
-    this.unfocused();
+    this.unfocus();
     (document.activeElement as HTMLElement).blur();
   }
 
-  unfocused() {
+  unfocus() {
+    this.hovered = null;
     this.open = false;
   }
 
-  focused() {
+  focus() {
     this.open = true;
+  }
+
+  hover(option: any) {
+    this.hovered = option;
+  }
+
+  next(event) {
+    event.preventDefault();
+    this.hovered =
+      this.optionsList[this.getStartOptionIndex() + 1] || this.optionsList[0];
+  }
+
+  previouse(event) {
+    event.preventDefault();
+    this.hovered =
+      this.optionsList[this.getStartOptionIndex() - 1] ||
+      this.optionsList[this.optionsList.length - 1];
+  }
+
+  private getStartOptionIndex(): number {
+    const startOption = this.hovered || this.selected;
+    if (!startOption) {
+      return -1;
+    }
+
+    const startIndex = this.optionsList.findIndex(option =>
+      this.compareOptions(option, startOption)
+    );
+
+    return startIndex;
+  }
+
+  private compareOptions(first: any, second: any) {
+    if (this.idKey) {
+      return first[this.idKey] === second[this.idKey];
+    } else if (this.valueKey) {
+      return first[this.valueKey] === second[this.valueKey];
+    }
+    return first === second;
   }
 }

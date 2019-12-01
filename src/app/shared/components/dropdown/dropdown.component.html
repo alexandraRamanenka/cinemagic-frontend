@@ -1,4 +1,12 @@
-<div class="container" (focus)="focused()" (blur)="unfocused()" tabindex="0">
+<div
+  class="container"
+  (focus)="focus()"
+  (blur)="unfocus()"
+  (keydown.arrowdown)="next($event)"
+  (keydown.arrowup)="previouse($event)"
+  (keydown.enter)="select()"
+  tabindex="0"
+>
   <div class="field" [ngClass]="{ opened: isOpen }">
     <div class="value">{{ value }}</div>
     <span class="open-btn" uk-icon="icon: triangle-down"></span>
@@ -6,8 +14,9 @@
   <div class="options" [ngClass]="{ hidden: !isOpen, show: isOpen }">
     <p
       class="option"
-      [ngClass]="{ selected: isSelected(option) }"
+      [ngClass]="{ selected: isSelected(option), hovered: isHovered(option) }"
       (click)="select(option)"
+      (mouseenter)="hover(option)"
       *ngFor="let option of optionsList"
     >
       {{ option }}

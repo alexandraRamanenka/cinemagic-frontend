@@ -4,13 +4,14 @@ import {
 } from '@shared/enums/sessionsTimeIntervals';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { FilteringService } from '@shared/services/filtering.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterContentInit } from '@angular/core';
 import { Interval } from '@shared/models/interval';
 import { AgeRates, AllAgeRates } from '@shared/enums/ageRates';
 import {
   MovieLanguages,
   AllMovieLanguages
 } from '@shared/enums/movieLanguages';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-sessions-filters',
@@ -34,23 +35,31 @@ export class SessionsFiltersComponent implements OnInit {
       restriction: [AgeRates.Any],
       genre: [''],
       language: [''],
-      date: [''],
+      date: [this.getDateForInput(new Date())],
       time: [SessionsTimeIntervals.Any]
     });
   }
 
   ngOnInit() {}
 
-  getTimeInterval(interval: SessionsTimeIntervals): Interval {
+  ngAfterContentInit() {
+    this.filter();
+  }
+
+  getSessionTimeInterval(interval: SessionsTimeIntervals): Interval {
     const from = +interval.substring(0, 2) * 60;
     const to = +interval.substring(8, 10) * 60;
     return { from, to };
   }
 
-  setInterval(e) {
+  setSessionTimeInterval(e) {
     this.filtersForm.patchValue({ time: e.target.value });
 
     this.filter();
+  }
+
+  reset() {
+    this.filtersForm.reset();
   }
 
   filter() {
@@ -63,7 +72,7 @@ export class SessionsFiltersComponent implements OnInit {
     date = date ? new Date(date) : null;
     time =
       time && time !== SessionsTimeIntervals.Any
-        ? this.getTimeInterval(time)
+        ? this.getSessionTimeInterval(time)
         : null;
 
     this.filteringService
@@ -71,9 +80,17 @@ export class SessionsFiltersComponent implements OnInit {
       .includesString('hall.cinema.name', cinema)
       .includesString('hall.cinema.city', city)
       .includesValue('film.genre', genre)
-      .lessOrEqual('film.restriction', restriction)
+      .equal('film.restriction', restriction)
       .includesString('film.language', language)
       .onDate('dateTime', date)
       .inTimePeriod('dateTime', time);
+  }
+
+  private getDateForInput(date: Date) {
+    const day = date.getDate();
+    const dayStr = day < 10 ? `0${day}` : day;
+    const month = date.getMonth();
+    const monthStr = month < 10 ? `0${month}` : month;
+    return `${date.getFullYear()}-${monthStr}-${dayStr}`;
   }
 }

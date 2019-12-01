@@ -31,6 +31,10 @@ export class MoviesFiltersComponent {
     });
   }
 
+  reset() {
+    this.filtersForm.reset();
+  }
+
   filter() {
     this.filteringService.reset();
     const { name, genre, year } = this.filtersForm.value;
@@ -41,7 +45,7 @@ export class MoviesFiltersComponent {
     this.filteringService
       .includesString('name', name)
       .includesValue('genre', genre)
-      .lessOrEqual('restriction', restriction)
+      .equal('restriction', restriction)
       .includesString('year', year)
       .includesString('language', language);
   }

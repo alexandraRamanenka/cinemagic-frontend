@@ -1,4 +1,9 @@
-<form [formGroup]="filtersForm" class="filters" (input)="filter()">
+<form
+  [formGroup]="filtersForm"
+  class="filters"
+  (input)="filter()"
+  (keydown.escape)="reset()"
+>
   <input
     formControlName="name"
     class="filter-field uk-input uk-text-meta"
@@ -20,6 +25,7 @@
   />
   <app-dropdown
     class="dropdown uk-text-meta"
+    [default]="ageRates[0]"
     [placeholder]="'age rate'"
     [optionsList]="ageRates"
     formControlName="restriction"
@@ -28,6 +34,7 @@
   <app-dropdown
     class="dropdown uk-text-meta"
     [placeholder]="'language'"
+    [default]="languages[0]"
     [optionsList]="languages"
     formControlName="language"
     (ngModelChange)="filter()"
