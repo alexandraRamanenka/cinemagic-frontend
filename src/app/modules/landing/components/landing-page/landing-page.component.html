@@ -1,7 +1,7 @@
 <app-slider [animationTiming]="'250ms ease-out'" class="slider">
   <ng-container *ngFor="let movieSlide of movieSlides">
     <div *appSlide class="slider-item">
-      <div class="slide-wrapper">
+      <div class="slide-wrapper" [ngStyle]="slideStyle">
         <app-movie-card
           *ngFor="let movie of movieSlide"
           [movie]="movie"
