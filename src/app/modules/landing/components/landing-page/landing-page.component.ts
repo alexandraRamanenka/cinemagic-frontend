@@ -11,12 +11,12 @@ import { environment } from '@env/environment';
 })
 export class LandingPageComponent implements OnInit {
   slideStyle = {};
+  movies: any[];
 
   get movieSlides(): any[] {
     return this.splitDataIntoSlides(this.movies, this.itemsPerSlide);
   }
 
-  private movies: any[];
   private itemsPerSlide = 4;
   private resizeTimeout: any;
 
@@ -39,6 +39,10 @@ export class LandingPageComponent implements OnInit {
     this.movieService.getAll().subscribe((res: Response<Movie[]>) => {
       this.movies = res.data;
     });
+  }
+
+  getMovieInfoLink(movie: Movie): string[] {
+    return [`/movies/${movie._id}`];
   }
 
   private setItemsPerSlideLimit() {

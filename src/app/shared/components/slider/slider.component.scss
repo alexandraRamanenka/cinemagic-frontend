@@ -1,5 +1,5 @@
 .slider {
-  height: 70vh;
+  height: inherit;
   width: 100%;
 
   .content {
@@ -11,6 +11,7 @@
       display: flex;
       flex-wrap: nowrap;
       position: relative;
+      align-items: center;
       height: 100%;
 
       .slide {
