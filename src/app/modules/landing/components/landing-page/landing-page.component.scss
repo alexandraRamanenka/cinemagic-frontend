@@ -6,6 +6,13 @@
   align-items: center;
 }
 
+.header {
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  margin-left: 3.5rem;
+}
+
 .btn-prev,
 .btn-next {
   width: 60px;
@@ -45,6 +52,8 @@
 }
 
 .single-movie-card {
+  z-index: 105;
+
   .image {
     width: 45vw;
     height: 60vh;
@@ -79,30 +88,34 @@
 .movie-cards-slider {
   height: 60vh;
   position: relative;
+  z-index: 101;
 
-  .controls-layout {
-    width: 100vw;
-    height: 60vh;
-    display: block;
+  .btn-prev-second {
+    height: 40px;
+    width: 40px;
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 20vh;
+    left: 20px;
+  }
 
-    .controls {
-      position: relative;
-      width: 100%;
-      height: 100%;
+  .btn-next-second {
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    top: 20vh;
+    left: calc(100vw - 200px);
+  }
+}
 
-      .btn-prev-second {
-        position: absolute;
-        top: 30%;
-        left: 20px;
+@media screen and (max-width: 1080px) {
+  .single-movie-card {
+    .info {
+      .description {
+        font-size: 1rem;
       }
 
-      .btn-next-second {
-        position: absolute;
-        top: 30%;
-        right: 120px;
+      .title {
+        font-size: 2rem;
       }
     }
   }

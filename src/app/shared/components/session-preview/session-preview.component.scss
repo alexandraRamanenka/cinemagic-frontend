@@ -79,3 +79,57 @@
   justify-content: center;
   width: 240px;
 }
+
+@media screen and (max-width: 746px) {
+  .session-preview {
+    margin-bottom: 1rem;
+    .image {
+      width: 360px;
+      height: 420px;
+    }
+
+    .reserve-btn {
+      width: 360px;
+    }
+
+    .info {
+      width: 360px;
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+
+      .genres,
+      .cinema,
+      .language,
+      .datetime {
+        margin: 0.2rem auto;
+        text-align: center;
+      }
+
+      .container {
+        height: auto;
+        justify-content: center;
+        align-items: baseline;
+
+        .restriction {
+          font-size: 1.4rem;
+        }
+
+        .title,
+        .restriction {
+          margin: 0 0.5rem;
+        }
+      }
+
+      .title {
+        font-size: 2rem;
+        font-weight: 500;
+        height: auto;
+      }
+
+      .genres {
+        font-size: 1rem;
+      }
+    }
+  }
+}

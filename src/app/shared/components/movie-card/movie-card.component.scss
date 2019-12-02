@@ -18,12 +18,12 @@
     .title,
     .genres,
     .restriction {
-      margin: 0.5rem auto;
+      margin: 0.6rem auto;
       overflow: hidden;
     }
 
     .title {
-      height: 2.5rem;
+      height: 2.2rem;
       font-weight: 500;
 
       &:hover {
@@ -49,4 +49,50 @@
   display: flex;
   justify-content: center;
   width: 240px;
+}
+
+@media screen and (max-width: 746px) {
+  .movie-card {
+    margin-bottom: 1rem;
+    .image {
+      width: 360px;
+      height: 420px;
+    }
+
+    .reserve-btn {
+      width: 360px;
+    }
+
+    .info {
+      width: 360px;
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+
+      .title,
+      .genres,
+      .restriction {
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .title {
+        font-size: 2rem;
+        font-weight: 500;
+        height: auto;
+      }
+
+      .genres,
+      .restriction {
+        font-size: 1.2rem;
+      }
+
+      .restriction {
+        height: 1.5rem;
+        font-weight: 500;
+        margin-bottom: 1rem;
+        margin-top: 0.5rem;
+      }
+    }
+  }
 }

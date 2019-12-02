@@ -18,4 +18,8 @@ export class MovieService {
   getMovieSessions(id: string) {
     return this.http.get(`films/${id}/sessions`);
   }
+
+  getBestMovies() {
+    return this.http.get('films/best');
+  }
 }

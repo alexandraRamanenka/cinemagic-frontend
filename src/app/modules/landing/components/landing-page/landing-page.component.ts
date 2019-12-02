@@ -1,5 +1,11 @@
 import { MovieService } from '@shared/services/movie.service';
-import { Component, OnInit, Input, HostListener } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  HostListener,
+  AfterViewInit
+} from '@angular/core';
 import { Movie } from '@shared/models/movie';
 import { Response } from '@shared/models/response';
 import { environment } from '@env/environment';
@@ -9,11 +15,12 @@ import { environment } from '@env/environment';
   templateUrl: './landing-page.component.html',
   styleUrls: ['./landing-page.component.scss']
 })
-export class LandingPageComponent implements OnInit {
+export class LandingPageComponent implements OnInit, AfterViewInit {
   slideStyle = {};
-  movies: any[];
+  bestMovies: Movie[];
+  movies: Movie[];
 
-  get movieSlides(): any[] {
+  get movieSlides(): Movie[] {
     return this.splitDataIntoSlides(this.movies, this.itemsPerSlide);
   }
 
@@ -39,6 +46,14 @@ export class LandingPageComponent implements OnInit {
     this.movieService.getAll().subscribe((res: Response<Movie[]>) => {
       this.movies = res.data;
     });
+
+    this.movieService.getBestMovies().subscribe((res: Response<Movie[]>) => {
+      this.bestMovies = res.data;
+    });
+  }
+
+  ngAfterViewInit() {
+    this.setItemsPerSlideLimit();
   }
 
   getMovieInfoLink(movie: Movie): string[] {
@@ -64,7 +79,7 @@ export class LandingPageComponent implements OnInit {
     };
   }
 
-  private splitDataIntoSlides(results: any[], limit: number) {
+  private splitDataIntoSlides(results: any[], limit: number): any[] {
     const result = [];
     if (!results) {
       return result;
