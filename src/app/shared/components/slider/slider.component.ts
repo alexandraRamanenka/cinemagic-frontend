@@ -82,7 +82,7 @@ export class SliderComponent implements AfterViewInit, OnDestroy, OnInit {
 
     if (this.currentSlide === this.slidesItems.length - 1) {
       this.currentSlide = 0;
-      this.createAnimation('0ms', -(this.slidesItems.length - 1) * this.offset);
+      this.createAnimation('0ms', (this.slidesItems.length - 1) * this.offset);
     } else {
       this.currentSlide++;
     }

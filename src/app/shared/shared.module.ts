@@ -18,6 +18,7 @@ import { PhonePipe } from './pipes/phone.pipe';
 import { CounterComponent } from './components/counter/counter.component';
 import { TimerComponent } from './components/timer/timer.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
+import { NoContentComponent } from './components/no-content/no-content.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { DropdownComponent } from './components/dropdown/dropdown.component';
     PhonePipe,
     CounterComponent,
     TimerComponent,
-    DropdownComponent
+    DropdownComponent,
+    NoContentComponent
   ],
   imports: [CommonModule, ReactiveFormsModule, RouterModule, HttpClientModule],
   providers: [FilteringService],
@@ -52,7 +54,8 @@ import { DropdownComponent } from './components/dropdown/dropdown.component';
     MovieGenresPipe,
     CounterComponent,
     TimerComponent,
-    DropdownComponent
+    DropdownComponent,
+    NoContentComponent
   ]
 })
 export class SharedModule {

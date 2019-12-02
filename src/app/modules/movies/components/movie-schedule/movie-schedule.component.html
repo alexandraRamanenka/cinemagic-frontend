@@ -19,4 +19,10 @@
       </div>
     </a>
   </div>
+
+  <app-no-content *ngIf="!sessions || !sessions.length">
+    <h3>
+      Cannot find any session for that movie...
+    </h3>
+  </app-no-content>
 </app-loading-spinner>

@@ -4,25 +4,28 @@ import {
 } from '@shared/enums/sessionsTimeIntervals';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { FilteringService } from '@shared/services/filtering.service';
-import { Component, OnInit, AfterContentInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Interval } from '@shared/models/interval';
 import { AgeRates, AllAgeRates } from '@shared/enums/ageRates';
 import {
   MovieLanguages,
   AllMovieLanguages
 } from '@shared/enums/movieLanguages';
-import { ThrowStmt } from '@angular/compiler';
+import { take, takeWhile, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-sessions-filters',
   templateUrl: './sessions-filters.component.html',
   styleUrls: ['./sessions-filters.component.scss']
 })
-export class SessionsFiltersComponent implements OnInit {
+export class SessionsFiltersComponent implements OnDestroy {
   filtersForm: FormGroup;
   sessionIntervals = [...AllTimeIntervals];
   languages = [...AllMovieLanguages];
   ageRates = [...AllAgeRates];
+
+  private unsubscribe$ = new Subject<void>();
 
   constructor(
     private filteringService: FilteringService,
@@ -38,12 +41,19 @@ export class SessionsFiltersComponent implements OnInit {
       date: [this.getDateForInput(new Date())],
       time: [SessionsTimeIntervals.Any]
     });
+
+    this.filteringService.isReady
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(isReady => {
+        if (isReady) {
+          this.filter();
+        }
+      });
   }
 
-  ngOnInit() {}
-
-  ngAfterContentInit() {
-    this.filter();
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   getSessionTimeInterval(interval: SessionsTimeIntervals): Interval {

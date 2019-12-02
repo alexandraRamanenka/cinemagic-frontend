@@ -5,3 +5,8 @@
     class="movie-card"
   ></app-movie-card>
 </div>
+<app-no-content *ngIf="!movies || !movies.length">
+  <h3>
+    Cannot find any movie with such parameters...
+  </h3>
+</app-no-content>

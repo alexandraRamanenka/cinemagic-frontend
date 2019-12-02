@@ -1,5 +1,5 @@
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Component, Input, forwardRef, ElementRef } from '@angular/core';
+import { Component, Input, forwardRef } from '@angular/core';
 
 const VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,

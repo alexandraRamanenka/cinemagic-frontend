@@ -5,3 +5,8 @@
     class="session-preview"
   ></app-session-preview>
 </div>
+<app-no-content *ngIf="!sessions || !sessions.length">
+  <h3>
+    Cannot find any session with such parameters...
+  </h3>
+</app-no-content>

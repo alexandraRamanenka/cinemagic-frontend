@@ -9,8 +9,13 @@ export class FilteringService {
   private items: any[];
   private filteredItems: BehaviorSubject<any[]>;
   private paginatedItems: BehaviorSubject<any[]>;
+  private ready = new BehaviorSubject(false);
 
   afterInit = () => {};
+
+  get isReady(): Observable<boolean> {
+    return this.ready.asObservable();
+  }
 
   get filteredData(): Observable<any[]> {
     return this.filteredItems.asObservable();
@@ -32,6 +37,7 @@ export class FilteringService {
     );
 
     this.afterInit();
+    this.ready.next(true);
   }
 
   reset() {

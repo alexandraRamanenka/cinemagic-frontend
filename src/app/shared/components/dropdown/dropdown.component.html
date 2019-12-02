@@ -8,7 +8,7 @@
   tabindex="0"
 >
   <div class="field" [ngClass]="{ opened: isOpen }">
-    <div class="value">{{ value }}</div>
+    <div class="value" [ngClass]="{ activated: selected }">{{ value }}</div>
     <span class="open-btn" uk-icon="icon: triangle-down"></span>
   </div>
   <div class="options" [ngClass]="{ hidden: !isOpen, show: isOpen }">

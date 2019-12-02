@@ -23,6 +23,12 @@
 
     .title {
       height: 2.5rem;
+      font-weight: 500;
+
+      &:hover {
+        overflow: visible;
+        height: auto;
+      }
     }
 
     .genres {

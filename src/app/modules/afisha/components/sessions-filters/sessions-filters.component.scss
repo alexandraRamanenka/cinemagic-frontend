@@ -25,6 +25,10 @@
       border-bottom: 2px solid $color-active;
     }
 
+    &:not(:placeholder-shown) {
+      color: $color-active;
+    }
+
     .date {
       &::-webkit-inner-spin-button {
         display: none;
