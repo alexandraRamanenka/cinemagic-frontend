@@ -1,17 +1,24 @@
-<div class="seats-schema" *ngIf="schema">
-  <div class="line" *ngFor="let line of schema; index as lineIndex">
-    <div
-      class="seat"
-      *ngFor="let seat of line; index as seatIndex"
-      [ngClass]="{
-        vip: seat.type === SeatTypes.Vip,
-        disabled: seat.isBlocked,
-        chosen:
-          chosenSeats && chosenSeats.length && isChosen(lineIndex, seatIndex)
-      }"
-      (click)="addSeat(seat, lineIndex, seatIndex)"
-    >
-      {{ seat.number }}
+<div class="schema-container">
+  <div class="line-numbers" *ngIf="schema">
+    <div class="line-number" *ngFor="let line of schema; index as lineIndex">
+      {{ lineIndex + 1 }}
+    </div>
+  </div>
+  <div class="seats-schema" *ngIf="schema">
+    <div class="line" *ngFor="let line of schema; index as lineIndex">
+      <div
+        class="seat"
+        *ngFor="let seat of line; index as seatIndex"
+        [ngClass]="{
+          vip: seat.type === SeatTypes.Vip,
+          disabled: seat.isBlocked,
+          chosen:
+            chosenSeats && chosenSeats.length && isChosen(lineIndex, seatIndex)
+        }"
+        (click)="addSeat(seat, lineIndex, seatIndex)"
+      >
+        {{ seat.number }}
+      </div>
     </div>
   </div>
 </div>

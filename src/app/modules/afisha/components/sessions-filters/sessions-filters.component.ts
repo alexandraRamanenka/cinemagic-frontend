@@ -13,7 +13,6 @@ import {
 } from '@shared/enums/movieLanguages';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { Session } from '@shared/models/session';
 
 @Component({
   selector: 'app-sessions-filters',

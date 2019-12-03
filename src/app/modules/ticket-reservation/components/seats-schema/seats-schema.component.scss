@@ -40,7 +40,27 @@
   }
 }
 
+.line-numbers {
+  display: flex;
+  flex-direction: column;
+  width: 40px;
+  margin-right: 1rem;
+
+  .line-number {
+    height: 44px;
+    margin-bottom: 1rem;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+  }
+}
+
 .add-btn {
   margin-left: auto;
   display: block;
+}
+
+.schema-container {
+  display: flex;
+  justify-content: center;
 }
