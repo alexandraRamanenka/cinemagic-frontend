@@ -9,7 +9,8 @@
 <h3>Chosen seats</h3>
 <ul class="chosen-seats">
   <li *ngFor="let chosenSeat of chosenSeats" class="item">
-    {{ getBlockedSeatNumber(chosenSeat) }}, line {{ chosenSeat.line }}
+    {{ getBlockedSeatNumber(chosenSeat) }}, line {{ chosenSeat.line }},
+    <span class="price">{{ getSeatPrice(chosenSeat.line) }} BYN</span>
     <button uk-icon="icon:close" (click)="removeSeat(chosenSeat)"></button>
   </li>
   <li *ngIf="!chosenSeats.length" class="item">Add some seats</li>

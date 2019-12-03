@@ -19,6 +19,7 @@ export class HallSchemaComponent implements OnInit, OnDestroy {
   private blockedSeats: BlockedSeat[] = [];
 
   hall: Hall;
+  sessionPrice: number;
   chosenSeats: BlockedSeat[] = [];
   seatsSchema: Seat[][];
 
@@ -37,6 +38,13 @@ export class HallSchemaComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+  }
+
+  getSeatPrice(line: number) {
+    return (
+      this.hall.seatsSchema[line - 1].seatType.price +
+      this.reservationService.session.price
+    );
   }
 
   removeSeat(blockedSeat: BlockedSeat) {
