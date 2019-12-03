@@ -1,3 +1,4 @@
+import { TimerService } from '@shared/services/timer.service';
 import { TimerCommands } from '@shared/enums/timerCommands';
 import { TimerEvents } from '@shared/enums/timerEvents';
 import {
@@ -18,7 +19,8 @@ import { TimerComponent } from '@shared/components/timer/timer.component';
 @Component({
   selector: 'app-ticket-reservation-page',
   templateUrl: './ticket-reservation-page.component.html',
-  styleUrls: ['./ticket-reservation-page.component.scss']
+  styleUrls: ['./ticket-reservation-page.component.scss'],
+  providers: [TimerService]
 })
 export class TicketReservationPageComponent implements OnInit, OnDestroy {
   loading = true;
@@ -31,13 +33,14 @@ export class TicketReservationPageComponent implements OnInit, OnDestroy {
 
   constructor(
     private reservationService: ReservationService,
+    private timerService: TimerService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
 
   @HostListener('window:beforeunload', ['$event']) beforeUnload(e) {
-    if (this.timer.isStarted) {
-      e.perventDefault();
+    if (this.timerService.isStarted) {
+      e.preventDefault();
       e.returnValue = '';
     }
   }
@@ -84,11 +87,11 @@ export class TicketReservationPageComponent implements OnInit, OnDestroy {
       .subscribe(command => {
         switch (command) {
           case TimerCommands.Start:
-            this.timer.start();
+            this.timerService.start();
             break;
 
           case TimerCommands.Reset:
-            this.timer.reset();
+            this.timerService.reset();
             break;
         }
       });
