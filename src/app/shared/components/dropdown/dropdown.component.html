@@ -8,18 +8,58 @@
   tabindex="0"
 >
   <div class="field" [ngClass]="{ opened: isOpen }">
-    <div class="value" [ngClass]="{ activated: selected }">{{ value }}</div>
-    <span class="open-btn" uk-icon="icon: triangle-down"></span>
+    <ng-container *ngIf="!autocomplete">
+      <div class="value" [ngClass]="{ activated: selected }">{{ value }}</div>
+      <span class="open-btn" uk-icon="icon: triangle-down"></span>
+    </ng-container>
+
+    <ng-container *ngIf="autocomplete">
+      <input
+        class="value"
+        type="text"
+        (focus)="focus()"
+        (blur)="unfocus()"
+        [(ngModel)]="term"
+        [ngClass]="{ activated: selected }"
+        [formControl]="control"
+        [placeholder]="placeholder"
+      />
+    </ng-container>
   </div>
-  <div class="options" [ngClass]="{ hidden: !isOpen, show: isOpen }">
-    <p
-      class="option"
-      [ngClass]="{ selected: isSelected(option), hovered: isHovered(option) }"
-      (click)="select(option)"
-      (mouseenter)="hover(option)"
-      *ngFor="let option of optionsList"
-    >
-      {{ option }}
-    </p>
+  <div
+    class="options"
+    [ngClass]="{ hidden: !isOpen, show: isOpen, opened: isOpen }"
+  >
+    <ng-container *ngIf="autocomplete">
+      <ng-container *ngIf="optionsList | filter: term as results">
+        <p
+          class="option"
+          [ngClass]="{
+            selected: isSelected(option),
+            hovered: isHovered(option)
+          }"
+          (click)="select(option)"
+          (mouseenter)="hover(option)"
+          *ngFor="let option of results"
+        >
+          {{ option }}
+        </p>
+        <p class="option" *ngIf="!results || !results.length">
+          No suggestions...
+        </p>
+      </ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="!autocomplete">
+      <p
+        class="option"
+        [ngClass]="{ selected: isSelected(option), hovered: isHovered(option) }"
+        (click)="select(option)"
+        (mouseenter)="hover(option)"
+        *ngFor="let option of optionsList"
+      >
+        {{ option }}
+      </p>
+    </ng-container>
   </div>
 </div>

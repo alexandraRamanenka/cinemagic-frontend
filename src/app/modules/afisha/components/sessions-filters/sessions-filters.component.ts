@@ -24,6 +24,7 @@ export class SessionsFiltersComponent implements OnDestroy {
   sessionIntervals = [...AllTimeIntervals];
   languages = [...AllMovieLanguages];
   ageRates = [...AllAgeRates];
+  cities = ['Minsk', 'Brest'];
 
   private unsubscribe$ = new Subject<void>();
 

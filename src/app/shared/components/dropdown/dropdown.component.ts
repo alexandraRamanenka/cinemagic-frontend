@@ -1,4 +1,8 @@
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR,
+  FormControl
+} from '@angular/forms';
 import { Component, Input, forwardRef } from '@angular/core';
 
 const VALUE_ACCESSOR = {
@@ -20,7 +24,10 @@ export class DropdownComponent implements ControlValueAccessor {
   @Input() idKey: string;
   @Input() selected: any;
   @Input() default: any;
+  @Input() autocomplete = false;
   hovered: any;
+  control = new FormControl();
+  term: string;
 
   private open = false;
   private onChange: any = () => {};
@@ -34,7 +41,7 @@ export class DropdownComponent implements ControlValueAccessor {
       }
       return value ? value : this.placeholder;
     }
-    return this.placeholder;
+    return this.autocomplete ? null : this.placeholder;
   }
 
   get isOpen(): boolean {
@@ -64,6 +71,9 @@ export class DropdownComponent implements ControlValueAccessor {
       this.selected = this.default ? this.default : null;
     }
     this.selected = option;
+    if (this.autocomplete) {
+      this.control.setValue(this.value);
+    }
     this.onChange(this.selected);
   }
 

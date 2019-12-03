@@ -4,12 +4,20 @@
   (input)="filter()"
   (keydown.escape)="reset()"
 >
-  <input
+  <!-- <input
     formControlName="city"
     class="filter-field uk-input"
     type="text"
     placeholder="city"
-  />
+  /> -->
+  <app-dropdown
+    class="dropdown uk-text-meta"
+    [placeholder]="'city'"
+    [optionsList]="cities"
+    formControlName="city"
+    [autocomplete]="true"
+    (ngModelChange)="filter()"
+  ></app-dropdown>
   <input
     formControlName="cinema"
     class="filter-field uk-input"

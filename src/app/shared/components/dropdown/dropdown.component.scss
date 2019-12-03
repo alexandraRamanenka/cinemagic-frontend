@@ -12,6 +12,10 @@
   }
 }
 
+input {
+  border: none;
+}
+
 .field {
   width: inherit;
   height: 100%;
@@ -44,11 +48,15 @@
 }
 
 .options {
-  z-index: 101;
+  z-index: 110;
   display: block;
   position: absolute;
   width: inherit;
   background-color: $color-light;
+
+  &.opened {
+    z-index: 115;
+  }
 
   .option {
     cursor: pointer;

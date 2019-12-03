@@ -19,6 +19,7 @@ import { CounterComponent } from './components/counter/counter.component';
 import { TimerComponent } from './components/timer/timer.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
 import { NoContentComponent } from './components/no-content/no-content.component';
+import { FilterPipe } from './pipes/filter.pipe';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { NoContentComponent } from './components/no-content/no-content.component
     CounterComponent,
     TimerComponent,
     DropdownComponent,
-    NoContentComponent
+    NoContentComponent,
+    FilterPipe
   ],
   imports: [CommonModule, ReactiveFormsModule, RouterModule, HttpClientModule],
   providers: [FilteringService],
@@ -55,7 +57,8 @@ import { NoContentComponent } from './components/no-content/no-content.component
     CounterComponent,
     TimerComponent,
     DropdownComponent,
-    NoContentComponent
+    NoContentComponent,
+    FilterPipe
   ]
 })
 export class SharedModule {
