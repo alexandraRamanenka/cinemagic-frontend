@@ -10,10 +10,13 @@ import { Service } from '@shared/models/service';
 })
 export class ServiceItemComponent implements OnInit {
   @Input() service: Service;
-  @Input() set inCart(value: boolean) {
-    if (!value) {
+  @Input() set inCart(order: ServiceOrder) {
+    if (!order) {
       this.amount = 0;
       this.state = AddButtonStates.Add;
+    } else {
+      this.amount = order.amount;
+      this.state = AddButtonStates.Change;
     }
   }
   @Output() serviceAdd = new EventEmitter<ServiceOrder>();

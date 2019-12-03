@@ -46,7 +46,7 @@ export class ServicesCartComponent implements OnDestroy {
     this.servicesService.removeFromCart(serviceOrder);
   }
 
-  isInCart(serviceId: string) {
+  getOrderFromCart(serviceId: string) {
     return this.servicesCart[serviceId];
   }
 }

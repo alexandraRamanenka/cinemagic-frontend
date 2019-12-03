@@ -32,19 +32,20 @@
 
 <hr class="uk-divider-icon" />
 
-<h1 class="header">See more</h1>
+<h1 class="header">Today in cinema</h1>
 <app-slider
   [animationTiming]="'250ms ease-out'"
   class="slider movie-cards-slider"
 >
-  <ng-container *ngFor="let movieSlide of movieSlides">
+  <ng-container *ngFor="let sessionSlide of sessionSlides">
     <div *appSlide class="slider-item">
       <div class="slide-wrapper" [ngStyle]="slideStyle">
-        <app-movie-card
+        <app-session-preview
           class="movie-card"
-          *ngFor="let movie of movieSlide"
-          [movie]="movie"
-        ></app-movie-card>
+          *ngFor="let session of sessionSlide"
+          [session]="session"
+        >
+        </app-session-preview>
       </div>
     </div>
   </ng-container>

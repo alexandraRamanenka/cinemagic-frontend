@@ -1,14 +1,10 @@
+import { SessionsService } from '@shared/services/sessions.service';
 import { MovieService } from '@shared/services/movie.service';
-import {
-  Component,
-  OnInit,
-  Input,
-  HostListener,
-  AfterViewInit
-} from '@angular/core';
+import { Component, OnInit, HostListener, AfterViewInit } from '@angular/core';
 import { Movie } from '@shared/models/movie';
 import { Response } from '@shared/models/response';
 import { environment } from '@env/environment';
+import { Session } from '@shared/models/session';
 
 @Component({
   selector: 'app-landing-page',
@@ -19,15 +15,23 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
   slideStyle = {};
   bestMovies: Movie[];
   movies: Movie[];
+  sessions: Session[];
 
   get movieSlides(): Movie[] {
     return this.splitDataIntoSlides(this.movies, this.itemsPerSlide);
   }
 
+  get sessionSlides(): Session[] {
+    return this.splitDataIntoSlides(this.sessions, this.itemsPerSlide);
+  }
+
   private itemsPerSlide = 4;
   private resizeTimeout: any;
 
-  constructor(private movieService: MovieService) {}
+  constructor(
+    private movieService: MovieService,
+    private sessionsService: SessionsService
+  ) {}
 
   @HostListener('window:resize') onWindowResize() {
     if (this.resizeTimeout) {
@@ -50,6 +54,12 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
     this.movieService.getBestMovies().subscribe((res: Response<Movie[]>) => {
       this.bestMovies = res.data;
     });
+
+    this.sessionsService
+      .getTodaySessions()
+      .subscribe((res: Response<Session[]>) => {
+        this.sessions = res.data;
+      });
   }
 
   ngAfterViewInit() {

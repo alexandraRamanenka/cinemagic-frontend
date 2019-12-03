@@ -14,4 +14,8 @@ export class SessionsService {
   getAll() {
     return this.http.get(`sessions`);
   }
+
+  getTodaySessions() {
+    return this.http.get(`sessions/today`);
+  }
 }

@@ -5,7 +5,7 @@
       <app-service-item
         [service]="service"
         (serviceAdd)="addToCart($event)"
-        [inCart]="isInCart(service._id)"
+        [inCart]="getOrderFromCart(service._id)"
       ></app-service-item>
       <hr />
     </li>
