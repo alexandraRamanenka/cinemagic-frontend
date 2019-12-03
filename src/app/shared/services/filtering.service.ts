@@ -25,6 +25,10 @@ export class FilteringService {
     return this.paginatedItems.asObservable();
   }
 
+  get allItems(): any[] {
+    return this.items;
+  }
+
   constructor() {}
 
   init(items: any[], limit = 10) {
@@ -38,6 +42,17 @@ export class FilteringService {
 
     this.afterInit();
     this.ready.next(true);
+  }
+
+  getUnique(key: string) {
+    const unique = [
+      ...new Set(
+        this.items.map(item => {
+          return this.getKeyValue(item, key);
+        })
+      )
+    ];
+    return unique;
   }
 
   reset() {

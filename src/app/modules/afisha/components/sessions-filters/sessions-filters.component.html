@@ -4,26 +4,22 @@
   (input)="filter()"
   (keydown.escape)="reset()"
 >
-  <!-- <input
-    formControlName="city"
-    class="filter-field uk-input"
-    type="text"
-    placeholder="city"
-  /> -->
   <app-dropdown
     class="dropdown uk-text-meta"
     [placeholder]="'city'"
-    [optionsList]="cities"
+    [optionsList]="sessionsUniqueFields.cities"
     formControlName="city"
     [autocomplete]="true"
     (ngModelChange)="filter()"
   ></app-dropdown>
-  <input
+  <app-dropdown
+    class="dropdown uk-text-meta"
+    [placeholder]="'cinema'"
+    [optionsList]="sessionsUniqueFields.cinemaTheatres"
     formControlName="cinema"
-    class="filter-field uk-input"
-    type="text"
-    placeholder="cinema"
-  />
+    [autocomplete]="true"
+    (ngModelChange)="filter()"
+  ></app-dropdown>
   <input
     formControlName="name"
     class="filter-field uk-input"

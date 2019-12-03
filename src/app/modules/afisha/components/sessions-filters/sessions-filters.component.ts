@@ -11,8 +11,9 @@ import {
   MovieLanguages,
   AllMovieLanguages
 } from '@shared/enums/movieLanguages';
-import { take, takeWhile, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { Session } from '@shared/models/session';
 
 @Component({
   selector: 'app-sessions-filters',
@@ -24,7 +25,10 @@ export class SessionsFiltersComponent implements OnDestroy {
   sessionIntervals = [...AllTimeIntervals];
   languages = [...AllMovieLanguages];
   ageRates = [...AllAgeRates];
-  cities = ['Minsk', 'Brest'];
+  sessionsUniqueFields = {
+    cities: [],
+    cinemaTheatres: []
+  };
 
   private unsubscribe$ = new Subject<void>();
 
@@ -48,6 +52,12 @@ export class SessionsFiltersComponent implements OnDestroy {
       .subscribe(isReady => {
         if (isReady) {
           this.filter();
+          this.sessionsUniqueFields.cinemaTheatres = this.filteringService.getUnique(
+            'hall.cinema.name'
+          );
+          this.sessionsUniqueFields.cities = this.filteringService.getUnique(
+            'hall.cinema.city'
+          );
         }
       });
   }

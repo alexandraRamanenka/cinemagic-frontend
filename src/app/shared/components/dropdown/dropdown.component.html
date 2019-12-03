@@ -6,6 +6,7 @@
   (keydown.arrowup)="previouse($event)"
   (keydown.enter)="select()"
   tabindex="0"
+  [ngClass]="{ opened: isOpen }"
 >
   <div class="field" [ngClass]="{ opened: isOpen }">
     <ng-container *ngIf="!autocomplete">
@@ -26,10 +27,7 @@
       />
     </ng-container>
   </div>
-  <div
-    class="options"
-    [ngClass]="{ hidden: !isOpen, show: isOpen, opened: isOpen }"
-  >
+  <div class="options" [ngClass]="{ hidden: !isOpen, show: isOpen }">
     <ng-container *ngIf="autocomplete">
       <ng-container *ngIf="optionsList | filter: term as results">
         <p
