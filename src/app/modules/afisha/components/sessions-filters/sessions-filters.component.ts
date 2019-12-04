@@ -29,6 +29,7 @@ export class SessionsFiltersComponent implements OnDestroy {
     cinemaTheatres: []
   };
 
+  private timeIntervals = [...AllTimeIntervals];
   private unsubscribe$ = new Subject<void>();
 
   constructor(
@@ -50,6 +51,7 @@ export class SessionsFiltersComponent implements OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(isReady => {
         if (isReady) {
+          this.filterTimeIntervals();
           this.filter();
           this.sessionsUniqueFields.cinemaTheatres = this.filteringService.getUnique(
             'hall.cinema.name'
@@ -104,6 +106,25 @@ export class SessionsFiltersComponent implements OnDestroy {
       .includesString('film.language', language)
       .onDate('dateTime', date)
       .inTimePeriod('dateTime', time);
+  }
+
+  private filterTimeIntervals() {
+    let { date } = this.filtersForm.value;
+    date = date ? new Date(date) : null;
+    if (date) {
+      const today = new Date();
+
+      if (
+        date.getDate() === today.getDate() &&
+        date.getMonth() === today.getMonth()
+      ) {
+        let currentTime = new Date().getHours();
+        this.sessionIntervals = this.timeIntervals.filter(interval => {
+          const intervalObj = this.getSessionTimeInterval(interval);
+          return intervalObj.from >= currentTime;
+        });
+      }
+    }
   }
 
   private getDateForInput(date: Date) {
