@@ -86,16 +86,16 @@ export class SessionsFiltersComponent implements OnDestroy {
 
   filter() {
     this.filteringService.reset();
-    const { name, genre, city, cinema } = this.filtersForm.value;
-
-    let { date, restriction, time, language } = this.filtersForm.value;
-    restriction = restriction === AgeRates.Any ? null : parseInt(restriction);
-    language = language === MovieLanguages.Any ? null : language;
-    date = date ? new Date(date) : null;
-    time =
-      time && time !== SessionsTimeIntervals.Any
-        ? this.getSessionTimeInterval(time)
-        : null;
+    const {
+      name,
+      genre,
+      city,
+      cinema,
+      date,
+      restriction,
+      time,
+      language
+    } = this.parseFormData();
 
     this.filteringService
       .includesString('film.name', name)
@@ -108,21 +108,41 @@ export class SessionsFiltersComponent implements OnDestroy {
       .inTimePeriod('dateTime', time);
   }
 
+  private parseFormData() {
+    const { name, genre, city, cinema } = this.filtersForm.value;
+
+    let { date, restriction, time, language } = this.filtersForm.value;
+    restriction =
+      restriction === AgeRates.Any ? null : parseInt(restriction, 10);
+    language = language === MovieLanguages.Any ? null : language;
+    date = date ? new Date(date) : null;
+    time =
+      time && time !== SessionsTimeIntervals.Any
+        ? this.getSessionTimeInterval(time)
+        : null;
+
+    return { name, genre, city, cinema, date, restriction, time, language };
+  }
+
   private filterTimeIntervals() {
     let { date } = this.filtersForm.value;
     date = date ? new Date(date) : null;
     if (date) {
       const today = new Date();
-
       if (
         date.getDate() === today.getDate() &&
         date.getMonth() === today.getMonth()
       ) {
-        let currentTime = new Date().getHours();
-        this.sessionIntervals = this.timeIntervals.filter(interval => {
+        const currentTimeMinutes = new Date().getHours() * 60;
+        const filteredIntervals = this.timeIntervals.filter(interval => {
           const intervalObj = this.getSessionTimeInterval(interval);
-          return intervalObj.from >= currentTime;
+          return intervalObj.from >= currentTimeMinutes;
         });
+
+        this.sessionIntervals = [
+          SessionsTimeIntervals.Any,
+          ...filteredIntervals
+        ];
       }
     }
   }
@@ -130,7 +150,7 @@ export class SessionsFiltersComponent implements OnDestroy {
   private getDateForInput(date: Date) {
     const day = date.getDate();
     const dayStr = day < 10 ? `0${day}` : day;
-    const month = date.getMonth();
+    const month = date.getMonth() + 1;
     const monthStr = month < 10 ? `0${month}` : month;
     return `${date.getFullYear()}-${monthStr}-${dayStr}`;
   }
