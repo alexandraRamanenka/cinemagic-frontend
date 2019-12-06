@@ -1,6 +1,5 @@
 import { TimerService } from '@shared/services/timer.service';
 import { TimerCommands } from '@shared/enums/timerCommands';
-import { TimerEvents } from '@shared/enums/timerEvents';
 import {
   Component,
   OnInit,
@@ -63,7 +62,11 @@ export class TicketReservationPageComponent implements OnInit, OnDestroy {
         this.loading = loading;
         if (!loading) {
           this.session = this.reservationService.session;
+
           this.subscribeToTimerCommands();
+          this.timerService.timerComplete
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe(() => this.timeIsOver());
         }
       });
   }
@@ -74,11 +77,9 @@ export class TicketReservationPageComponent implements OnInit, OnDestroy {
     this.reservationService.closeReservationSession();
   }
 
-  timeIsOver(eventType: TimerEvents) {
-    if (eventType === TimerEvents.Complete) {
-      alert('Time for reservation is over!');
-      this.router.navigateByUrl('/afisha');
-    }
+  timeIsOver() {
+    alert('Time for reservation is over!');
+    this.router.navigateByUrl('/afisha');
   }
 
   private subscribeToTimerCommands() {

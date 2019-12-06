@@ -1,14 +1,6 @@
 import { TimerService } from './../../services/timer.service';
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  Input,
-  Output,
-  EventEmitter
-} from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Observable } from 'rxjs';
-import { TimerEvents } from '@shared/enums/timerEvents';
 
 @Component({
   selector: 'app-timer',
@@ -23,15 +15,12 @@ export class TimerComponent implements OnInit, OnDestroy {
     this.timerService.timerDuration = value;
   }
   @Input() autoStart = false;
-  @Output() timerComplete = new EventEmitter<TimerEvents>();
   @Input() set ignoreRestart(value: boolean) {
     this.timerService.ignoreRestart = value;
   }
 
   constructor(private timerService: TimerService) {
-    const completeCallback = () =>
-      this.timerComplete.emit(TimerEvents.Complete);
-    this.timerService.init(completeCallback);
+    this.timerService.init();
   }
 
   ngOnInit() {

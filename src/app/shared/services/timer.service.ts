@@ -1,25 +1,26 @@
 import { Injectable } from '@angular/core';
 import {
   Observable,
-  Subject,
   timer,
   Subscription,
-  BehaviorSubject
+  BehaviorSubject,
+  Subject
 } from 'rxjs';
-import { takeUntil, map } from 'rxjs/operators';
+import { takeUntil, map, filter } from 'rxjs/operators';
+import { TimerEvents } from '@shared/enums/timerEvents';
 
 @Injectable()
 export class TimerService {
   private duration: number;
   private restTime: number;
 
+  private timerEventSubject = new Subject<TimerEvents>();
+
   private secondsValue: number;
   private secondsSubject: BehaviorSubject<number>;
 
   private timer$: Observable<number>;
   private timerSubscription: Subscription;
-
-  private completeCallback: any = () => {};
 
   ignoreRestart: boolean;
 
@@ -30,7 +31,6 @@ export class TimerService {
   }
 
   get isStarted(): boolean {
-    console.log();
     return this.timerSubscription && !this.timerSubscription.closed;
   }
 
@@ -38,11 +38,15 @@ export class TimerService {
     return this.secondsSubject.asObservable();
   }
 
+  get timerComplete(): Observable<TimerEvents> {
+    return this.timerEventSubject
+      .asObservable()
+      .pipe(filter(event => event === TimerEvents.Complete));
+  }
+
   constructor() {}
 
-  init(completeCallback: any, ignoreRestart = false) {
-    this.completeCallback = completeCallback;
-    this.ignoreRestart = ignoreRestart;
+  init() {
     this.secondsSubject = new BehaviorSubject(this.duration);
     this.secondsSubject.subscribe(seconds => (this.secondsValue = seconds));
   }
@@ -67,9 +71,8 @@ export class TimerService {
     this.timerSubscription = this.timer$.subscribe({
       next: seconds => {
         this.secondsSubject.next(seconds);
-        console.log(seconds);
       },
-      complete: this.completeCallback
+      complete: () => this.timerEventSubject.next(TimerEvents.Complete)
     });
   }
 

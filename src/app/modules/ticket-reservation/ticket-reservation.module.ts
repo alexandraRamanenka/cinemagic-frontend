@@ -1,4 +1,3 @@
-import { TimerService } from './../../shared/services/timer.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
