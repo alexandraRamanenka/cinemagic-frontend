@@ -5,21 +5,13 @@
       *ngFor="let seat of line; index as seatIndex"
       [ngClass]="{
         vip: seat.type === SeatTypes.Vip,
-        selected: selectedSeat && isSelected(lineIndex, seatIndex),
         disabled: seat.isBlocked,
         chosen:
           chosenSeats && chosenSeats.length && isChosen(lineIndex, seatIndex)
       }"
-      (click)="setSeat(seat, lineIndex, seatIndex)"
+      (click)="addSeat(seat, lineIndex, seatIndex)"
     >
       {{ seat.number }}
     </div>
   </div>
 </div>
-<button
-  class="uk-button uk-button-secondary add-btn"
-  [disabled]="!selectedSeat"
-  (click)="addSeat()"
->
-  Add
-</button>

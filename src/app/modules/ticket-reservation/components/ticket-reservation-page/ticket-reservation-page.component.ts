@@ -1,24 +1,52 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { TimerService } from '@shared/services/timer.service';
+import { TimerCommands } from '@shared/enums/timerCommands';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ViewChild,
+  HostListener
+} from '@angular/core';
 import { Session } from '@shared/models/session';
 import { Subject } from 'rxjs';
 import { ReservationService } from '../../services/reservation.service';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { switchMap, takeUntil } from 'rxjs/operators';
+import { environment } from '@env/environment';
+import { TimerComponent } from '@shared/components/timer/timer.component';
 
 @Component({
   selector: 'app-ticket-reservation-page',
   templateUrl: './ticket-reservation-page.component.html',
-  styleUrls: ['./ticket-reservation-page.component.scss']
+  styleUrls: ['./ticket-reservation-page.component.scss'],
+  providers: [TimerService]
 })
 export class TicketReservationPageComponent implements OnInit, OnDestroy {
-  private unsubscribe$ = new Subject<void>();
   loading = true;
   session: Session;
+  timeKey: string;
+  seatBlockingTime = environment.seatBlockingTime;
+
+  @ViewChild(TimerComponent, { static: false }) private timer: TimerComponent;
+  private unsubscribe$ = new Subject<void>();
 
   constructor(
     private reservationService: ReservationService,
-    private route: ActivatedRoute
+    private timerService: TimerService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
+
+  @HostListener('window:beforeunload', ['$event']) beforeUnload(e) {
+    if (this.timerService.isStarted) {
+      e.preventDefault();
+      e.returnValue = '';
+    }
+  }
+
+  @HostListener('window:unload') afterUnload() {
+    this.reservationService.closeReservationSession();
+  }
 
   ngOnInit() {
     this.route.paramMap
@@ -34,6 +62,11 @@ export class TicketReservationPageComponent implements OnInit, OnDestroy {
         this.loading = loading;
         if (!loading) {
           this.session = this.reservationService.session;
+
+          this.subscribeToTimerCommands();
+          this.timerService.timerComplete
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe(() => this.timeIsOver());
         }
       });
   }
@@ -42,5 +75,26 @@ export class TicketReservationPageComponent implements OnInit, OnDestroy {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
     this.reservationService.closeReservationSession();
+  }
+
+  timeIsOver() {
+    alert('Time for reservation is over!');
+    this.router.navigateByUrl('/afisha');
+  }
+
+  private subscribeToTimerCommands() {
+    this.reservationService.timerCommands
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(command => {
+        switch (command) {
+          case TimerCommands.Start:
+            this.timerService.start();
+            break;
+
+          case TimerCommands.Reset:
+            this.timerService.reset();
+            break;
+        }
+      });
   }
 }

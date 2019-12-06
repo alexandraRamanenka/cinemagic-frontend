@@ -1,4 +1,6 @@
-import { NgModule } from '@angular/core';
+import { UserService } from '@shared/services/user.service';
+import { FilteringService } from '@shared/services/filtering.service';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -14,6 +16,7 @@ import { SessionPreviewComponent } from './components/session-preview/session-pr
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 import { PhonePipe } from './pipes/phone.pipe';
 import { CounterComponent } from './components/counter/counter.component';
+import { TimerComponent } from './components/timer/timer.component';
 
 @NgModule({
   declarations: [
@@ -26,10 +29,11 @@ import { CounterComponent } from './components/counter/counter.component';
     SessionPreviewComponent,
     LoadingSpinnerComponent,
     PhonePipe,
-    CounterComponent
+    CounterComponent,
+    TimerComponent
   ],
   imports: [CommonModule, ReactiveFormsModule, RouterModule, HttpClientModule],
-  providers: [AlertService],
+  providers: [FilteringService],
   exports: [
     ReactiveFormsModule,
     RouterModule,
@@ -44,7 +48,15 @@ import { CounterComponent } from './components/counter/counter.component';
     LoadingSpinnerComponent,
     PhonePipe,
     MovieGenresPipe,
-    CounterComponent
+    CounterComponent,
+    TimerComponent
   ]
 })
-export class SharedModule {}
+export class SharedModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: SharedModule,
+      providers: [AlertService, UserService]
+    };
+  }
+}

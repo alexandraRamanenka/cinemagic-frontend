@@ -11,6 +11,7 @@ import { takeUntil, filter } from 'rxjs/operators';
 import { BlockedSeat } from '@shared/models/blockedSeat';
 import { User } from '@shared/models/user';
 import { StorageKeys } from '@shared/enums/storageKeys';
+import { TimerCommands } from '@shared/enums/timerCommands';
 
 @Injectable()
 export class ReservationService {
@@ -20,11 +21,16 @@ export class ReservationService {
   private blockedSeatsSubject = new Subject<BlockedSeat[]>();
   private chosenSeatsSubject = new Subject<BlockedSeat[]>();
   private loadingSubject = new BehaviorSubject<boolean>(true);
+  private timerSubject = new Subject<TimerCommands>();
 
   private unsubscribe$ = new Subject<void>();
   private currentUser: User;
 
   session: Session;
+
+  get timerCommands(): Observable<TimerCommands> {
+    return this.timerSubject.asObservable();
+  }
 
   get blockedSeats(): Observable<BlockedSeat[]> {
     return this.blockedSeatsSubject.asObservable();
@@ -68,6 +74,7 @@ export class ReservationService {
 
   closeReservationSession() {
     this.blockedSeatsValues = [];
+    this.chosenSeatsValues.forEach(seat => this.removeSeat(seat));
     this.chosenSeatsValues = [];
     this.loadingSubject.next(true);
     this.unsubscribe$.next();
@@ -175,6 +182,7 @@ export class ReservationService {
       );
     } else {
       localStorage.removeItem(`${this.session._id}_${StorageKeys.Seats}`);
+      this.timerSubject.next(TimerCommands.Reset);
     }
     this.chosenSeatsSubject.next(this.chosenSeatsValues);
   }
@@ -185,6 +193,7 @@ export class ReservationService {
       `${this.session._id}_${StorageKeys.Seats}`,
       JSON.stringify(this.chosenSeatsValues)
     );
+    this.timerSubject.next(TimerCommands.Start);
     this.chosenSeatsSubject.next(this.chosenSeatsValues);
   }
 

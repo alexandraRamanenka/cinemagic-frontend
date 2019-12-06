@@ -17,6 +17,6 @@ import { httpInterceptorProviders } from '@shared/interceptors';
     ReservationsFiltersComponent
   ],
   imports: [SharedModule, ProfileRoutingModule],
-  providers: [httpInterceptorProviders, FilteringService, ProfileService]
+  providers: [httpInterceptorProviders, ProfileService]
 })
 export class ProfileModule {}

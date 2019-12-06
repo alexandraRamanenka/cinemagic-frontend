@@ -4,9 +4,7 @@ import { WebSocketSubject, WebSocketSubjectConfig } from 'rxjs/webSocket';
 import { Observable, Subject } from 'rxjs';
 import { WebSocketConfig } from './webSocketConfig';
 import { config } from './webSocket.config';
-import { environment } from '@env/environment';
 import { distinctUntilChanged, filter, map, share } from 'rxjs/operators';
-import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -34,13 +32,11 @@ export class WebSocketService implements OnDestroy {
       url: this.wsConfig.url,
       openObserver: {
         next: (event: Event) => {
-          console.log('WS connection');
           this.connection$.next(true);
         }
       },
       closeObserver: {
         next: (event: CloseEvent) => {
-          console.log('Close conection');
           this.socket$.unsubscribe();
           this.connection$.next(false);
         }
@@ -57,7 +53,6 @@ export class WebSocketService implements OnDestroy {
     this.socket$ = new WebSocketSubject(this.config);
 
     this.socket$.subscribe(message => {
-      console.log(message);
       this.messagesSubject$.next(message);
     });
   }
