@@ -48,6 +48,26 @@ export class DropdownComponent implements ControlValueAccessor {
     return this.open;
   }
 
+  get filteredItems(): any[] {
+    const term = this.control.value;
+    if (!term) {
+      return this.optionsList;
+    }
+
+    return this.optionsList.filter(option => {
+      const compareValue = option[term || 'value']
+        ? option[term || 'value']
+        : option;
+      return compareValue.toLowerCase().includes(term.toLowerCase());
+    });
+  }
+
+  constructor() {
+    if (this.default && !this.selected) {
+      this.selected = this.default;
+    }
+  }
+
   isSelected(option: any): boolean {
     if (this.selected) {
       return this.compareOptions(option, this.selected);
@@ -57,12 +77,6 @@ export class DropdownComponent implements ControlValueAccessor {
   isHovered(option: any): boolean {
     if (this.hovered) {
       return this.compareOptions(option, this.hovered);
-    }
-  }
-
-  constructor() {
-    if (this.default && !this.selected) {
-      this.selected = this.default;
     }
   }
 
@@ -113,7 +127,7 @@ export class DropdownComponent implements ControlValueAccessor {
       this.optionsList[this.getStartOptionIndex() + 1] || this.optionsList[0];
   }
 
-  previouse(event) {
+  previous(event) {
     event.preventDefault();
     this.hovered =
       this.optionsList[this.getStartOptionIndex() - 1] ||

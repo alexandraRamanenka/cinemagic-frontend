@@ -6,7 +6,7 @@
 >
   <app-dropdown
     class="dropdown uk-text-meta"
-    [placeholder]="'city'"
+    placeholder="city"
     [optionsList]="sessionsUniqueFields.cities"
     formControlName="city"
     [autocomplete]="true"
@@ -14,7 +14,7 @@
   ></app-dropdown>
   <app-dropdown
     class="dropdown uk-text-meta"
-    [placeholder]="'cinema'"
+    placeholder="cinema"
     [optionsList]="sessionsUniqueFields.cinemaTheatres"
     formControlName="cinema"
     [autocomplete]="true"
@@ -34,7 +34,7 @@
   />
   <app-dropdown
     class="dropdown uk-text-meta"
-    [placeholder]="'language'"
+    placeholder="language"
     [optionsList]="languages"
     [default]="languages[0]"
     formControlName="language"
@@ -42,7 +42,7 @@
   ></app-dropdown>
   <app-dropdown
     class="dropdown uk-text-meta"
-    [placeholder]="'age rate'"
+    placeholder="age rate"
     [optionsList]="ageRates"
     [default]="ageRates[0]"
     formControlName="restriction"
@@ -56,7 +56,7 @@
   />
   <app-dropdown
     class="dropdown uk-text-meta"
-    [placeholder]="'session time'"
+    placeholder="session time"
     [optionsList]="sessionIntervals"
     formControlName="time"
     (ngModelChange)="filter()"

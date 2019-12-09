@@ -33,9 +33,9 @@
               {{ serviceOrder.service.name }}
             </span>
             <span class="amount"> x{{ serviceOrder.amount }}</span>
-            <span class="price"
-              >{{ serviceOrder.amount * serviceOrder.service.price }} BYN</span
-            >
+            <span class="price">
+              {{ serviceOrder.amount * serviceOrder.service.price }} BYN
+            </span>
           </p>
         </div>
 
@@ -48,5 +48,6 @@
     [limitPerPage]="limitPerPage"
     [totalItems]="reservationsAmount"
     (pageChanged)="onPageChanged($event)"
-  ></app-pagination>
+  >
+  </app-pagination>
 </app-loading-spinner>

@@ -1,5 +1,6 @@
 export enum StorageKeys {
   Seats = 'seats',
   Services = 'services',
-  Time = 'time'
+  Time = 'time',
+  User = 'currentUser'
 }

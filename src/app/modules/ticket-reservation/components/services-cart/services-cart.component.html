@@ -5,8 +5,9 @@
       <app-service-item
         [service]="service"
         (serviceAdd)="addToCart($event)"
-        [inCart]="getOrderFromCart(service._id)"
-      ></app-service-item>
+        [itemOrder]="getOrderFromCart(service._id)"
+      >
+      </app-service-item>
       <hr />
     </li>
     <li *ngIf="!services || !services.length">
@@ -20,9 +21,9 @@
       <div class="row">
         <span clas="name">{{ serviceOrder.service.name }}</span>
         <span clas="amount"> x{{ serviceOrder.amount }}</span>
-        <span clas="price"
-          >{{ serviceOrder.amount * serviceOrder.service.price }}BYN</span
-        >
+        <span clas="price">
+          {{ serviceOrder.amount * serviceOrder.service.price }}BYN
+        </span>
         <button
           class="uk-button uk-button-text remove-btn"
           (click)="removeFromCart(serviceOrder)"

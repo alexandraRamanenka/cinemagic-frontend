@@ -23,7 +23,6 @@ export class AuthService {
     this.http.post('auth/login', credentials).subscribe(
       (res: Response<User>) => {
         this.userService.setCurrentUser(res.data);
-        console.log(res.token.expire);
         this.autoLogout(res.token.expire);
         this.router.navigateByUrl('me');
       },

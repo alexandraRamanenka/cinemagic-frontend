@@ -1,9 +1,7 @@
 <h3>Choose seats</h3>
 <ng-container *ngIf="hall">
-  <app-seats-schema
-    [schema]="seatsSchema"
-    [chosenSeats]="chosenSeats"
-  ></app-seats-schema>
+  <app-seats-schema [schema]="seatsSchema" [chosenSeats]="chosenSeats">
+  </app-seats-schema>
 </ng-container>
 <hr />
 <h3>Chosen seats</h3>

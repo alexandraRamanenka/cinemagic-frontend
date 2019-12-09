@@ -17,7 +17,6 @@
     placeholder="genre"
   />
   <input
-    tabIndex="0"
     formControlName="year"
     class="filter-field uk-input uk-text-meta"
     type="text"
@@ -26,17 +25,19 @@
   <app-dropdown
     class="dropdown uk-text-meta"
     [default]="ageRates[0]"
-    [placeholder]="'age rate'"
+    placeholder="age rate"
     [optionsList]="ageRates"
     formControlName="restriction"
     (ngModelChange)="filter()"
-  ></app-dropdown>
+  >
+  </app-dropdown>
   <app-dropdown
     class="dropdown uk-text-meta"
-    [placeholder]="'language'"
+    placeholder="language"
     [default]="languages[0]"
     [optionsList]="languages"
     formControlName="language"
     (ngModelChange)="filter()"
-  ></app-dropdown>
+  >
+  </app-dropdown>
 </form>

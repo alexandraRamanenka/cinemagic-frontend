@@ -1,14 +1,14 @@
 <h1 class="header">Best movies</h1>
-<app-slider [animationTiming]="'250ms ease-out'" class="slider">
+<app-slider animationTiming="250ms ease-out" class="slider">
   <ng-container *ngFor="let movie of bestMovies">
     <div *appSlide class="slider-item">
       <div class="slide-wrapper single-movie-card" [ngStyle]="slideStyle">
-        <a [routerLink]="getMovieInfoLink(movie)"
-          ><div
+        <a [routerLink]="getMovieInfoLink(movie)">
+          <div
             class="image"
             [ngStyle]="{ 'background-image': 'url(' + movie.poster + ')' }"
-          ></div
-        ></a>
+          ></div>
+        </a>
 
         <div class="info">
           <h2 class="title">{{ movie.name }}</h2>

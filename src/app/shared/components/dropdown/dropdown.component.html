@@ -3,7 +3,7 @@
   (focus)="focus()"
   (blur)="unfocus()"
   (keydown.arrowdown)="next($event)"
-  (keydown.arrowup)="previouse($event)"
+  (keydown.arrowup)="previous($event)"
   (keydown.enter)="select()"
   tabindex="0"
   [ngClass]="{ opened: isOpen }"
@@ -29,7 +29,7 @@
   </div>
   <div class="options" [ngClass]="{ hidden: !isOpen, show: isOpen }">
     <ng-container *ngIf="autocomplete">
-      <ng-container *ngIf="optionsList | filter: term as results">
+      <ng-container *ngIf="filteredItems">
         <p
           class="option"
           [ngClass]="{
@@ -38,11 +38,11 @@
           }"
           (click)="select(option)"
           (mouseenter)="hover(option)"
-          *ngFor="let option of results"
+          *ngFor="let option of filteredItems"
         >
           {{ option }}
         </p>
-        <p class="option" *ngIf="!results || !results.length">
+        <p class="option" *ngIf="!filteredItems || !filteredItems.length">
           No suggestions...
         </p>
       </ng-container>

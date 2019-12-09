@@ -1,3 +1,6 @@
+import { Router } from '@angular/router';
+import { AlertTypes } from './../../../shared/enums/alertTypes';
+import { AlertService } from './../../../shared/services/alert.service';
 import { UserService } from '@shared/services/user.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -52,8 +55,7 @@ export class ReservationService {
   get seats(): BlockedSeat[] {
     const seats = this.loadFromLocalStorage(
       `${this.session._id}_${StorageKeys.Seats}`,
-      Object.values,
-      null
+      Object.values
     );
     return seats;
   }
@@ -86,7 +88,9 @@ export class ReservationService {
   constructor(
     private http: HttpClient,
     private ws: WebSocketService,
-    private userService: UserService
+    private userService: UserService,
+    private alertService: AlertService,
+    private router: Router
   ) {}
 
   init(sessionId: string) {
@@ -175,12 +179,16 @@ export class ReservationService {
   }
 
   private loadFromLocalStorage(key: string, parser: any, defaultValue?: any) {
-    let item = JSON.parse(localStorage.getItem(key));
-    if (parser && item) {
-      return parser(item);
+    try {
+      const item = JSON.parse(localStorage.getItem(key));
+      if (parser && item) {
+        return parser(item);
+      }
+
+      return item || defaultValue;
+    } catch (err) {
+      this.hadleError();
     }
-    item = item ? item : defaultValue ? defaultValue : null;
-    return item;
   }
 
   private getUsersChosenSeatsFromApi() {
@@ -261,5 +269,13 @@ export class ReservationService {
       seat.seatNumber !== removedSeat.seatNumber ||
       seat.line !== removedSeat.line
     );
+  }
+
+  hadleError() {
+    this.alertService.sendAlert(
+      'Something went wrong! Try again later.',
+      AlertTypes.Error
+    );
+    this.router.navigateByUrl('/');
   }
 }

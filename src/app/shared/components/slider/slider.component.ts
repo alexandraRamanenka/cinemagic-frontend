@@ -54,12 +54,9 @@ export class SliderComponent implements AfterViewInit, OnDestroy, OnInit {
       clearTimeout(this.resizeTimeout);
     }
 
-    this.resizeTimeout = setTimeout(
-      (() => {
-        this.setOffset();
-      }).bind(this),
-      environment.resizeDebounce
-    );
+    this.resizeTimeout = setTimeout(() => {
+      this.setOffset();
+    }, environment.resizeDebounce);
   }
 
   ngOnInit() {

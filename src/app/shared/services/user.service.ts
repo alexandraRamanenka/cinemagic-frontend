@@ -1,3 +1,5 @@
+import { AlertTypes } from './../enums/alertTypes';
+import { StorageKeys } from '@shared/enums/storageKeys';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../models/user';
@@ -24,17 +26,17 @@ export class UserService {
     private router: Router
   ) {
     this.currentUserSubject = new BehaviorSubject(
-      JSON.parse(localStorage.getItem('currentUser'))
+      this.parseUser(localStorage.getItem(StorageKeys.User))
     );
   }
 
   setCurrentUser(user: User) {
-    localStorage.setItem('currentUser', JSON.stringify(user));
+    localStorage.setItem(StorageKeys.User, JSON.stringify(user));
     this.currentUserSubject.next(user);
   }
 
   deleteCurrentUser() {
-    localStorage.removeItem('currentUser');
+    localStorage.removeItem(StorageKeys.User);
     this.currentUserSubject.next(null);
   }
 
@@ -63,5 +65,17 @@ export class UserService {
 
   get isAuthenticated(): boolean {
     return !!this.currentUserSubject.value;
+  }
+
+  parseUser(userStr: string): User {
+    try {
+      const user = JSON.parse(userStr);
+      return user;
+    } catch (error) {
+      this.alertService.sendAlert('Please, log in again...', AlertTypes.Error);
+      this.deleteCurrentUser();
+      this.router.navigateByUrl('/login');
+      return null;
+    }
   }
 }

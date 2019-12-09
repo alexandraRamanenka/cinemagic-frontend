@@ -38,12 +38,9 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
       clearTimeout(this.resizeTimeout);
     }
 
-    this.resizeTimeout = setTimeout(
-      (() => {
-        this.setItemsPerSlideLimit();
-      }).bind(this),
-      environment.resizeDebounce
-    );
+    this.resizeTimeout = setTimeout(() => {
+      this.setItemsPerSlideLimit();
+    }, environment.resizeDebounce);
   }
 
   ngOnInit() {
@@ -89,7 +86,10 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
     };
   }
 
-  private splitDataIntoSlides(results: any[], limit: number): any[] {
+  private splitDataIntoSlides(
+    results: Session[] | Movie[],
+    limit: number
+  ): any[] {
     const result = [];
     if (!results) {
       return result;
