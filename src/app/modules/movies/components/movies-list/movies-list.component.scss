@@ -1,15 +1,12 @@
 .container {
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  column-gap: 2rem;
   margin-left: auto;
   margin-right: auto;
   max-width: 1276px;
 }
 
 .movie-card {
-  margin-right: 32px;
-  margin-left: 32px;
   margin-bottom: 32px;
 }

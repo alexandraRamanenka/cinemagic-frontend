@@ -1,5 +1,5 @@
 <div
-  class="container"
+  class="container dropdown-container"
   (focus)="focus()"
   (blur)="unfocus()"
   (keydown.arrowdown)="next($event)"
@@ -7,6 +7,7 @@
   (keydown.enter)="select()"
   tabindex="0"
   [ngClass]="{ opened: isOpen }"
+  #dropdown
 >
   <div class="field" [ngClass]="{ opened: isOpen }">
     <ng-container *ngIf="!autocomplete">
@@ -16,7 +17,7 @@
 
     <ng-container *ngIf="autocomplete">
       <input
-        class="value"
+        class="value uk-input"
         type="text"
         (focus)="focus()"
         (blur)="unfocus()"
@@ -27,7 +28,7 @@
       />
     </ng-container>
   </div>
-  <div class="options" [ngClass]="{ hidden: !isOpen, show: isOpen }">
+  <div class="options" [ngClass]="{ hidden: !isOpen, show: isOpen }" appOptions>
     <ng-container *ngIf="autocomplete">
       <ng-container *ngIf="filteredItems">
         <p

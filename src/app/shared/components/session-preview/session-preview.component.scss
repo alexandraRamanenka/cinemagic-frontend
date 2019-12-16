@@ -1,11 +1,13 @@
 @import 'variables.scss';
 
 .session-preview {
-  width: 240px;
+  min-width: 240px;
+  width: inherit;
 }
+
 .session-preview .image {
-  width: 240px;
-  height: 320px;
+  width: inherit;
+  min-height: 360px;
   background: center / cover;
   border-radius: 10px;
   cursor: pointer;
@@ -57,6 +59,11 @@
     .language {
       margin: 0;
     }
+
+    .reserve-btn {
+      width: inherit;
+    }
+
     .container {
       display: flex;
       justify-content: center;
@@ -77,23 +84,19 @@
   margin-right: auto;
   display: flex;
   justify-content: center;
-  width: 240px;
+  width: inherit;
 }
 
 @media screen and (max-width: 746px) {
   .session-preview {
     margin-bottom: 1rem;
-    .image {
-      width: 360px;
-      height: 420px;
-    }
 
-    .reserve-btn {
-      width: 360px;
+    .image {
+      min-height: 420px;
     }
 
     .info {
-      width: 360px;
+      width: inherit;
       display: flex;
       flex-direction: column;
       text-align: left;

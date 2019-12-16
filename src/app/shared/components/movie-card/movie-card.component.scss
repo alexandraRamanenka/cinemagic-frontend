@@ -1,10 +1,11 @@
 .movie-card {
-  width: 240px;
+  width: inherit;
+  min-width: 240px;
 }
 
 .movie-card .image {
-  width: 240px;
-  height: 320px;
+  width: inherit;
+  height: 360px;
   background: center / cover;
   border-radius: 10px;
 }
@@ -48,23 +49,23 @@
   margin-right: auto;
   display: flex;
   justify-content: center;
-  width: 240px;
+  width: inherit;
 }
 
 @media screen and (max-width: 746px) {
   .movie-card {
     margin-bottom: 1rem;
+
     .image {
-      width: 360px;
-      height: 420px;
+      min-height: 420px;
     }
 
     .reserve-btn {
-      width: 360px;
+      width: inherit;
     }
 
     .info {
-      width: 360px;
+      width: inherit;
       display: flex;
       flex-direction: column;
       text-align: left;

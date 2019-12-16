@@ -20,6 +20,6 @@ export class MovieService {
   }
 
   getBestMovies() {
-    return this.http.get('films/best');
+    return this.http.get('films/');
   }
 }

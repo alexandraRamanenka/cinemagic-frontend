@@ -3,7 +3,15 @@ import {
   NG_VALUE_ACCESSOR,
   FormControl
 } from '@angular/forms';
-import { Component, Input, forwardRef } from '@angular/core';
+import {
+  Component,
+  Input,
+  forwardRef,
+  Renderer2,
+  ElementRef,
+  ViewChild,
+  TemplateRef
+} from '@angular/core';
 
 const VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
@@ -62,7 +70,7 @@ export class DropdownComponent implements ControlValueAccessor {
     });
   }
 
-  constructor() {
+  constructor(private renderer: Renderer2) {
     if (this.default && !this.selected) {
       this.selected = this.default;
     }

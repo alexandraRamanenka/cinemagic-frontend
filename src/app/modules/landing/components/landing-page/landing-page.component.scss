@@ -1,9 +1,8 @@
 .slider-item {
+  margin-right: 64px;
+  margin-left: 64px;
   width: calc(100vw - 120px);
-  height: 100%;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
+  height: inherit;
 }
 
 .header {
@@ -18,7 +17,7 @@
   width: 60px;
   position: absolute;
   height: 60px;
-  top: calc(70vh / 2);
+  top: calc(70vh / 2 + 120px);
   cursor: default;
   z-index: 10;
   opacity: 0.6;
@@ -42,7 +41,7 @@
 }
 
 .slide-wrapper {
-  width: 90%;
+  width: 100%;
   display: flex;
   justify-content: space-between;
 }
@@ -53,9 +52,12 @@
 
 .single-movie-card {
   z-index: 105;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  column-gap: 2rem;
 
   .image {
-    width: 45vw;
+    min-width: 100%;
     height: 60vh;
     background: center / cover;
     border-radius: 10px;
@@ -64,19 +66,23 @@
 
   .info {
     z-index: 92;
-    width: 60vw;
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-    justify-content: center;
+    max-height: 60vh;
+    display: grid;
+    grid-template-rows: min-content 1fr;
+    row-gap: 1rem;
+    align-items: center;
+    overflow: hidden;
 
     .title {
       font-weight: 700;
       font-size: 2.5rem;
+      margin: 0;
     }
 
     .description {
-      font-size: 1.5rem;
+      font-size: 1.2rem;
+      height: inherit;
+      margin: 0;
     }
   }
 }
@@ -86,7 +92,7 @@
 }
 
 .movie-cards-slider {
-  height: 60vh;
+  height: 552px;
   position: relative;
   z-index: 101;
 
@@ -111,11 +117,12 @@
   .single-movie-card {
     .info {
       .description {
-        font-size: 1rem;
+        font-size: 0.8rem;
+        line-height: 1rem;
       }
 
       .title {
-        font-size: 2rem;
+        font-size: 1.6rem;
       }
     }
   }
