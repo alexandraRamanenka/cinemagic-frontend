@@ -9,7 +9,7 @@
   [ngClass]="{ opened: isOpen }"
   #dropdown
 >
-  <div class="field" [ngClass]="{ opened: isOpen }">
+  <div class="field  uk-input" [ngClass]="{ opened: isOpen }">
     <ng-container *ngIf="!autocomplete">
       <div class="value" [ngClass]="{ activated: selected }">{{ value }}</div>
       <span class="open-btn" uk-icon="icon: triangle-down"></span>
