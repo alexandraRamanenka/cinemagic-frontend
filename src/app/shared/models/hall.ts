@@ -6,4 +6,6 @@ export interface Hall {
   cinema: Cinema;
   seatsSchema: SeatsLine[];
   seatsNumber: number;
+  name: string;
+  number: number;
 }

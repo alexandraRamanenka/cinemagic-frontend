@@ -6,7 +6,9 @@
   margin-left: auto;
   margin-right: auto;
   text-align: center;
-  width: 40vw;
+  width: 90vw;
+  max-height: 50vh;
+  overflow-y: scroll;
 
   .item {
     font-size: 1.5rem;
@@ -35,4 +37,16 @@
 .next-btn {
   display: block;
   margin-left: auto;
+}
+
+.hall-name {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  margin-right: auto;
+  margin-left: auto;
+  width: max-content;
+}
+
+.action-message {
+  margin-top: 0;
 }

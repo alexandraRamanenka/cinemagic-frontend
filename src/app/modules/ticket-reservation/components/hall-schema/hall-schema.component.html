@@ -1,4 +1,5 @@
-<h3>Choose seats</h3>
+<h2 class="hall-name">{{hall.name}} hall {{hall.number}}</h2>
+<h3 class="action-message">Choose seats</h3>
 <ng-container *ngIf="hall">
   <app-seats-schema [schema]="seatsSchema" [chosenSeats]="chosenSeats">
   </app-seats-schema>

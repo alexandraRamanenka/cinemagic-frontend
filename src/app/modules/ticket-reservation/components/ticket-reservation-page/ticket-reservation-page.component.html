@@ -4,7 +4,7 @@
 
     <p class="date">{{ session.dateTime | date: 'dd MMM' }}</p>
     <p class="time">{{ session.dateTime | date: 'HH:MM' }}</p>
-    <p class="cinema">{{ session.hall.cinema.name }}</p>
+  <p class="cinema">{{ session.hall.cinema.name }}</p>
     <app-timer
       class="timer"
       [timerDuration]="seatBlockingTime"

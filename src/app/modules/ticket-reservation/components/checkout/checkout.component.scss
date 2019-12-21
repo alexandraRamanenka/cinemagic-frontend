@@ -10,6 +10,11 @@
     padding: 0;
   }
 
+  .seats {
+    max-height: 50vh;
+    overflow-y: scroll;
+  }
+
   h3 {
     color: $color-active;
   }

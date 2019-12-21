@@ -19,7 +19,7 @@
         <p class="session-date">
           {{ reservation.session.dateTime | date: 'MMMM dd, yyyy HH:MM' }}
         </p>
-        <span class="subheader">Seats:</span>
+      <span class="subheader">Hall {{reservation.session.hall.number }}, seats:</span>
         <span class="seat-number" *ngFor="let seat of reservation.seats">
           seat {{ seat.seatNumber }}, line {{ seat.line }}
         </span>
