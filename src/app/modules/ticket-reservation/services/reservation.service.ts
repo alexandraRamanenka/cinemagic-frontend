@@ -75,7 +75,7 @@ export class ReservationService {
     const services = this.services;
 
     let price = seats.reduce((acc, seat) => {
-      return acc + seatsSchema[seat.line].seatType.price;
+      return acc + seatsSchema[seat.line - 1].seatType.price;
     }, 0);
 
     price += services.reduce((acc, order) => {

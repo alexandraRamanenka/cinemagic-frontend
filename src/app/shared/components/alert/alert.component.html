@@ -1,10 +1,10 @@
 <div class="container">
   <div
-    class="alert"
+    class="alert default"
     *ngFor="let alert of alerts; let i = index"
     [ngClass]="{
-      success: alert.type === 'success',
-      error: alert.type === 'error'
+      success: alert.type === AlertTypes.Success,
+      error: alert.type === AlertTypes.Error
     }"
   >
     <span class="message">{{ alert.message }}</span>

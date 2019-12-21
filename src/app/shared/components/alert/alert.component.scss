@@ -1,13 +1,17 @@
 @import 'variables.scss';
 
+.alert.default {
+  background-color: $color-primary;
+}
+
 .alert.success {
   background-color: $color-success;
-  color: white;
+  color: $color-light;
 }
 
 .alert.error {
   background-color: $color-danger;
-  color: white;
+  color: $color-light;
 }
 
 .alert {

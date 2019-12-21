@@ -15,19 +15,23 @@ export class AlertService {
 
   constructor() {}
 
-  private assignAlert(message: string, type: ResponseStatusTypes | AlertTypes) {
-    const alert = {
+  private assignAlert(
+    message: string,
+    alertType: ResponseStatusTypes | AlertTypes
+  ) {
+    const type =
+      alertType === ResponseStatusTypes.Success ||
+      alertType === AlertTypes.Success
+        ? AlertTypes.Success
+        : AlertTypes.Error;
+    return {
       message,
-      type:
-        type === ResponseStatusTypes.Success || AlertTypes.Success
-          ? AlertTypes.Success
-          : AlertTypes.Error
+      type
     };
-    return alert;
   }
 
   sendAlert(message: string, type: ResponseStatusTypes | AlertTypes) {
-    this.alertSubject.next(this.assignAlert(message, type));
+    const alert = this.assignAlert(message, type);
+    this.alertSubject.next(alert);
   }
-  
 }

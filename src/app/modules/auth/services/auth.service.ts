@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { UserService } from '@shared/services/user.service';
 import { User } from '@shared/models/user';
 import { Router } from '@angular/router';
+import { ResponseStatusTypes } from '@shared/enums/responseStatusTypes';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,11 @@ export class AuthService {
         this.autoLogout(res.token.expire);
         this.router.navigateByUrl('me');
       },
-      err => this.alertService.sendAlert(err.error.message, err.error.status)
+      err =>
+        this.alertService.sendAlert(
+          err.error.message,
+          ResponseStatusTypes.Error
+        )
     );
   }
 
@@ -37,7 +42,11 @@ export class AuthService {
         this.autoLogout(res.token.expire);
         this.router.navigateByUrl('me');
       },
-      err => this.alertService.sendAlert(err.error.message, err.error.status)
+      err =>
+        this.alertService.sendAlert(
+          err.error.message,
+          ResponseStatusTypes.Error
+        )
     );
   }
 
@@ -52,7 +61,11 @@ export class AuthService {
         }
         this.autoLogoutTimer = null;
       },
-      err => this.alertService.sendAlert(err.error.message, err.error.status)
+      err =>
+        this.alertService.sendAlert(
+          err.error.message,
+          ResponseStatusTypes.Error
+        )
     );
   }
 
