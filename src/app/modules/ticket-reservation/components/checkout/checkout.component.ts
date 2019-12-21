@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 export class CheckoutComponent implements OnInit {
   seats: BlockedSeat[];
   services: ServiceOrder[];
+  reserving = false;
 
   get totalPrice(): number {
     return this.reservationService.totalPrice;
@@ -33,8 +34,10 @@ export class CheckoutComponent implements OnInit {
   ngOnInit() {}
 
   reserve() {
+    this.reserving = true;
     this.reservationService.reserve().subscribe(
       (res: Response<Reservation>) => {
+        this.reserving = false;
         this.alertService.sendAlert(
           `Ticketes was successfully reserved!`,
           ResponseStatusTypes.Success
@@ -42,6 +45,7 @@ export class CheckoutComponent implements OnInit {
         this.router.navigateByUrl('/me');
       },
       err => {
+        this.reserving = false;
         this.alertService.sendAlert(
           err.error.message,
           ResponseStatusTypes.Error

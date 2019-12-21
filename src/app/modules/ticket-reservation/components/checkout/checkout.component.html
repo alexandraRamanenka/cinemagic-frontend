@@ -37,8 +37,8 @@
       Back
     </button>
 
-    <button class="uk-button uk-button-primary next-btn" (click)="reserve()">
-      Reserve
+    <button class="uk-button uk-button-primary next-btn" (click)="reserve()" [disabled]="reserving">
+      {{reserving ? 'Sending...' : 'Reserve'}}
     </button>
   </div>
 </div>

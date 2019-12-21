@@ -10,8 +10,14 @@ import {
 import { Session } from '@shared/models/session';
 import { Subject } from 'rxjs';
 import { ReservationService } from '../../services/reservation.service';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { switchMap, takeUntil } from 'rxjs/operators';
+import {
+  ActivatedRoute,
+  ParamMap,
+  Router,
+  NavigationStart,
+  RouterEvent
+} from '@angular/router';
+import { switchMap, takeUntil, filter } from 'rxjs/operators';
 import { environment } from '@env/environment';
 import { TimerComponent } from '@shared/components/timer/timer.component';
 
@@ -35,7 +41,15 @@ export class TicketReservationPageComponent implements OnInit, OnDestroy {
     private timerService: TimerService,
     private route: ActivatedRoute,
     private router: Router
-  ) {}
+  ) {
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationStart))
+      .subscribe((event: RouterEvent) => {
+        if (!event.url.includes(`reserve-ticket/${this.session._id}`)) {
+          this.reservationService.closeReservationSession();
+        }
+      });
+  }
 
   @HostListener('window:beforeunload', ['$event']) beforeUnload(e) {
     if (this.timerService.isStarted) {

@@ -28,6 +28,7 @@ export class ServicesCartComponent implements OnDestroy {
       this.loading = false;
     });
 
+    this.servicesService.loadServicesOrders();
     this.servicesService.serviceOrders
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(services => (this.servicesCart = services));

@@ -7,7 +7,10 @@
 
 .session-preview .image {
   width: inherit;
+  max-width: 420px;
   min-height: 360px;
+  margin-right: auto;
+  margin-left: auto;
   background: center / cover;
   border-radius: 10px;
   cursor: pointer;

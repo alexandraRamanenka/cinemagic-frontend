@@ -61,11 +61,17 @@ export class ServicesService {
     }
   }
 
+  loadServicesOrders() {
+    const orders = this.getServicesOrders();
+    this.servicesSubject.next(orders);
+  }
+
   private getServicesOrders(): Cart<ServiceOrder> {
     const saved = localStorage.getItem(
       `${this.reservationService.session._id}_${StorageKeys.Services}`
     );
     const servicesOrders = saved ? JSON.parse(saved) : {};
+
     return servicesOrders;
   }
 }
