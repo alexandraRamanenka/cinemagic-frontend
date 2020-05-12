@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { UserService } from '@shared/services/user.service';
+import { environment } from '@env/environment';
 
 @Component({
   selector: 'app-profile-page',
@@ -13,8 +14,6 @@ import { UserService } from '@shared/services/user.service';
 export class ProfilePageComponent implements OnInit, OnDestroy {
   loading = true;
   user: User;
-
-  private defaultAvatar = '/assets/defaultUserAvatar.png';
   private unsubscribe$: Subject<void> = new Subject();
 
   constructor(private router: Router, private userService: UserService) {}
@@ -28,7 +27,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
           this.user = user;
 
           if (!this.user.avatar) {
-            this.user.avatar = this.defaultAvatar;
+            this.user.avatar = environment.defaultAvatar;
           }
 
           this.loading = false;

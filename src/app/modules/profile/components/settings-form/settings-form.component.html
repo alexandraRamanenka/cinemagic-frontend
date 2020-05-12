@@ -1,6 +1,18 @@
 <div class="wrapper">
   <form action="" [formGroup]="settingsForm" (submit)="saveSettings()">
     <h2 class="uk-heading-bullet">Edit Profile</h2>
+    <div
+      class="avatar"
+      [ngStyle]="{
+        'background-image': 'url(' + avatar + ')'
+      }"
+    ></div>
+    <div class="js-upload" uk-form-custom>
+      <input type="file"
+             (change)="onAvatarChange($event)"
+             #avatarInput>
+      <button class="uk-button uk-button-default uk-input user-input" type="button">Select Avatar</button>
+    </div>
     <label class="input-label" for="login">*Login:</label>
     <input
       class="uk-input user-input"

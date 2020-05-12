@@ -22,3 +22,11 @@
   max-width: 600px;
   margin: 0 auto;
 }
+
+.avatar {
+  width: 25vh;
+  height: 25vh;
+  border-radius: 50%;
+  background-color: $color-stroke;
+  background: center/cover;
+}

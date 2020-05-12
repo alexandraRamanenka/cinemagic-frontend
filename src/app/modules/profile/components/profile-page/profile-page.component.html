@@ -10,7 +10,7 @@
 
     <p class="login">{{ user.login }}</p>
     <p class="email">{{ user.email }}</p>
-    <p class="phone">{{ user.phone | phone }}</p>
+    <p class="phone" *ngIf="user.phone">{{ user.phone | phone }}</p>
 
     <button
       class="uk-button uk-button-secondary edit-btn"

@@ -9,6 +9,7 @@ import { AlertService } from './alert.service';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { ResponseStatusTypes } from '@shared/enums/responseStatusTypes';
+import { environment } from '@env/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,9 @@ export class UserService {
   }
 
   setCurrentUser(user: User) {
+    if (user.avatar && !user.avatar.startsWith('https')) {
+      user.avatar = environment.url + user.avatar;
+    }
     localStorage.setItem(StorageKeys.User, JSON.stringify(user));
     this.currentUserSubject.next(user);
   }
@@ -51,7 +55,7 @@ export class UserService {
     });
   }
 
-  updateMe(userFields: User) {
+  updateMe(userFields: FormData) {
     this.http.post('users/me', userFields).subscribe({
       next: (res: Response<User>) => {
         this.setCurrentUser(res.data);

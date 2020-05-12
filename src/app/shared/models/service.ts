@@ -5,4 +5,8 @@ export interface Service {
   description: string;
   price: number;
   image?: string;
+  type: {
+    name: string;
+    description: string;
+  }
 }

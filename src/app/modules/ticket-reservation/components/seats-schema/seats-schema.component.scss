@@ -2,7 +2,7 @@
 
 .seats-schema {
   display: grid;
-  grid-template-rows: repeat(auto-fit, minmax(40px, 80px));
+  grid-template-rows: repeat(auto-fit, minmax(40px, 60px));
 
   .line {
     display: flex;
@@ -26,6 +26,12 @@
 
     .vip {
       width: 100px;
+      &::before {
+        content: 'VIP';
+        display: block;
+        margin-bottom: -5px;
+        color: $color-primary;
+      }
     }
 
     .chosen {

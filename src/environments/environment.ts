@@ -10,7 +10,8 @@ export const environment = {
   wsDefaultReconnectAttempts: 5,
   seatBlockingTimeMinutes: 15,
   seatBlockingTime: '15m',
-  resizeDebounce: 300
+  resizeDebounce: 300,
+  defaultAvatar: '/assets/defaultUserAvatar.png'
 };
 
 /*
