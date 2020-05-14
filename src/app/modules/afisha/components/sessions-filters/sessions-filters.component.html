@@ -1,6 +1,6 @@
 <form
   [formGroup]="filtersForm"
-  class="filters"
+  class="filters uk-form"
   (input)="filter()"
   (keydown.escape)="reset()"
 >
@@ -51,9 +51,11 @@
   <input
     formControlName="date"
     class="filter-field date uk-text-meta uk-input"
-    type="date"
+    type="text"
     placeholder="date"
+    [matDatepicker]="date"
   />
+  <mat-datepicker-toggle [for]="date"></mat-datepicker-toggle>
   <app-dropdown
     class="dropdown uk-text-meta"
     placeholder="session time"

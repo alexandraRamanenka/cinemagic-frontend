@@ -5,6 +5,7 @@ import { AfishaRoutingModule } from './afisha-routing.module';
 import { AfishaPageComponent } from './components/afisha-page/afisha-page.component';
 import { SessionsFiltersComponent } from './components/sessions-filters/sessions-filters.component';
 import { SessionsListComponent } from './components/sessions-list/sessions-list.component';
+import { MatDatepickerModule } from "@angular/material";
 
 @NgModule({
   declarations: [
@@ -12,7 +13,7 @@ import { SessionsListComponent } from './components/sessions-list/sessions-list.
     SessionsFiltersComponent,
     SessionsListComponent
   ],
-  imports: [AfishaRoutingModule, SharedModule],
+  imports: [AfishaRoutingModule, SharedModule, MatDatepickerModule],
   providers: []
 })
 export class AfishaModule {}

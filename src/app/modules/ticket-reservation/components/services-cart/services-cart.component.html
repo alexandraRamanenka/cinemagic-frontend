@@ -19,7 +19,7 @@
   <ul class="cart">
     <li *ngFor="let serviceOrder of serviceOrders" class="item">
       <div class="row">
-        <span clas="name">{{ serviceOrder.service.name }}</span>
+        <span clas="name">{{ serviceOrder.service.type.name }}</span>
         <span clas="amount"> x{{ serviceOrder.amount }}</span>
         <span clas="price">
           {{ serviceOrder.amount * serviceOrder.service.price }}BYN
