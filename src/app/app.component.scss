@@ -1,6 +1,14 @@
+@import './../variables';
+
 .wrapper {
   margin-left: 64px;
   margin-right: 64px;
   margin-top: 16px;
   margin-bottom: 16px;
+  background-color: $color-background;
+  color: $color-light;
+}
+
+::ng-deep.header, ::ng-deep.title, ::ng-deep h2 {
+  color: $color-secondary;
 }

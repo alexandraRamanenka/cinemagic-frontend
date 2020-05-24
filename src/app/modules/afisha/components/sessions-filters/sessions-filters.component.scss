@@ -19,7 +19,7 @@
       width: 100%;
     }
 
-    &:focus {
+    &:focus, &:active {
       border-bottom: 2px solid $color-active;
     }
 
@@ -28,14 +28,9 @@
     }
 
     .date {
-      &::-webkit-inner-spin-button {
-        display: none;
-      }
-      &::-webkit-calendar-picker-indicator {
-        opacity: 0;
-      }
-      &::-webkit-calendar-picker-reset-button {
-        display: none;
+      border-bottom: 1px solid $color-stroke;
+      &:focus {
+        border-bottom: 2px solid $color-active;
       }
     }
   }

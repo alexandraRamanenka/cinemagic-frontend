@@ -1,0 +1,6 @@
+@import './../../../../variables';
+
+.uk-navbar-container {
+  background: -webkit-linear-gradient(-90deg, $color-dark, $color-background 80%);
+  color: $color-light;
+}

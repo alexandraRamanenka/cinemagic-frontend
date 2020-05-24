@@ -1,6 +1,6 @@
 <form
   [formGroup]="filtersForm"
-  class="filters uk-form"
+  class="filters"
   (input)="filter()"
   (keydown.escape)="reset()"
 >
@@ -48,14 +48,13 @@
     formControlName="restriction"
     (ngModelChange)="filter()"
   ></app-dropdown>
-  <input
-    formControlName="date"
-    class="filter-field date uk-text-meta uk-input"
-    type="text"
-    placeholder="date"
-    [matDatepicker]="date"
-  />
-  <mat-datepicker-toggle [for]="date"></mat-datepicker-toggle>
+  <mat-form-field class="filter-field">
+    <input matInput
+           [matDatepicker]="picker"
+           formControlName="date">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
   <app-dropdown
     class="dropdown uk-text-meta"
     placeholder="session time"
