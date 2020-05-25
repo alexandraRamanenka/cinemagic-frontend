@@ -30,3 +30,13 @@
   background-color: $color-stroke;
   background: center/cover;
 }
+
+.uk-input {
+  background-color: $color-transparent;
+  color: $color-light;
+
+  &:focus {
+    outline: none;
+    border-color: $color-secondary;
+  }
+}

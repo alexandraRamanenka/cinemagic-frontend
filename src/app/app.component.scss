@@ -55,4 +55,24 @@
       }
     }
   }
+
+  .button {
+    &.button-secondary {
+      background-color: transparent;
+      border: $color-info 2px solid;
+      color: $color-info;
+
+      &:disabled {
+        background-color: $color-info;
+        color: black;
+      }
+
+      &:hover, &:active {
+        &:not([disabled]) {
+          color: $color-light;
+          border: $color-light 2px solid;
+        }
+      }
+    }
+  }
 }
