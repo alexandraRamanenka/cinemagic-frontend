@@ -9,6 +9,50 @@
   color: $color-light;
 }
 
-::ng-deep.header, ::ng-deep.title, ::ng-deep h2 {
-  color: $color-secondary;
+::ng-deep {
+  .header, .title, h2, .page-title {
+    color: $color-secondary;
+  }
+
+  .uk-heading-bullet::before {
+    opacity: 0.5;
+  }
+
+  .mat-calendar {
+    background-color: $color-options-background;
+  }
+
+  .mat-calendar-body-cell-content {
+
+    &:hover {
+      transition: color 0.1s ease-in;
+      color: $color-secondary;
+    }
+  }
+
+  .mat-form-field-label-wrapper {
+    color: $color-light;
+  }
+
+  h3, hr {
+    color: $color-info;
+  }
+
+  .filter-field {
+    font-size: 1rem;
+    white-space: nowrap;
+  }
+
+  .filters {
+    .field, input {
+      background-color: $color-transparent;
+      color: $color-light;
+      opacity: 1;
+
+      &:focus, &:active {
+        border-bottom-color: $color-light;
+        background-color: $color-transparent;
+      }
+    }
+  }
 }

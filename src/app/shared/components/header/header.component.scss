@@ -4,3 +4,7 @@
   background: -webkit-linear-gradient(-90deg, $color-dark, $color-background 80%);
   color: $color-light;
 }
+
+.uk-navbar-nav li a:focus {
+  color: $color-secondary;
+}

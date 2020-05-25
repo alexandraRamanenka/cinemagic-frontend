@@ -5,7 +5,7 @@ import { AuthService } from '@authModule/services/auth.service';
 @Component({
   selector: 'app-login-form',
   templateUrl: './login-form.component.html',
-  styleUrls: ['./login-form.component.scss']
+  styleUrls: ['./../../auth.component.scss']
 })
 export class LoginFormComponent {
   loginForm: FormGroup;

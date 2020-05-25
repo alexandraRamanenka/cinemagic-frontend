@@ -16,10 +16,13 @@
       height: inherit;
       font-weight: 600;
       cursor: pointer;
+      display: flex;
+      align-items: center;
 
       &.active {
         font-weight: 700;
-        color: $color-active;
+        color: $color-secondary;
+        font-size: 1.5rem;
       }
     }
 

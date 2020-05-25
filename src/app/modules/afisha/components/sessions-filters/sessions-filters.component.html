@@ -48,11 +48,15 @@
     formControlName="restriction"
     (ngModelChange)="filter()"
   ></app-dropdown>
-  <mat-form-field class="filter-field">
+  <mat-form-field class="filter-field" color="primary">
     <input matInput
            [matDatepicker]="picker"
            formControlName="date">
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker-toggle matSuffix [for]="picker">
+      <mat-icon matDatepickerToggleIcon
+                class="open-btn"
+                uk-icon="icon: triangle-down; ration: 0.5"></mat-icon>
+    </mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
   <app-dropdown
