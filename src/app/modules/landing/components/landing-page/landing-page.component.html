@@ -1,4 +1,4 @@
-<h1 class="header">Best movies</h1>
+<h1 class="header">{{'bestMovies' | translate}}</h1>
 <app-slider animationTiming="250ms ease-out" class="slider">
   <ng-container *ngFor="let movie of bestMovies">
     <div *appSlide class="slider-item">
@@ -32,7 +32,7 @@
 
 <hr class="uk-divider-icon" />
 
-<h1 class="header">Today in cinema</h1>
+<h1 class="header">{{'todayInCinema' | translate}}</h1>
 <app-slider
   [animationTiming]="'250ms ease-out'"
   class="slider movie-cards-slider"

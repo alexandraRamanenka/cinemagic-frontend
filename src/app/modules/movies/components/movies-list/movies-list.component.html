@@ -8,6 +8,6 @@
 </div>
 <app-no-content *ngIf="!movies || !movies.length">
   <h3>
-    Cannot find any movie with such parameters...
+    {{'noMovies' | translate}}
   </h3>
 </app-no-content>

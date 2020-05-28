@@ -11,7 +11,8 @@ export const environment = {
   seatBlockingTimeMinutes: 15,
   seatBlockingTime: '15m',
   resizeDebounce: 300,
-  defaultAvatar: '/assets/defaultUserAvatar.png'
+  defaultAvatar: '/assets/defaultUserAvatar.png',
+  defaultLanguage: 'ru'
 };
 
 /*

@@ -1,5 +1,5 @@
 <app-loading-spinner [loading]="loading">
-  <h2>Choose services</h2>
+  <h2>{{'chooseServices' | translate}}</h2>
   <ul class="services-list">
     <li *ngFor="let service of services" class="service">
       <app-service-item
@@ -11,11 +11,11 @@
       <hr />
     </li>
     <li *ngIf="!services || !services.length">
-      Now services are available now...
+      {{'noServicesAvailable' | translate}}
     </li>
   </ul>
 
-  <h2><span uk-icon="icon: cart; ratio: 1.2"></span> Your cart</h2>
+  <h2><span uk-icon="icon: cart; ratio: 1.2"></span>{{'yourCart' | translate}}</h2>
   <ul class="cart">
     <li *ngFor="let serviceOrder of serviceOrders" class="item">
       <div class="row">
@@ -28,14 +28,14 @@
           class="uk-button uk-button-text remove-btn"
           (click)="removeFromCart(serviceOrder)"
         >
-          remove
+          {{'remove' | translate}}
         </button>
       </div>
       <hr />
     </li>
 
     <li *ngIf="!serviceOrders.length">
-      You haven't any services in your cart...
+      {{'noServices' | translate}}
     </li>
   </ul>
 
@@ -44,13 +44,13 @@
       class="uk-button uk-button-secondary back-btn"
       [routerLink]="'../seats'"
     >
-      Back
+      {{'back' | translate}}
     </button>
     <button
       class="uk-button uk-button-secondary next-btn"
       [routerLink]="'../checkout'"
     >
-      Next
+      {{'next' | translate}}
     </button>
   </div>
 </app-loading-spinner>

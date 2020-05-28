@@ -2,7 +2,7 @@
   <app-reservations-filters></app-reservations-filters>
 
   <app-no-content *ngIf="reservations.length === 0">
-    <h3>You haven't any reservations yet</h3>
+    <h3>{{'noReservations' | translate}}</h3>
   </app-no-content>
 
   <div class="reservation-card" *ngFor="let reservation of reservations">
@@ -27,7 +27,7 @@
         <hr class="uk-divider-small" />
 
         <div *ngIf="reservation.services.length">
-          <p class="subheader services">Services</p>
+          <p class="subheader services">{{'services' | translate}}</p>
           <p class="service" *ngFor="let serviceOrder of reservation.services">
             <span class="name">
               {{ serviceOrder.service.name }}

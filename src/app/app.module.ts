@@ -11,7 +11,11 @@ import { LandingModule } from './modules/landing/landing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, AlertComponent],
+  declarations: [
+    AppComponent,
+    HeaderComponent,
+    AlertComponent
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,

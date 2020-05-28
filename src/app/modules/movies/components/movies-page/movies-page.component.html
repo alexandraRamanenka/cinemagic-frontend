@@ -1,6 +1,6 @@
 <div class="container">
   <app-loading-spinner [loading]="loading">
-    <h1 class="page-title">Movies</h1>
+    <h1 class="page-title">{{'movies' | translate}}</h1>
     <app-movies-filters class="filters"></app-movies-filters>
 
     <app-movies-list [movies]="movies"></app-movies-list>

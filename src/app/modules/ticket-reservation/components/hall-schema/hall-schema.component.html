@@ -1,18 +1,18 @@
-<h2 class="hall-name">{{hall.name}} hall {{hall.number}}</h2>
-<h3 class="action-message">Choose seats</h3>
+<h2 class="hall-name">{{hall.name}} {{'hall' | translate}} {{hall.number}}</h2>
+<h3 class="action-message">{{'chooseSeats' | translate}}</h3>
 <ng-container *ngIf="hall">
   <app-seats-schema [schema]="seatsSchema" [chosenSeats]="chosenSeats">
   </app-seats-schema>
 </ng-container>
 <hr />
-<h3>Chosen seats</h3>
+<h3>{{'chosenSeats' | translate}}</h3>
 <ul class="chosen-seats">
   <li *ngFor="let chosenSeat of chosenSeats" class="item">
-    {{ getBlockedSeatNumber(chosenSeat) }}, line {{ chosenSeat.line }},
+    {{ getBlockedSeatNumber(chosenSeat) }}, {{'line' | translate}} {{ chosenSeat.line }},
     <span class="price">{{ getSeatPrice(chosenSeat.line) }} BYN</span>
     <button uk-icon="icon:close" (click)="removeSeat(chosenSeat)"></button>
   </li>
-  <li *ngIf="!chosenSeats.length" class="item">Add some seats</li>
+  <li *ngIf="!chosenSeats.length" class="item">{{'addSomeSeats' | translate}}</li>
 </ul>
 <div class="row">
   <button
@@ -20,6 +20,6 @@
     class="uk-button uk-button-secondary next-btn"
     [disabled]="!chosenSeats.length"
   >
-    Next
+    {{'next' | translate}}
   </button>
 </div>

@@ -8,24 +8,24 @@
     formControlName="name"
     class="filter-field uk-input uk-text-meta"
     type="text"
-    placeholder="name"
+    placeholder="{{'name' | translate}}"
   />
   <input
     formControlName="genre"
     class="filter-field uk-input uk-text-meta"
     type="text"
-    placeholder="genre"
+    placeholder="{{'genre' | translate}}"
   />
   <input
     formControlName="year"
     class="filter-field uk-input uk-text-meta"
     type="text"
-    placeholder="year"
+    placeholder="{{'year' | translate}}"
   />
   <app-dropdown
     class="dropdown uk-text-meta"
     [default]="ageRates[0]"
-    placeholder="age rate"
+    placeholder="{{'ageRate' | translate}}"
     [optionsList]="ageRates"
     formControlName="restriction"
     (ngModelChange)="filter()"
@@ -33,7 +33,7 @@
   </app-dropdown>
   <app-dropdown
     class="dropdown uk-text-meta"
-    placeholder="language"
+    placeholder="{{'language' | translate}}"
     [default]="languages[0]"
     [optionsList]="languages"
     formControlName="language"

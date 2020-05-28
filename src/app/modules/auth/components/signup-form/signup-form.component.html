@@ -1,6 +1,6 @@
 <div class="container uk-align-center">
   <form [formGroup]="signupForm" class="uk-margin-top" (submit)="onSubmit()">
-    <h2 class="uk-heading-bullet">Sign Up</h2>
+    <h2 class="uk-heading-bullet">{{'signUp' | translate}}</h2>
     <input
       class="uk-input uk-margin-bottom"
       type="email"
@@ -30,7 +30,7 @@
       type="submit"
       [disabled]="signupForm.invalid"
     >
-      Register
+      {{'register' | translate}}
     </button>
   </form>
 </div>

@@ -6,20 +6,20 @@
   </span>
   <div class="uk-navbar-right uk-margin-large-right">
     <ul class="uk-navbar-nav">
-      <li><a [routerLink]="['/']">home</a></li>
-      <li><a [routerLink]="['/afisha']">afisha</a></li>
-      <li><a [routerLink]="['/movies']">movies</a></li>
+      <li><a [routerLink]="['/']">{{'home' | translate}}</a></li>
+      <li><a [routerLink]="['/afisha']">{{'afisha' | translate}}</a></li>
+      <li><a [routerLink]="['/movies']">{{'movies' | translate}}</a></li>
 
       <!-- Show for unauthorized users -->
       <ng-container *ngIf="!currentUser">
-        <li><a [routerLink]="['/login']">login</a></li>
-        <li><a [routerLink]="['/signup']">signup</a></li>
+        <li><a [routerLink]="['/login']">{{'login' | translate}}</a></li>
+        <li><a [routerLink]="['/signup']">{{'signup' | translate}}</a></li>
       </ng-container>
 
       <!-- Show for logged in users -->
       <ng-container *ngIf="currentUser">
-        <li><a [routerLink]="'/me'">profile</a></li>
-        <li><a (click)="onLogout()">logout</a></li>
+        <li><a [routerLink]="'/me'">{{'profile' | translate}}</a></li>
+        <li><a (click)="onLogout()">{{'logout' | translate}}</a></li>
       </ng-container>
     </ul>
   </div>

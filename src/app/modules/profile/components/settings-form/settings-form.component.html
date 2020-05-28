@@ -1,6 +1,6 @@
 <div class="wrapper">
   <form action="" [formGroup]="settingsForm" (submit)="saveSettings()">
-    <h2 class="uk-heading-bullet">Edit Profile</h2>
+    <h2 class="uk-heading-bullet">{{'editProfile' | translate}}</h2>
     <div
       class="avatar"
       [ngStyle]="{
@@ -11,36 +11,41 @@
       <input type="file"
              (change)="onAvatarChange($event)"
              #avatarInput>
-      <button class="uk-button uk-button-default uk-input user-input" type="button">Select Avatar</button>
+      <button class="uk-button uk-button-default uk-input user-input" type="button">
+        {{'selectAvatar' | translate}}
+      </button>
     </div>
-    <label class="input-label" for="login">*Login:</label>
+    <label class="input-label" for="login">*{{'loginField' | translate}}:</label>
     <input
       class="uk-input user-input"
       type="text"
       formControlName="login"
-      placeholder="login"
+      id="login"
+      placeholder="{{'loginField' | translate}}"
     />
 
-    <label class="input-label" for="email">*Email:</label>
+    <label class="input-label" for="email">*{{'email' | translate}}:</label>
     <input
       class="uk-input  user-input"
       type="email"
       formControlName="email"
-      placeholder="email"
+      id="email"
+      placeholder="{{'email' | translate}}"
     />
 
-    <label class="input-label" for="phone">Phone number:</label>
+    <label class="input-label" for="phone">{{'phoneNumber' | translate}}:</label>
     <input
       class="uk-input user-input"
       type="tel"
       formControlName="phone"
-      placeholder="phone number"
+      id="phone"
+      placeholder="{{'phoneNumber' | translate}}"
     />
 
     <input
       class="uk-button uk-button-secondary save-btn button button-secondary"
       type="submit"
-      value="save"
+      value="{{'save' | translate}}"
     />
   </form>
 </div>

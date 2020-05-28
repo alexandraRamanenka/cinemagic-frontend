@@ -1,9 +1,10 @@
 <form [formGroup]="filtersForm" class="filters">
   <input
+    id="showPast"
     formControlName="showPast"
     class="filter-field uk-checkbox"
     type="checkbox"
     (change)="filter()"
   />
-  <label class="show-past-label" for="showPast">show past reservations</label>
+  <label class="show-past-label" for="showPast">{{'showPast' | translate}}</label>
 </form>

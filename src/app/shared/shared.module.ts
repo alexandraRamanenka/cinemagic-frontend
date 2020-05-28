@@ -19,6 +19,7 @@ import { CounterComponent } from './components/counter/counter.component';
 import { TimerComponent } from './components/timer/timer.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
 import { NoContentComponent } from './components/no-content/no-content.component';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { NoContentComponent } from './components/no-content/no-content.component
     MovieCardComponent,
     ReserveTicketButtonComponent,
     MovieGenresPipe,
+    TranslatePipe,
     PaginationComponent,
     SessionPreviewComponent,
     LoadingSpinnerComponent,
@@ -36,7 +38,12 @@ import { NoContentComponent } from './components/no-content/no-content.component
     DropdownComponent,
     NoContentComponent
   ],
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, HttpClientModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    HttpClientModule
+  ],
   providers: [FilteringService],
   exports: [
     ReactiveFormsModule,
@@ -52,6 +59,7 @@ import { NoContentComponent } from './components/no-content/no-content.component
     LoadingSpinnerComponent,
     PhonePipe,
     MovieGenresPipe,
+    TranslatePipe,
     CounterComponent,
     TimerComponent,
     DropdownComponent,
