@@ -15,7 +15,7 @@
       <li *ngFor="let serviceOrder of services" class="service-order">
         <div class="details">
           <span class="name">
-            {{ serviceOrder.service.name }}
+            {{ serviceOrder.service.type.name }}
           </span>
           <span class="amount"> x{{ serviceOrder.amount }} </span>
           <span class="price">

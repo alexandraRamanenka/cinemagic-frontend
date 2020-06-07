@@ -7,8 +7,19 @@
   margin-right: auto;
   text-align: center;
   width: 90vw;
-  max-height: 50vh;
+  max-height: 20vh;
   overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    height: 10%;
+    background-color: $color-secondary;
+    border-radius: 50%;
+  }
 
   .item {
     font-size: 1.5rem;

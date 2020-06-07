@@ -12,6 +12,7 @@
       height: 40px;
       width: 60px;
       border: 2px solid $color-stroke;
+      color: $color-stroke;
       border-radius: 5px;
       margin-right: 0.5rem;
       margin-bottom: 1rem;
@@ -30,18 +31,26 @@
         content: 'VIP';
         display: block;
         margin-bottom: -5px;
-        color: $color-primary;
+        &:not(.chosen) {
+          color: $color-background;
+        }
+        &.chosen {
+          color: $color-light;
+        }
       }
     }
 
     .chosen {
       background-color: $color-chosen !important;
       border-color: $color-chosen !important;
+      color: $color-background;
+      pointer-events: none;
     }
 
     .disabled {
       background-color: $color-stroke;
       border-color: $color-stroke;
+      color: $color-background;
     }
   }
 }

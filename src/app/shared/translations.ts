@@ -94,7 +94,7 @@ export default {
     save: 'сохранить',
     schedule: 'Расписание',
     chooseSeats: 'Выберите места',
-    chosenSeats: 'Выбранне места',
+    chosenSeats: 'Выбранные места',
     line: 'ряд',
     hall: 'зал',
     next: 'далее',
