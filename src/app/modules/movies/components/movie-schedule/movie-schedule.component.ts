@@ -1,3 +1,4 @@
+import { filter } from 'rxjs/operators';
 import { Component, OnInit, Input } from '@angular/core';
 import { MovieService } from '@shared/services/movie.service';
 import { Session } from '@shared/models/session';
@@ -20,6 +21,7 @@ export class MovieScheduleComponent implements OnInit {
       .getMovieSessions(this.movieId)
       .subscribe((res: Response<Session[]>) => {
         this.sessions = res.data;
+        this.sessions = this.sessions.filter((session) => new Date(session.dateTime) >= new Date());
         this.loading = false;
       });
   }

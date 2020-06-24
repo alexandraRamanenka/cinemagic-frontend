@@ -26,7 +26,7 @@ export class MoviesFiltersComponent {
       name: [''],
       restriction: [AgeRates.Any],
       genre: [''],
-      language: [MovieLanguages.Any],
+      // language: [MovieLanguages.Any],
       year: ['']
     });
   }
@@ -43,14 +43,14 @@ export class MoviesFiltersComponent {
       .includesString('name', name)
       .includesValue('genre', genre)
       .equal('restriction', restriction)
-      .includesString('year', year)
-      .includesString('language', language);
+      .includesString('year', year);
+      // .includesString('language', language);
   }
 
   private parseFormData() {
     const { name, genre, year } = this.filtersForm.value;
     let { restriction, language } = this.filtersForm.value;
-    language = language === MovieLanguages.Any ? null : language;
+    // language = language === MovieLanguages.Any ? null : language;
     restriction =
       restriction === AgeRates.Any ? null : parseInt(restriction, 10);
 

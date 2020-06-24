@@ -13,9 +13,9 @@
           {{ session.dateTime | date: 'dd MMMM' }}
         </p>
         <p class="cinema">
-          {{ session.hall.cinema.name + ', ' + session.hall.cinema.city }}
+          {{ session.hall.cinema.name }}, {{ session.hall.cinema.city }}
         </p>
-        <p class="price">{{ session.price + ' BYN' }}</p>
+        <p class="price">from {{ session.price}} BYN</p>
       </div>
     </a>
   </div>

@@ -8,7 +8,7 @@ import { environment } from '@env/environment';
 export class TranslatePipe implements PipeTransform {
 
   transform(key: string, languageKey = environment.defaultLanguage): string {
-    return translations[languageKey][key];
+    return translations[languageKey][key] || key;
   }
 
 }

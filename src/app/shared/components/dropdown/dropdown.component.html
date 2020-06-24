@@ -11,7 +11,7 @@
 >
   <div class="field  uk-input" [ngClass]="{ opened: isOpen }">
     <ng-container *ngIf="!autocomplete">
-      <div class="value" [ngClass]="{ activated: selected }">{{ value }}</div>
+      <div class="value" [ngClass]="{ activated: selected }">{{ value | translate }}</div>
       <span class="open-btn" uk-icon="icon: triangle-down"></span>
     </ng-container>
 
@@ -41,10 +41,10 @@
           (mouseenter)="hover(option)"
           *ngFor="let option of filteredItems"
         >
-          {{ option }}
+          {{ option | translate }}
         </p>
         <p class="option" *ngIf="!filteredItems || !filteredItems.length">
-          No suggestions...
+          {{ 'noSuggestions' | translate }}...
         </p>
       </ng-container>
     </ng-container>
@@ -57,7 +57,7 @@
         (mouseenter)="hover(option)"
         *ngFor="let option of optionsList"
       >
-        {{ option }}
+        {{ option | translate }}
       </p>
     </ng-container>
   </div>

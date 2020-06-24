@@ -31,7 +31,7 @@ export class AfishaPageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.sessionsService.getAll().subscribe((res: Response<Session[]>) => {
-      this.allSessions = res.data;
+      this.allSessions = res.data.filter((session) => !!session.hall);
       this.subscribeToFiltering(res.data);
       this.subscribeToPagination();
     });

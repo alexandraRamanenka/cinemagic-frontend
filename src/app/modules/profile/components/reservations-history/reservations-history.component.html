@@ -30,7 +30,7 @@
           <p class="subheader services">{{'services' | translate}}</p>
           <p class="service" *ngFor="let serviceOrder of reservation.services">
             <span class="name">
-              {{ serviceOrder.service.name }}
+              {{ serviceOrder.service.type.name }}
             </span>
             <span class="amount"> x{{ serviceOrder.amount }}</span>
             <span class="price">
